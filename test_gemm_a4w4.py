@@ -204,20 +204,20 @@ parser.add_argument(
         # Swept at M=1024 and M=8192. Modules sharing an (N, K) are listed once.
         # --- M = 1024 ---
         (1024, 17408, 5120),  # mlp.gate_proj, mlp.up_proj
-        # (1024, 5120, 17408),  # mlp.down_proj
-        # (1024, 10240, 5120),  # linear_attn.in_proj_qkv
-        # (1024, 6144, 5120),   # linear_attn.in_proj_z
-        # (1024, 5120, 6144),   # linear_attn.out_proj, self_attn.o_proj
-        # (1024, 12288, 5120),  # self_attn.q_proj
-        # (1024, 1024, 5120),   # self_attn.k_proj, self_attn.v_proj
+        (1024, 5120, 17408),  # mlp.down_proj
+        (1024, 10240, 5120),  # linear_attn.in_proj_qkv
+        (1024, 6144, 5120),   # linear_attn.in_proj_z
+        (1024, 5120, 6144),   # linear_attn.out_proj, self_attn.o_proj
+        (1024, 12288, 5120),  # self_attn.q_proj
+        (1024, 1024, 5120),   # self_attn.k_proj, self_attn.v_proj
         # # --- M = 8192 ---
-        # (8192, 17408, 5120),  # mlp.gate_proj, mlp.up_proj
-        # (8192, 5120, 17408),  # mlp.down_proj
-        # (8192, 10240, 5120),  # linear_attn.in_proj_qkv
-        # (8192, 6144, 5120),   # linear_attn.in_proj_z
-        # (8192, 5120, 6144),   # linear_attn.out_proj, self_attn.o_proj
-        # (8192, 12288, 5120),  # self_attn.q_proj
-        # (8192, 1024, 5120),   # self_attn.k_proj, self_attn.v_proj
+        (8192, 17408, 5120),  # mlp.gate_proj, mlp.up_proj
+        (8192, 5120, 17408),  # mlp.down_proj
+        (8192, 10240, 5120),  # linear_attn.in_proj_qkv
+        (8192, 6144, 5120),   # linear_attn.in_proj_z
+        (8192, 5120, 6144),   # linear_attn.out_proj, self_attn.o_proj
+        (8192, 12288, 5120),  # self_attn.q_proj
+        (8192, 1024, 5120),   # self_attn.k_proj, self_attn.v_proj
         # # linear_attn.in_proj_a, in_proj_b (N=48). Kept LAST: the asm kernel
         # # (unified api) is catastrophically wrong at N=48 and the accuracy check
         # # raises, aborting the run -- so every other shape finishes first.
