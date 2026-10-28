@@ -16,6 +16,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
+from matplotlib.colors import to_rgb
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
 COL = {
@@ -386,13 +387,390 @@ def draw_dataflow(path):
     plt.close(fig)
 
 
+# --------------------------------------------------------------------------- LDS swizzle
+CHUNK = ["#4E79A7", "#F28E2B", "#59A14F", "#E15759", "#76B7B2", "#EDC948", "#B07AA1", "#9C755F"]
+# gfx950 ds_read_b128: lanes served in the first of its four 16-lane phases
+PHASE1 = list(range(0, 4)) + list(range(12, 16)) + list(range(20, 24)) + list(range(24, 28))
+
+
+def tint(c, a):
+    r, g, b = to_rgb(c)
+    return (1 - a + a * r, 1 - a + a * g, 1 - a + a * b)
+
+
+def draw_swizzle(path):
+    fig = plt.figure(figsize=(20, 15))
+    ax = canvas(fig, [0, 0, 1, 1], 40, 30)
+    text(ax, 20, 29.35, "LDS 的 XOR swizzle 推演（MBS 256×256 tile 的一个 A stage，gfx950：64 个 bank）",
+         size=17, weight="bold")
+
+    # ① write side: one DMA instruction = 8 rows x 8 chunks, lane L -> (row L/8, position L%8)
+    text(ax, 0.8, 28.3, "① 写入：一条 DMA 指令把 8 行 A 写进 LDS（每行 128 B = 8 块，每块 16 B = 32 个 FP4），每个 lane 搬一块",
+         size=13.5, weight="bold", ha="left")
+    cw, chh = 1.0, 0.62
+
+    def grid8(x0, ytop, swz, title):
+        text(ax, x0 + 4 * cw, ytop + 0.95, title, size=11.5, weight="bold")
+        for p in range(8):
+            text(ax, x0 + (p + 0.5) * cw, ytop + 0.3, f"位置{p}", size=8.5, color="#555555")
+        for r in range(8):
+            text(ax, x0 - 0.15, ytop - (r + 0.5) * chh, f"行 {r}", size=9, ha="right")
+            for p in range(8):
+                c = p ^ r if swz else p
+                y = ytop - (r + 1) * chh
+                box(ax, x0 + p * cw, y, cw, chh, tint(CHUNK[c], 0.55), ec="white", lw=1.0)
+                if swz:
+                    text(ax, x0 + (p + 0.5) * cw, y + chh * 0.64, f"c{c}", size=9.5, weight="bold")
+                    text(ax, x0 + (p + 0.5) * cw, y + chh * 0.24, f"lane {8 * r + p}", size=7, color="#333333")
+                else:
+                    text(ax, x0 + (p + 0.5) * cw, y + chh / 2, f"c{c}", size=9.5, weight="bold")
+
+    grid8(2.0, 26.4, False, "全局显存里的原样（不打乱时 LDS 里也这样）")
+    grid8(13.2, 26.4, True, "MBS 写进 LDS 后：位置 p 放的是第 p ^ r 块")
+    arrow(ax, (10.35, 23.9), (12.45, 23.9), lw=2.2)
+    text(ax, 11.4, 24.35, "DMA", size=10, weight="bold")
+    text(ax, 6.0, 21.0, "c0 = 这一行 K 0–31，c1 = K 32–63 … c7 = K 224–255", size=9.5, color="#555555")
+    text(ax, 17.2, 21.0, "每一列（同一个位置）里 8 行放的是 8 个不同的块", size=9.5, color="#555555")
+
+    bx = 22.8
+    box(ax, bx, 20.6, 16.8, 7.0, "#F7F7F7", ec="#BBBBBB", rnd=0.2, z=1)
+    text(ax, bx + 0.3, 27.15, "代码：kernel/gemm_a4w4.hip 第 437 行", size=10.5, ha="left", weight="bold")
+    text(ax, bx + 0.3, 26.55, "a_lane = (lane >> 3) * Kp + (((lane & 7) ^ (lane >> 3)) * 16);",
+         size=9, ha="left", family=MONO)
+    notes = [
+        "· DMA 写 LDS 的位置由 lane 固定：lane L 写第 L/8 行、第 L%8 个位置",
+        "  （64 个 lane 连续写 1 KB，地址 m0 = lds_base + lds_wave_off + j*1024）",
+        "· 位置改不了，就改它从全局取哪一块：取第 L/8 行的第 (L%8) ^ (L/8) 块",
+        "· 例：lane 9 写行 1 的位置 1，取的是 c0（1 ^ 1 = 0）",
+        "        lane 10 写行 1 的位置 2，取的是 c3（2 ^ 1 = 3）",
+        "· 结果：第 r 行的第 c 块，落在位置 c ^ (r % 8)",
+        "· 写本身是连续的 1 KB，不会冲突；冲突只发生在读的时候",
+    ]
+    for i, s in enumerate(notes):
+        text(ax, bx + 0.3, 25.85 - i * 0.68, s, size=10, ha="left")
+
+    # ② the 64-bank view, phase-1 cells of fragment (rows 0-15, K 0-127) boxed
+    text(ax, 0.8, 19.4, "② 放到 64 个 bank 上：A 的 16 行占 LDS 的 8 行（每行 256 B = 16 组 × 4 个 bank）。"
+                        "粗框 = 片段（行 0–15，K 0–127）第 1 拍要读的 16 块",
+         size=13.5, weight="bold", ha="left")
+    gw, gh = 0.95, 0.8
+    ph1 = {(L & 15, L >> 4): L for L in PHASE1}
+
+    def grid64(x0, ytop, swz, title):
+        text(ax, x0 + 8 * gw, ytop + 1.0, title, size=12, weight="bold")
+        for col in range(16):
+            text(ax, x0 + (col + 0.5) * gw, ytop + 0.3, f"{4 * col}–{4 * col + 3}", size=7.5, color="#555555")
+        for i in range(8):
+            text(ax, x0 - 0.15, ytop - (i + 0.5) * gh, f"LDS 行 {i}", size=8.5, ha="right")
+            for col in range(16):
+                r, p = 2 * i + (col >= 8), col % 8
+                c = p ^ (r & 7) if swz else p
+                y = ytop - (i + 1) * gh
+                hit = (r, c) in ph1
+                box(ax, x0 + col * gw, y, gw, gh, tint(CHUNK[c], 0.85 if hit else 0.3), ec="white", lw=0.8)
+                if hit:
+                    box(ax, x0 + col * gw + 0.05, y + 0.05, gw - 0.1, gh - 0.1, "none", ec="#111111", lw=2.2, z=4)
+                    text(ax, x0 + (col + 0.5) * gw, y + gh * 0.64, f"A{r}.c{c}", size=7.5, weight="bold")
+                    text(ax, x0 + (col + 0.5) * gw, y + gh * 0.26, f"lane {ph1[(r, c)]}", size=6.8)
+                else:
+                    text(ax, x0 + (col + 0.5) * gw, y + gh / 2, f"A{r}.c{c}", size=7, color="#666666")
+        ax.plot([x0 + 8 * gw] * 2, [ytop - 8 * gh, ytop], color="#333333", lw=2.0, zorder=5)
+        text(ax, x0 + 4 * gw, ytop - 8 * gh - 0.4, "bank 0–31：偶数行", size=9, color="#555555")
+        text(ax, x0 + 12 * gw, ytop - 8 * gh - 0.4, "bank 32–63：奇数行", size=9, color="#555555")
+
+    xn, xs = 3.6, 22.4
+    grid64(xn, 17.7, False, "不打乱：粗框挤在 4 列里（每列 4 个）")
+    grid64(xs, 17.7, True, "XOR 打乱后：粗框分在 16 列里（每列 1 个）")
+
+    # ③ how many lanes hit each 4-bank group in phase 1
+    text(ax, 0.8, 9.6, "③ 第 1 拍（lane 0–3、12–15、20–23、24–27）：每组 bank 被几个 lane 抢",
+         size=13.5, weight="bold", ha="left")
+
+    def strip(x0, y0, swz, title, verdict, vcol):
+        hits = {col: [] for col in range(16)}
+        for L in PHASE1:
+            r, c = L & 15, L >> 4
+            hits[(r % 2) * 8 + (c ^ (r & 7) if swz else c)].append(L)
+        text(ax, x0 + 8 * gw, y0 + 2.05, title, size=12, weight="bold")
+        for col in range(16):
+            text(ax, x0 + (col + 0.5) * gw, y0 + 1.55, f"{4 * col}–{4 * col + 3}", size=7.5, color="#555555")
+            n = len(hits[col])
+            fc = "#F2B8B5" if n > 1 else ("#BFE3C0" if n == 1 else "#EFEFEF")
+            box(ax, x0 + col * gw, y0, gw, 1.3, fc, ec="white", lw=1.0)
+            if n:
+                text(ax, x0 + (col + 0.5) * gw, y0 + 1.0, f"{n} 个", size=9, weight="bold",
+                     color="#B03A2E" if n > 1 else "#2E7D32")
+                ls = hits[col]
+                lab = ", ".join(map(str, ls[:2])) + ("\n" + ", ".join(map(str, ls[2:])) if len(ls) > 2 else "")
+                text(ax, x0 + (col + 0.5) * gw, y0 + 0.42, lab, size=6.8)
+        text(ax, x0 + 8 * gw, y0 - 0.45, verdict, size=10.5, weight="bold", color=vcol)
+
+    strip(xn, 6.3, False, "不打乱", "4 组 bank 各被 4 个 lane 抢：这一拍要 4 个周期，另外 48 个 bank 闲着", "#B03A2E")
+    strip(xs, 6.3, True, "XOR 打乱后", "16 组 bank 各 1 个 lane：64 个 bank 各用一次，1 个周期读完", "#2E7D32")
+
+    box(ax, 0.8, 0.8, 38.4, 4.2, "#F7F7F7", ec="#BBBBBB", rnd=0.2, z=1)
+    text(ax, 1.1, 4.55, "读取：frag_at（第 656–660 行）用同一个 XOR 找回原来的块", size=10.5, weight="bold", ha="left")
+    text(ax, 1.1, 3.95, "row = mi * 16 + row16;    chk = (h * 4 + g) ^ (row & 7);    addr = row * 128 + chk * 16;",
+         size=9.5, ha="left", family=MONO)
+    reads = [
+        "· lane L 要第 row 行（row16 = L % 16）的第 h*4+g 块（g = L / 16）；写入时这一块被放在位置 (h*4+g) ^ (row % 8)，读时按同一个式子算回去",
+        "· 写和读用的是同一个 XOR，数据本身没变，只是在 LDS 里换了位置；代价只是算地址时多一次异或，不占额外的 LDS",
+        "· 全部 32 个片段 × 4 拍都逐一算过：不打乱时每拍都是 4 路冲突，打乱后每拍 64 个 bank 各用一次；实测 SQ_LDS_BANK_CONFLICT = 0",
+    ]
+    for i, s in enumerate(reads):
+        text(ax, 1.1, 3.25 - i * 0.7, s, size=10, ha="left")
+
+    fig.savefig(path, dpi=150, facecolor="white")
+    plt.close(fig)
+
+
+# --------------------------------------------------------------------------- wave 0 walkthrough
+GRP = ["#4E79A7", "#F28E2B", "#59A14F", "#B07AA1"]  # lane groups 0-15 / 16-31 / 32-47 / 48-63
+
+
+def lane_grid(ax, x0, ytop, cw, ch, rows, title, row_label, col_labels):
+    """16 rows x 4 K-blocks of one MFMA fragment; cell (r, g) is read by lane 16*g + r."""
+    text(ax, x0 + 2 * cw, ytop + 0.95, title, size=11, weight="bold")
+    for g, s in enumerate(col_labels):
+        text(ax, x0 + (g + 0.5) * cw, ytop + 0.35, s, size=9, color=GRP[g], weight="bold")
+    for r in range(rows):
+        y = ytop - (r + 1) * ch
+        text(ax, x0 - 0.15, y + ch / 2, row_label(r), size=8, ha="right", color="#555555")
+        for g in range(4):
+            box(ax, x0 + g * cw, y, cw, ch, tint(GRP[g], 0.35), ec="white", lw=0.8)
+            text(ax, x0 + (g + 0.5) * cw, y + ch / 2, f"lane {16 * g + r}", size=7.5)
+
+
+def lane_strip(ax, x0, ytop, cw, ch, title, row_notes):
+    """64 lanes as 4 rows of 16, coloured by lane group."""
+    text(ax, x0 + 8 * cw, ytop + 0.45, title, size=11, weight="bold")
+    for g in range(4):
+        y = ytop - (g + 1) * ch
+        for i in range(16):
+            box(ax, x0 + i * cw, y, cw, ch, tint(GRP[g], 0.45), ec="white", lw=0.8)
+            text(ax, x0 + (i + 0.5) * cw, y + ch / 2, f"L{16 * g + i}", size=7)
+        if row_notes:
+            text(ax, x0 + 16 * cw + 0.2, y + ch / 2, row_notes[g], size=9, ha="left", color=GRP[g])
+
+
+def draw_wave0_load(path):
+    fig = plt.figure(figsize=(20, 17))
+    ax = canvas(fig, [0, 0, 1, 1], 40, 34)
+    text(ax, 20, 33.3, "wave 0 的数据怎么进寄存器：以 stage 0（K 0–255）、子块 acc[0][0]"
+                       "（out 第 512–527 行 × 第 1280–1295 列）为例", size=16, weight="bold")
+
+    # ① A: global -> LDS slot 0
+    text(ax, 0.8, 32.2, "① A：显存 → LDS 槽 0（DMA 直接写进 LDS，不经过寄存器）", size=13.5, weight="bold", ha="left")
+    gw, gh, ytop = 5.0, 8.0, 30.4
+
+    def ablock(x0, title, labels):
+        text(ax, x0 + gw / 2, ytop + 0.45, title, size=11, weight="bold")
+        for w in range(4):
+            box(ax, x0, ytop - (w + 1) * gh / 4, gw, gh / 4, tint(COL["A"], [0.75, 0.4, 0.27, 0.16][w]),
+                ec="white", lw=1.0)
+            if labels:
+                text(ax, x0 - 0.15, ytop - (w + 0.5) * gh / 4,
+                     f"wave {w} 搬\n第 {512 + 64 * w}–{575 + 64 * w} 行", size=9, ha="right",
+                     color=COL["A"] if w == 0 else "#555555", weight="bold" if w == 0 else "normal")
+        for j in range(8):
+            box(ax, x0, ytop - (j + 1) * gh / 32, gw, gh / 32, tint(COL["A"], 0.8 if j % 2 == 0 else 0.62),
+                ec="white", lw=0.6, z=3)
+        text(ax, x0 + 0.1, ytop - 0.5 * gh / 32, "第 0 条 DMA：512–519 行", size=7, ha="left", color="white", z=7)
+        text(ax, x0 + 0.1, ytop - 1.5 * gh / 32, "第 1 条：520–527 行", size=7, ha="left", color="white", z=7)
+        text(ax, x0 + 0.1, ytop - 5.0 * gh / 32, "第 2–7 条：528–575 行", size=7, ha="left", color="white", z=7)
+        box(ax, x0, ytop - 2 * gh / 32, gw / 2, 2 * gh / 32, "none", ec=COL["O"], lw=2.4, z=6)
+        box(ax, x0 + gw / 2, ytop - 2 * gh / 32, gw / 2, 2 * gh / 32, "none", ec=COL["O"], lw=1.6, ls="--", z=6)
+        ax.plot([x0 + gw / 2] * 2, [ytop - gh, ytop], color="white", lw=1.0, ls="--", zorder=4)
+        text(ax, x0 + gw / 4, ytop - gh - 0.3, "K 0–127（h=0）", size=8.5, color="#555555")
+        text(ax, x0 + gw * 3 / 4, ytop - gh - 0.3, "K 128–255（h=1）", size=8.5, color="#555555")
+
+    gx, lx = 3.6, 16.6
+    ablock(gx, "显存：stage 0 的 A（256 行 × K 0–255）", True)
+    ablock(lx, "LDS 槽 0（32 KB，另有 2 KB scale）", False)
+    arrow(ax, (gx + gw + 0.3, ytop - gh / 8), (lx - 0.3, ytop - gh / 8), color=COL["A"], lw=2.4)
+    text(ax, (gx + gw + lx) / 2, ytop - gh / 8 + 0.95, "wave 0 发 8 条 DMA", size=10.5, weight="bold", color=COL["A"])
+    text(ax, (gx + gw + lx) / 2, ytop - gh / 8 + 0.45, "buffer_load_dwordx4 … lds", size=9, family=MONO)
+    text(ax, (gx + gw + lx) / 2, ytop - gh / 8 - 0.5, "每条：64 个 lane × 16 B = 1 KB = 8 行", size=9.5)
+    text(ax, (gx + gw + lx) / 2, ytop - gh / 8 - 0.95, "wave 1–3 同时搬各自的 64 行", size=9.5, color="#555555")
+    text(ax, (gx + gw + lx) / 2, ytop - gh * 0.62, "红框：acc[0][0] 要用的 16 行\n（实线 h=0，虚线 h=1）", size=9.5, color=COL["O"])
+
+    zx, zt, zcw, zch = 26.2, 30.0, 1.0, 0.62
+    text(ax, zx + 4 * zcw, zt + 0.85, "放大第 0 条 DMA（第 512–519 行）", size=11, weight="bold")
+    for p in range(8):
+        text(ax, zx + (p + 0.5) * zcw, zt + 0.3, f"位置{p}", size=8, color="#555555")
+    for r in range(8):
+        text(ax, zx - 0.15, zt - (r + 0.5) * zch, f"{512 + r} 行", size=8, ha="right", color="#555555")
+        for p in range(8):
+            c = p ^ r
+            y = zt - (r + 1) * zch
+            box(ax, zx + p * zcw, y, zcw, zch, tint(CHUNK[c], 0.5), ec="white", lw=0.8)
+            text(ax, zx + (p + 0.5) * zcw, y + zch * 0.66, f"lane {8 * r + p}", size=7)
+            text(ax, zx + (p + 0.5) * zcw, y + zch * 0.27, f"取 c{c}", size=7, weight="bold")
+    ax.plot([lx + gw, zx - 1.2], [ytop - gh / 32, zt - 4 * zch], color="#999999", lw=1.0, ls=":", zorder=2)
+    text(ax, zx + 4 * zcw, zt - 8 * zch - 0.45, "lane L 写第 L/8 行的位置 L%8，取的是第 (L%8)^(L/8) 块", size=9.5)
+    text(ax, zx + 4 * zcw, zt - 8 * zch - 0.95, "（c0 = K 0–31，c1 = K 32–63 …，打乱是为了读时不撞 bank）",
+         size=9, color="#555555")
+    text(ax, zx + 4 * zcw, zt - 8 * zch - 1.75, "4 个 wave 都搬完、过了 barrier，槽 0 才完整", size=10.5,
+         weight="bold", color=COL["O"])
+
+    # ② LDS -> VGPR
+    text(ax, 0.8, 21.4, "② barrier 之后：LDS 槽 0 → wave 0 的寄存器（一条 ds_read_b128 读一个 16 行 × 128 K 的 A 片段）",
+         size=13.5, weight="bold", ha="left")
+    lane_grid(ax, 4.2, 19.4, 1.5, 0.42, 16, "槽 0 里的 A 片段 (mi 0, h 0)：每格 16 B，格里写的是读它的 lane",
+              lambda r: f"第 {512 + r} 行", ["K 0–31", "K 32–63", "K 64–95", "K 96–127"])
+    arrow(ax, (10.6, 16.0), (14.2, 16.0), color=COL["A"], lw=2.4)
+    text(ax, 12.4, 16.5, "ds_read_b128", size=10, family=MONO, weight="bold")
+    text(ax, 12.4, 15.5, "64 个 lane 一起读", size=9.5)
+    lane_strip(ax, 14.6, 18.2, 0.95, 0.62, "wave 0 的寄存器 afr0[0]（每个 lane 4 个 VGPR = 16 B）",
+               ["lane 0–15：第 512–527 行的 K 0–31", "lane 16–31：同 16 行的 K 32–63",
+                "lane 32–47：同 16 行的 K 64–95", "lane 48–63：同 16 行的 K 96–127"])
+    text(ax, 14.6, 14.7, "· lane L 拿第 512 + L%16 行、第 L/16 个 32 K 块（16 字节 = 32 个 FP4）", size=10, ha="left")
+    text(ax, 14.6, 14.05, "· 在 LDS 里的实际位置按 XOR 换算：位置 = 块号 ^ (行号 % 8)（见 lds_swizzle.png）",
+         size=10, ha="left", color="#555555")
+    text(ax, 14.6, 13.4, "· 同样再读 15 条：(mi 0–7) × (h 0–1) 共 16 个片段 → afr0[0..15]，即第 512–639 行 × K 0–255",
+         size=10, ha="left")
+
+    # ③ B: global -> VGPR
+    text(ax, 0.8, 11.0, "③ B：显存 → wave 0 的寄存器（一条 buffer_load_dwordx4，不经过 LDS）", size=13.5, weight="bold", ha="left")
+    lane_strip(ax, 1.2, 8.4, 0.95, 0.62, "显存里连续的 1 KB（B 已预重排）：第 L 个 16 字节给 lane L", None)
+    text(ax, 8.8, 5.45, "字节 0–15 → lane 0，16–31 → lane 1，……，1008–1023 → lane 63", size=9.5, color="#555555")
+    arrow(ax, (16.7, 7.2), (21.6, 7.2), color=COL["B"], lw=2.4)
+    text(ax, 19.15, 7.7, "buffer_load_dwordx4", size=10, family=MONO, weight="bold")
+    text(ax, 19.15, 6.7, "→ bf[0][0][0]", size=10, family=MONO)
+    lane_grid(ax, 23.8, 9.0, 1.5, 0.42, 16, "它在逻辑上是：B 第 1280–1295 行 × K 0–127",
+              lambda r: f"第 {1280 + r} 行", ["K 0–31", "K 32–63", "K 64–95", "K 96–127"])
+    notes = [
+        "预重排的作用：",
+        "显存里第 L 个 16 字节，",
+        "正好是 lane L 要的那份",
+        "（第 1280 + L%16 行、",
+        "第 L/16 个 32 K 块）。",
+        "所以一条 load 就把 MFMA",
+        "要的布局直接放进寄存器，",
+        "不需要 LDS 来调整。",
+        "",
+        "B 第 1280–1295 行 = 输出",
+        "第 1280–1295 列。",
+    ]
+    for i, s in enumerate(notes):
+        text(ax, 31.0, 8.7 - i * 0.55, s, size=10, ha="left", weight="bold" if i == 0 else "normal")
+
+    fig.savefig(path, dpi=150, facecolor="white")
+    plt.close(fig)
+
+
+def draw_wave0_mfma(path):
+    fig = plt.figure(figsize=(20, 15))
+    ax = canvas(fig, [0, 0, 1, 1], 40, 30)
+    text(ax, 20, 29.3, "wave 0 在它的 SIMD 上怎么算 acc[0][0]，以及 wave 0 从开始到写回的时间线", size=16, weight="bold")
+
+    # ④ one MFMA
+    text(ax, 0.8, 28.2, "④ 一条 MFMA（16 × 16 × 128）：acc[0][0] += A 片段 · B 片段ᵀ，在 wave 0 所在 SIMD 的矩阵核心上执行",
+         size=13.5, weight="bold", ha="left")
+    cs = 0.36
+    ox, oyt = 9.6, 22.2                       # output grid top-left
+    bx, byb, bh = ox, oyt + 0.4, 4.4          # B fragment above, 4 K-blocks
+    ax_, aw = ox - 0.4 - 6.0, 6.0             # A fragment left, 4 K-blocks
+    for g in range(4):
+        box(ax, bx, byb + bh - (g + 1) * bh / 4, 16 * cs, bh / 4, tint(GRP[g], 0.35), ec="white", lw=1.0)
+        text(ax, bx + 8 * cs, byb + bh - (g + 0.5) * bh / 4, f"K {32 * g}–{32 * g + 31}：lane {16 * g}–{16 * g + 15}",
+             size=8.5)
+        box(ax, ax_ + g * aw / 4, oyt - 16 * cs, aw / 4, 16 * cs, tint(GRP[g], 0.35), ec="white", lw=1.0)
+        text(ax, ax_ + (g + 0.5) * aw / 4, oyt - 8 * cs, f"K {32 * g}–{32 * g + 31}\n\nlane\n{16 * g}–{16 * g + 15}",
+             size=8.5)
+    text(ax, bx + 8 * cs, byb + bh + 0.35, "B 片段 bf[0][0][0]：第 1280–1295 行 × K 0–127", size=10.5, weight="bold",
+         color=COL["B"])
+    text(ax, ax_ + aw / 2, oyt + 0.55, "A 片段 afr0[0]：\n第 512–527 行 × K 0–127", size=10.5, weight="bold",
+         color=COL["A"])
+    for r in range(16):
+        for c in range(16):
+            g = c // 4
+            hit = (r, c) == (5, 6)
+            box(ax, ox + c * cs, oyt - (r + 1) * cs, cs, cs, tint(GRP[g], 0.9 if hit else 0.45),
+                ec="#111111" if hit else "white", lw=2.0 if hit else 0.5, z=4 if hit else 2)
+    for g in range(4):
+        text(ax, ox + (4 * g + 2) * cs, oyt - 16 * cs - 0.3, f"lane {16 * g}–{16 * g + 15}", size=8, color=GRP[g])
+    text(ax, ox + 8 * cs, oyt - 16 * cs - 0.8, "输出 acc[0][0]：16 × 16", size=10.5, weight="bold", color=COL["O"])
+    text(ax, ox - 0.25, oyt - 5.5 * cs, "第 517 行 →", size=8, ha="right", color="#111111")
+    arrow(ax, (ox + 6.5 * cs, oyt - 16 * cs - 1.25), (ox + 6.5 * cs, oyt - 6 * cs - 0.05), color="#111111", lw=1.2, ms=10)
+    text(ax, ox + 6.5 * cs, oyt - 16 * cs - 1.5, "第 1286 列 = lane 21 的第 2 个数", size=8.5)
+
+    tx = 17.6
+    lines = [
+        ("这条指令是 wave 0 发的，进的是 wave 0 所在 SIMD 的矩阵核心：", True),
+        ("· 第一个操作数：bf[0][0][0]，B 片段，每个 lane 4 个 VGPR", False),
+        ("· 第二个操作数：afr0[0]，A 片段，每个 lane 4 个 VGPR", False),
+        ("· 两个 scale：每个 lane 各 1 个 VGPR，每 32 个 K 一个 E8M0", False),
+        ("· 累加器：acc[0][0]，每个 lane 4 个 AGPR，结果原地加回去", False),
+        ("64 个 lane 一起交出数据，矩阵核心一次算完 16 × 16 × 128。", True),
+        ("输出的 256 个数分在 64 个 lane 里（颜色 = lane 组）：", True),
+        ("第 r 行、第 c 列 → lane 16·(c/4) + r 的第 c%4 个数", False),
+        ("例：第 517 行（r=5）、第 1286 列（c=6）→ lane 21 的第 2 个数（黑框）", False),
+        ("一个 stage 里 acc[0][0] 被加 2 次：", True),
+        ("第 0 条 MFMA 用 K 0–127（h=0），第 32 条用 K 128–255（h=1）", False),
+    ]
+    for i, (s, b) in enumerate(lines):
+        text(ax, tx, 27.2 - i * 0.78, s, size=10.5, ha="left", weight="bold" if b else "normal")
+
+    # ⑤ timeline of wave 0
+    text(ax, 0.8, 16.0, "⑤ wave 0 的时间线：从开始到 acc[0][0] 写回", size=13.5, weight="bold", ha="left")
+    lanes = [("显存 → LDS / 寄存器", 13.2), ("LDS → 寄存器", 11.1), ("等待 / barrier", 9.0), ("矩阵核心（MFMA）", 6.9)]
+    for s, y in lanes:
+        text(ax, 5.9, y, s, size=10.5, ha="right", weight="bold")
+        ax.plot([6.1, 39.6], [y - 0.95, y - 0.95], color="#DDDDDD", lw=0.8, zorder=1)
+    cols = [("序幕", 6.2, 15.6), ("step 0 · 段0", 15.6, 24.9), ("step 0 · 段1", 24.9, 33.6),
+            ("step 1 … 19", 33.6, 36.9), ("epilogue", 36.9, 39.6)]
+    for s, x0, x1 in cols:
+        text(ax, (x0 + x1) / 2, 14.9, s, size=11, weight="bold")
+        ax.plot([x0, x0], [5.6, 14.5], color="#999999", lw=1.0, ls="--", zorder=1)
+
+    def blk(x0, x1, y, s, c, hatch=None, size=8.8):
+        box(ax, x0 + 0.05, y - 0.7, x1 - x0 - 0.1, 1.4, tint(c, 0.35), ec=c, lw=1.2, hatch=hatch, rnd=0.12, z=3)
+        text(ax, (x0 + x1) / 2, y, s, size=size, bbox=WHITE_BG if hatch else None)
+
+    y_ld, y_rd, y_wt, y_mf = (y for _, y in lanes)
+    blk(6.2, 9.3, y_ld, "DMA：A stage 0\n→ 槽 0", COL["A"])
+    blk(9.3, 12.3, y_ld, "load：B stage 0\n→ bf[0]", COL["B"])
+    blk(12.3, 15.4, y_ld, "DMA：A stage 1\n→ 槽 1", COL["A"])
+    blk(12.6, 15.4, y_wt, "等 stage 0 的 A\n落地 + barrier", "#888888")
+    blk(12.6, 15.6, y_rd, "读 stage 0 前半\n→ afr0（16 条）", COL["A"])
+    blk(15.6, 16.6, y_wt, "等", "#888888")
+    blk(15.6, 24.9, y_ld, "load：B stage 1 → bf[1]（10 条，撒在前 7/8）", COL["B"])
+    blk(15.6, 24.9, y_rd, "读 stage 0 后半 → afr1（20 条）", COL["A"])
+    blk(16.6, 24.9, y_mf, "64 条 MFMA：第 512–639 行\n用 afr0 + bf[0]", COL["O"])
+    for t in (0, 32):
+        x = 16.6 + (24.9 - 16.6) * t / 64
+        box(ax, x, y_mf - 0.85, 0.18, 1.7, "#111111", ec="#111111", z=6)
+        text(ax, x + 0.1, y_mf - 1.25, f"第 {t} 条：acc[0][0]", size=8, weight="bold")
+    blk(24.9, 26.4, y_wt, "等 +\nbarrier", "#888888")
+    blk(24.9, 33.6, y_ld, "DMA：A stage 2 → 槽 2（10 条）", COL["A"])
+    blk(24.9, 33.6, y_rd, "读 stage 1 前半 → afr0（20 条）", COL["A"])
+    blk(26.4, 33.6, y_mf, "64 条 MFMA：第 640–767 行\n用 afr1 + bf[0]", COL["O"])
+    for y in (y_ld, y_rd, y_mf):
+        blk(33.6, 36.9, y, "同样的流程", "#888888")
+    text(ax, 35.25, y_wt, "每步 acc[0][0]\n再加 2 次", size=8.8, color="#555555")
+    blk(36.9, 39.6, y_mf, "acc → bf16\n→ 写回 out", COL["O"])
+
+    notes = [
+        "· 序幕只做一次：先把 stage 0 的 A、B 和 stage 1 的 A 发出去，等 stage 0 的 A 到齐后，把它的前半（第 512–639 行）读进 afr0。",
+        "· 从 step 0 开始，每段一边发 64 条 MFMA，一边把后面要用的数据装进“另一套”缓冲：afr1、bf[1]、槽 2……，正在被 MFMA 用的那一套不会被改。",
+        "· acc[0][0] 在 step 0 段0 的第 0 条和第 32 条被加两次（K 0–127、K 128–255）；20 个 step 一共 40 次，最后在 epilogue 写回 out 第 512–527 行 × 第 1280–1295 列。",
+    ]
+    for i, s in enumerate(notes):
+        text(ax, 0.8, 4.2 - i * 0.85, s, size=10.5, ha="left")
+
+    fig.savefig(path, dpi=150, facecolor="white")
+    plt.close(fig)
+
+
 def main():
     out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
     setup_font()
-    draw_tiling(os.path.join(out, "gemm_tiling.png"))
-    draw_dataflow(os.path.join(out, "gemm_dataflow.png"))
-    print("wrote", os.path.abspath(os.path.join(out, "gemm_tiling.png")),
-          os.path.abspath(os.path.join(out, "gemm_dataflow.png")))
+    figs = (("gemm_tiling.png", draw_tiling), ("gemm_dataflow.png", draw_dataflow), ("lds_swizzle.png", draw_swizzle),
+            ("wave0_load.png", draw_wave0_load), ("wave0_mfma.png", draw_wave0_mfma))
+    for name, fn in figs:
+        fn(os.path.join(out, name))
+    print("wrote", *(os.path.abspath(os.path.join(out, n)) for n, _ in figs))
 
 
 if __name__ == "__main__":
