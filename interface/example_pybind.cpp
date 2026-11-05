@@ -48,4 +48,5 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m)
           pybind11::arg("a"), pybind11::arg("b"));
     m.def("test_read_pattern", &test_read_pattern, "",
           pybind11::arg("x"), pybind11::arg("y"));
+    m.def("mbs_factor_experiment", &mbs_factor_experiment, "");
 }

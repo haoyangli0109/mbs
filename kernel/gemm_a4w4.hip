@@ -347,6 +347,8 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
                     const uint8_t* __restrict__ B,
                     const uint8_t* __restrict__ AScale,
                     const uint8_t* __restrict__ BScale,
+                    const uint8_t* __restrict__ AFactor,
+                    const uint8_t* __restrict__ BFactor,
                     __hip_bfloat16* __restrict__ out,
                     int M, int N, int K, int scaleN_pad)
 {
@@ -383,6 +385,11 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     __shared__ __attribute__((aligned(16))) uint8_t smem1[STAGE_B];
     __shared__ __attribute__((aligned(16))) uint8_t smem2[STAGE_B];
     __shared__ __attribute__((aligned(16))) uint8_t smem3[STAGE_B];
+    // MBS factors of the current tile, as f32 (see byte_to_factor): the M
+    // factors are shared by the workgroup, the N factors are per wave.
+    static_assert(MTILE <= 64 * WAVES, "one M factor per thread");
+    __shared__ __attribute__((aligned(16))) float fa_lds[MTILE];
+    __shared__ __attribute__((aligned(16))) float fb_lds[WAVES][WNTILE];
     // Distinct arrays, statically selected per (unrolled) ring slot.
     auto lds_buf = [&](auto u) __attribute__((always_inline)) -> uint8_t* {
         constexpr int i = decltype(u)::value % RING;
@@ -476,6 +483,8 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     const i32x4 b_rsrc  = sq(rsrc_of(B, N * Kp));
     const i32x4 as_rsrc = sq(rsrc_of(AScale, Mpad32 * scaleN_pad));
     const i32x4 bs_rsrc = sq(rsrc_of(BScale, Npad32 * scaleN_pad));
+    const i32x4 af_rsrc = sq(rsrc_of(AFactor, M));
+    const i32x4 bf_rsrc = sq(rsrc_of(BFactor, N));
     const auto o_rsrc  = __builtin_amdgcn_make_buffer_rsrc(
         (void*)out, 0, M * N * (int)sizeof(__hip_bfloat16), RSRC_W3);
 
@@ -606,6 +615,69 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
         }
     };
 
+    // MBS factors (one byte per row of A and per row of B), applied in the
+    // epilogue as C[m][n] *= f(AFactor[m]) * f(BFactor[n]). A tile's factor
+    // bytes are loaded right after the previous tile's epilogue (in the
+    // prologue for the first tile) with FAC_LOADS ops: thread t gets M factor
+    // t, lane l N factors FB*l..FB*l+FB-1 of its wave. Like the other loads
+    // these are explicit-vmcnt asm; the bytes have landed by step 1's
+    // section-1 wait (its target, stage 2's A DMA, is issued later), where
+    // they are converted and written to fa_lds / fb_lds. Every wave has
+    // passed the step-1 barrier only after the previous epilogue (the last
+    // reader), and the step-2 barrier publishes the writes to the epilogue.
+    // Rows past M / N read 0 (range check) and are never stored.
+    constexpr int FB        = (WNTILE + 63) / 64;  // N factor bytes per lane
+    constexpr int FAC_LOADS = 2;
+    static_assert(FB <= 2, "N factors: ubyte / ushort per lane");
+    int fac_a, fac_b;  // raw factor bytes, in flight from issue to step 1
+    auto issue_factors = [&](const TileOff& t) __attribute__((always_inline)) {
+        // Lane id recomputed per issue (as in the epilogue): a long-lived
+        // voffset spills on the 256x256 tile, and its reload drains vmcnt.
+        int ln;
+        asm volatile("v_mbcnt_lo_u32_b32 %0, -1, 0\n\t"
+                     "v_mbcnt_hi_u32_b32 %0, -1, %0"
+                     : "=v"(ln));
+        asm volatile("buffer_load_ubyte %0, %1, %2, 0 offen"
+                     : "=v"(fac_a)
+                     : "v"(ln), "s"(rsrc_at(af_rsrc, t.m0 + wave * 64)));
+        if constexpr (FB == 1)
+            asm volatile("buffer_load_ubyte %0, %1, %2, 0 offen"
+                         : "=v"(fac_b)
+                         : "v"(ln), "s"(rsrc_at(bf_rsrc, t.n0)));
+        else
+            asm volatile("buffer_load_ushort %0, %1, %2, 0 offen"
+                         : "=v"(fac_b)
+                         : "v"(ln * 2), "s"(rsrc_at(bf_rsrc, t.n0)));
+    };
+    // MBS factor byte b -> 1 / (1 + b/256): b fills the top 8 mantissa bits
+    // of 1.0f (v_lshl_or_b32). The IEEE f32 division expands to ~10 VALU
+    // (div_scale / div_fmas / div_fixup); v_rcp_f32 alone is 1 ulp off for
+    // 21 of the 256 bytes, and one Newton step makes it bit-exact for all
+    // of them (checked exhaustively on gfx950 against the double reference).
+    auto byte_to_factor = [](uint32_t b) __attribute__((always_inline)) {
+        const float x = __uint_as_float(0x3F800000u | (b << 15));
+        const float r = __builtin_amdgcn_rcpf(x);
+        return __builtin_fmaf(r, __builtin_fmaf(-x, r, 1.0f), r);
+    };
+    auto write_factors = [&]() __attribute__((always_inline)) {
+        // Volatile asm, ordered after the explicit vmcnt wait: the compiler
+        // sees the asm-loaded bytes as ready at issue and would otherwise
+        // hoist the conversion above the wait; and the lane id, recomputed
+        // here, keeps the LDS addresses from living (and spilling) across
+        // the K loop.
+        int a = fac_a, b = fac_b, ln;
+        asm volatile("v_mbcnt_lo_u32_b32 %0, -1, 0\n\t"
+                     "v_mbcnt_hi_u32_b32 %0, -1, %0"
+                     : "=v"(ln), "+v"(a), "+v"(b));
+        const int t = wave * 64 + ln;
+        if (t < MTILE)
+            fa_lds[t] = byte_to_factor(a);
+#pragma unroll
+        for (int i = 0; i < FB; ++i)
+            if (ln * FB + i < WNTILE)
+                fb_lds[wave][ln * FB + i] = byte_to_factor((b >> (8 * i)) & 0xff);
+    };
+
     // One pipeline step (stage s), modeled on the asm kernel's loop: two
     // sections of MFMAs, section 0 over M fragments [0, MS0), section 1 over
     // [MS0, MSUB), each over both K-128 halves.
@@ -641,8 +713,9 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     //    step s+1-PF) has landed once only the later loads are left: whole steps
     //    s+2-PF..s-1 and this step's register loads.
     //  * A tile's epilogue issues EPI_STORES buffer stores (vmcnt counts them
-    //    too) between steps, so the first step of the next tile allows those.
-    constexpr int EPI_STORES = MSUB * (NSUB / 2);
+    //    too) and then the next tile's FAC_LOADS factor loads between steps,
+    //    so the first step of the next tile allows those.
+    constexpr int EPI_STORES = MSUB * (NSUB / 2) + FAC_LOADS;
     constexpr int W_START    = (LOADS_PER_STAGE - KA) + LOADS_PER_STAGE * (PF_B - 1);
     constexpr int W_MID      = KA + LOADS_PER_STAGE * (PF - 2);
     static_assert(W_MID + EPI_STORES <= 63 && W_START + EPI_STORES <= 63, "vmcnt is 6 bits");
@@ -737,7 +810,6 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
                     int (&bs)[NSUB / 2], const TileOff& nto, int nst, uint8_t* nlds,
                     const TileOff& ntob, int nstb, i32x4 (&nbf)[NSUB][2], int (&nbs)[NSUB / 2],
                     bool after_epi, int sidx) __attribute__((always_inline)) {
-        (void)sidx;
         MBS_TICK(3)
         // This stage's B/scale registers and section-0 fragments have landed.
         if (after_epi)
@@ -757,6 +829,8 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
             wait_vm_lgkm0(std::integral_constant<int, W_MID>{});
         __syncthreads();
         MBS_TICK(sidx < 2 ? 7 : 2)
+        if (sidx == 1)
+            write_factors();
         __builtin_amdgcn_sched_barrier(0);
         section(std::integral_constant<int, 1>{}, afr1, asc1, afr0, asc0, next_lds, bf, bs, nto,
                 nst, nlds, ntob, nstb, nbf, nbs);
@@ -793,6 +867,16 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
             f32x4 x, y;
             asm volatile("" : "=v"(x) : "0"(acc[mi][2 * np]));
             asm volatile("" : "=v"(y) : "0"(acc[mi][2 * np + 1]));
+            // MBS: C *= f(AFactor[row]) * f(BFactor[col]), before the bf16 cast.
+            const float  fa  = fa_lds[mi * 16 + row16];
+            const f32x4 fb0 = *reinterpret_cast<const f32x4*>(&fb_lds[wave][2 * np * 16 + g * 4]);
+            const f32x4 fb1 = *reinterpret_cast<const f32x4*>(&fb_lds[wave][(2 * np + 1) * 16 + g * 4]);
+#pragma unroll
+            for (int i = 0; i < 4; ++i)
+            {
+                x[i] *= fa * fb0[i];
+                y[i] *= fa * fb1[i];
+            }
             // Reset for the next tile right after the last read, made opaque
             // ("+a"): a plain constant reset is folded into the tile loop's
             // accumulator phi, and the register allocator then shuffles (and
@@ -868,6 +952,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     int id      = blockIdx.x;
     TileOff cur = tile_off(id);
     TileOff nxt = tile_off(id + gridDim.x);
+    issue_factors(cur);  // older than every stage load: landed by step 1
     // Prologue, laid out as the steps "-PF..-1" would issue it so the vmcnt
     // bookkeeping is identical: step -PF+u issues A stage u, B stage u+PF_B-PF.
     static_for<PF>([&](auto u) __attribute__((always_inline)) {
@@ -912,6 +997,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
         after_epi = true;
         cur = nxt;
         nxt = tile_off(id + 2 * gridDim.x);
+        issue_factors(cur);
     }
     __builtin_amdgcn_s_waitcnt(WAIT_ALL);  // retire the overrun LDS DMA
 #if MBS_TIMING
@@ -929,21 +1015,21 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
 // Persistent launch of the workgroup kernel: one workgroup per CU (1 wave/SIMD).
 template <int MS, int NS>
 void launch_wg(const uint8_t* A, const uint8_t* B, const uint8_t* AScale,
-               const uint8_t* BScale, void* out, int M, int N, int K, int scaleN_pad,
-               hipStream_t stream)
+               const uint8_t* BScale, const uint8_t* AFactor, const uint8_t* BFactor,
+               void* out, int M, int N, int K, int scaleN_pad, hipStream_t stream)
 {
     constexpr int WV = 4;
     const int tiles  = ((N + 16 * NS * WV - 1) / (16 * NS * WV)) * ((M + 16 * MS - 1) / (16 * MS));
     hipLaunchKernelGGL((gemm_a4w4_wg_kernel<MS, NS, WV>), dim3(std::min(tiles, 256)),
-                       dim3(64 * WV), 0, stream, A, B, AScale, BScale,
+                       dim3(64 * WV), 0, stream, A, B, AScale, BScale, AFactor, BFactor,
                        reinterpret_cast<__hip_bfloat16*>(out), M, N, K, scaleN_pad);
 }
 
 struct WgTile
 {
     int mt, nt;
-    void (*launch)(const uint8_t*, const uint8_t*, const uint8_t*, const uint8_t*, void*,
-                   int, int, int, int, hipStream_t);
+    void (*launch)(const uint8_t*, const uint8_t*, const uint8_t*, const uint8_t*,
+                   const uint8_t*, const uint8_t*, void*, int, int, int, int, hipStream_t);
 };
 // Workgroup tiles (MTILE x NTILE = 16*MSUB x 64*NSUB). Wider wave tiles (NSUB 6,
 // 8) cut loads and LDS reads per MFMA and give the heuristic more ways to
@@ -955,10 +1041,12 @@ constexpr WgTile kWgTiles[] = {
     {96, 512, launch_wg<6, 8>},   {64, 512, launch_wg<4, 8>},
 };
 
-void gemm_a4w4_mxfp4_launch(const uint8_t* A,
+bool gemm_a4w4_mxfp4_launch(const uint8_t* A,
                             const uint8_t* B,
                             const uint8_t* AScale,
                             const uint8_t* BScale,
+                            const uint8_t* AFactor,
+                            const uint8_t* BFactor,
                             void*          out,
                             int            M,
                             int            N,
@@ -1007,20 +1095,24 @@ void gemm_a4w4_mxfp4_launch(const uint8_t* A,
         // Debug builds: MBS_TILE=<index into kWgTiles> forces a workgroup tile.
         if (const char* e = getenv("MBS_TILE"))
         {
-            kWgTiles[atoi(e)].launch(A, B, AScale, BScale, out, M, N, K, scaleN_pad,
-                                     reinterpret_cast<hipStream_t>(stream));
-            return;
+            kWgTiles[atoi(e)].launch(A, B, AScale, BScale, AFactor, BFactor, out, M, N, K,
+                                     scaleN_pad, reinterpret_cast<hipStream_t>(stream));
+            return true;
         }
 #endif
         // Too few tiles to occupy a quarter of the GPU: the single-wave kernel's
         // small tiles expose more parallelism.
         if (best_tiles >= NCU_WG / 4)
         {
-            kWgTiles[best].launch(A, B, AScale, BScale, out, M, N, K, scaleN_pad,
-                                  reinterpret_cast<hipStream_t>(stream));
-            return;
+            kWgTiles[best].launch(A, B, AScale, BScale, AFactor, BFactor, out, M, N, K,
+                                  scaleN_pad, reinterpret_cast<hipStream_t>(stream));
+            return true;
         }
     }
+
+    // The single-wave kernel does not apply the MBS factors yet.
+    if (AFactor || BFactor)
+        return false;
 
     // Tile-shape heuristic: prefer the largest tile (best reuse) whose workgroup
     // count still fills the GPU (~>= 2 workgroups per CU); otherwise shrink the
@@ -1050,4 +1142,5 @@ void gemm_a4w4_mxfp4_launch(const uint8_t* A,
         launch(m2{}, m2{});        // MID  32x32
     else
         launch(m1{}, m2{});        // SMALL 16x32: tiny M, maximize occupancy
+    return true;
 }

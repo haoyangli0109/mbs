@@ -1,8 +1,8 @@
 import pandas as pd
 import sys
 
-trace_path = sys.argv[1]
-name_pattern = sys.argv[2]
+name_pattern = sys.argv[1]
+trace_path = sys.argv[2]
 
 trace = pd.read_csv(trace_path)
 buckets = {}
@@ -16,4 +16,4 @@ for i, kernel_name in enumerate(trace["Kernel_Name"]):
 
 for k, v in buckets.items():
     print(k[:200])
-    print(v)
+    print(v, sum(v[-5:]) / 5)

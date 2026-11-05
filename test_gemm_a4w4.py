@@ -44,17 +44,42 @@ def run_torch(x, w, x_scales, w_scales, dtype):
     return torch.mm(x_f32, w_f32.T).to(dtype)[:m, :n]
 
 
+def convert_byte_to_float(b):
+    # MBS factor byte b -> 1 / (1 + b/256): b fills the top 8 mantissa bits of
+    # 1.0f (same as kernel/example.cpp convert_byte_to_float).
+    one = (b.to(torch.int32) << 15 | 0x3F800000).view(torch.float32)
+    return 1.0 / one
+
+
+@perftest(num_iters=5)
+def run_torch_mbs(x, w, x_scales, w_scales, a_factor, b_factor, dtype):
+    # Same as run_torch, then C *= AFactor * BFactor^T in f32 before the cast.
+    m, _k = x.shape
+    n, _k = w.shape
+    x_f32 = fp4_utils.mxfp4_to_f32(x)
+    w_f32 = fp4_utils.mxfp4_to_f32(w)
+    x_scales = x_scales[:m].repeat_interleave(SCALE_GROUP_SIZE, dim=1)
+    x_f32 = x_f32 * fp4_utils.e8m0_to_f32(x_scales)
+    w_scales = w_scales[:n].repeat_interleave(SCALE_GROUP_SIZE, dim=1)
+    w_f32 = w_f32 * fp4_utils.e8m0_to_f32(w_scales)
+    c = torch.mm(x_f32, w_f32.T)
+    a_f = convert_byte_to_float(a_factor).view(m, 1)
+    b_f = convert_byte_to_float(b_factor).view(n, 1)
+    c = c * (a_f * b_f.T)
+    return c.to(dtype)[:m, :n]
+
+
 @perftest()
 def run_gemm_ck(x, weight, x_scale, w_scale, out):
     return aiter.gemm_a4w4_blockscale(x, weight, x_scale, w_scale, out)
 
 
 @perftest()
-def run_mbs(x, wshuffle, x_scale_shuffle, w_scale_shuffle):
+def run_mbs(x, wshuffle, x_scale_shuffle, w_scale_shuffle, a_factor, b_factor):
     import mbs_gemm_a4w4
 
     return mbs_gemm_a4w4.gemm_a4w4(
-        x, wshuffle, x_scale_shuffle, w_scale_shuffle
+        x, wshuffle, x_scale_shuffle, w_scale_shuffle, a_factor, b_factor
     )
 
 
@@ -117,6 +142,12 @@ def test_gemm(dtype, M, N, K):
     x_scales = x_scales.view(torch.uint8)
     w_scales = w_scales.view(torch.uint8)
     a, _avg_a = run_torch(x, w, x_scales, w_scales, dtype)
+    # MBS factors: one uint8 per row of A ([M, 1]) and per row of B ([N, 1]).
+    a_factor = torch.randint(0, 256, (M, 1), dtype=torch.uint8)
+    b_factor = torch.randint(0, 256, (N, 1), dtype=torch.uint8)
+    a_mbs, _avg_a_mbs = run_torch_mbs(
+        x, w, x_scales, w_scales, a_factor, b_factor, dtype
+    )
     # out1 = torch.empty(M, N, dtype=dtype)
     # b, avg_b = run_triton(x, w.T, x_scales, w_scales, out1, dtype)
     # b, avg_b = a, 0
@@ -138,9 +169,12 @@ def test_gemm(dtype, M, N, K):
     ret["TB/s"] = (x.nbytes + w.nbytes) / us / 1e6
     ret["err"] = err
 
-    # mbs: standalone HIP MXFP4 A4W4 GEMM (same shuffled-input contract).
-    f, us = run_mbs(x, wshuffle, x_scales_shuffle, w_scales_shuffle)
-    err = checkAllclose(a, f, msg="mbs hip", catastrophic_check=True)
+    # mbs: standalone HIP MXFP4 A4W4 GEMM (same shuffled-input contract) with
+    # the MBS factors applied; checked against the MBS torch reference.
+    f, us = run_mbs(
+        x, wshuffle, x_scales_shuffle, w_scales_shuffle, a_factor, b_factor
+    )
+    err = checkAllclose(a_mbs, f, msg="mbs hip", catastrophic_check=True)
     ret["us mbs"] = us
     ret["TFLOPS mbs"] = M * N * K * 2 / us / 1e6
     ret["TB/s mbs"] = (x.nbytes + w.nbytes) / us / 1e6

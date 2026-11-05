@@ -35,14 +35,8 @@ def triton_copy(x: torch.Tensor, y: torch.Tensor) -> None:
 
 
 def main() -> None:
-    x = torch.randint(255, (256, 256 * 4 * 4), dtype=torch.uint8, device="cuda")
-    y = torch.zeros_like(x)
     print(f"current_pid = {os.getpid()}")
-    # time.sleep(5)
-    example.test_read_pattern(x, y)
-    # triton_copy(x, y)
-    print(abs(y - x).max())
-
+    example.mbs_factor_experiment()
 
 if __name__ == "__main__":
     main()
