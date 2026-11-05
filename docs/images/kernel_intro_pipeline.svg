@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="545" viewBox="0 0 790 545" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="256×256 tile 的软件流水。step s 算 stage s，分两段：段 0 算 mi 0 到 7，同时从 LDS 读本 stage mi 8 到 15 的片段，并发出 stage s+1 的 B load；段 1 算 mi 8 到 15，同时读 stage s+1 mi 0 到 7 的片段，并发出 stage s+2 的 A DMA。step 开始前等本 stage 的 B 到齐，段 1 开始前等 stage s+1 的 A 到齐并做 barrier。LDS 4 个槽依次放 stage s、s+1、s+2，第 4 个槽是已读完的 stage s-1；B 寄存器两套，一套在用，一套在写">
+<rect width="790" height="545" fill="#ffffff"/>
+<defs><marker id="arr0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ea580c"/></marker><marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#16a34a"/></marker></defs>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">预取：step s 算 stage s，同时搬 stage s+1 的 B、stage s+2 的 A</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">256×256 tile：PF_B = 1，PF = 2，LDS 环 4 个槽。每个 step 两段，每段 64 条 MFMA；load 和 LDS 读一条一条插在 MFMA 之间</text>
+<text x="14" y="134" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">MFMA</text>
+<text x="14" y="172" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">LDS → A 片段</text>
+<text x="14" y="210" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">B → 寄存器</text>
+<text x="14" y="248" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">A → LDS（DMA）</text>
+<text x="285" y="70" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">step s：算 stage s</text>
+<path d="M124 86L124 82L446 82L446 86" fill="none" stroke="#6b7280" stroke-width="1"/>
+<text x="199" y="101" font-size="10.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">段 0（mi 0–7）</text>
+<text x="371" y="101" font-size="10.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">段 1（mi 8–15）</text>
+<rect x="124" y="120" width="150" height="28" fill="#f3f4f6" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="199" y="134" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s · mi 0–7</text>
+<rect x="296" y="120" width="150" height="28" fill="#f3f4f6" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="371" y="134" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s · mi 8–15</text>
+<rect x="124" y="158" width="150" height="28" fill="#dbeafe" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="199" y="172" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s 的 mi 8–15 → afr1</text>
+<rect x="296" y="158" width="150" height="28" fill="#dbeafe" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="371" y="172" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s+1 的 mi 0–7 → afr0</text>
+<rect x="124" y="196" width="150" height="28" fill="#ffedd5" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="199" y="210" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">B(s+1) → bf[(s+1)%4]</text>
+<rect x="296" y="234" width="150" height="28" fill="#dcfce7" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="371" y="248" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">A(s+2) → 槽 (s+2)%4</text>
+<path d="M119 114L119 268" fill="none" stroke="#111827" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="119" y="280" font-size="11" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">①</text>
+<path d="M285 114L285 268" fill="none" stroke="#111827" stroke-width="1.6"/>
+<text x="285" y="280" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">② barrier</text>
+<text x="617" y="70" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">step s+1：算 stage s+1</text>
+<path d="M456 86L456 82L778 82L778 86" fill="none" stroke="#6b7280" stroke-width="1"/>
+<text x="531" y="101" font-size="10.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">段 0（mi 0–7）</text>
+<text x="703" y="101" font-size="10.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">段 1（mi 8–15）</text>
+<rect x="456" y="120" width="150" height="28" fill="#f3f4f6" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="531" y="134" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s+1 · mi 0–7</text>
+<rect x="628" y="120" width="150" height="28" fill="#f3f4f6" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="703" y="134" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s+1 · mi 8–15</text>
+<rect x="456" y="158" width="150" height="28" fill="#dbeafe" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="531" y="172" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s+1 的 mi 8–15 → afr1</text>
+<rect x="628" y="158" width="150" height="28" fill="#dbeafe" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="703" y="172" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage s+2 的 mi 0–7 → afr0</text>
+<rect x="456" y="196" width="150" height="28" fill="#ffedd5" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="531" y="210" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">B(s+2) → bf[(s+2)%4]</text>
+<rect x="628" y="234" width="150" height="28" fill="#dcfce7" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="703" y="248" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central">A(s+3) → 槽 (s+3)%4</text>
+<path d="M451 114L451 268" fill="none" stroke="#111827" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="451" y="280" font-size="11" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">①</text>
+<path d="M617 114L617 268" fill="none" stroke="#111827" stroke-width="1.6"/>
+<text x="617" y="280" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">② barrier</text>
+<path d="M276 214.0L448 214.0" fill="none" stroke="#ea580c" stroke-width="1.6" marker-end="url(#arr0)"/>
+<text x="371" y="203" font-size="9.5" fill="#ea580c" text-anchor="middle" dominant-baseline="central">下一步开头就要用：① 处等它</text>
+<path d="M448 252.0L612 252.0L612 172.0L626 172.0" fill="none" stroke="#16a34a" stroke-width="1.6" marker-end="url(#arr1)"/>
+<text x="531" y="241" font-size="9.5" fill="#16a34a" text-anchor="middle" dominant-baseline="central">下一步段 1 才读：② 处等它</text>
+<text x="14" y="304" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">① step 开始前：等本 stage 的 B 和 B scale 到齐（vmcnt ≤ W_START = 10），段 0 要用的 A 片段也已读完（lgkmcnt(0)）</text>
+<text x="14" y="324" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">② 段 1 开始前：等本 wave 为 stage s+1 发的 A DMA 到齐（vmcnt ≤ W_MID = 10），再 __syncthreads()，等 4 个 wave 都到齐</text>
+<text x="14" y="360" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">step s 期间，各个缓冲里放的是什么</text>
+<text x="14" y="393" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">LDS 环</text>
+<text x="14" y="410" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">每槽 34 KB</text>
+<rect x="124" y="378" width="152" height="46" fill="#dbeafe" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="200" y="393" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">槽 s%4：stage s</text>
+<text x="200" y="410" font-size="10" fill="#111827" text-anchor="middle" dominant-baseline="central">段 0 里读 mi 8–15</text>
+<rect x="284" y="378" width="152" height="46" fill="#dbeafe" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="360" y="393" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">槽 (s+1)%4：stage s+1</text>
+<text x="360" y="410" font-size="10" fill="#111827" text-anchor="middle" dominant-baseline="central">② 处到齐，段 1 里读 mi 0–7</text>
+<rect x="444" y="378" width="152" height="46" fill="#dcfce7" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="520" y="393" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">槽 (s+2)%4：stage s+2</text>
+<text x="520" y="410" font-size="10" fill="#111827" text-anchor="middle" dominant-baseline="central">段 1 里 DMA 写进来</text>
+<rect x="604" y="378" width="152" height="46" fill="#ffffff" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="680" y="393" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">槽 (s+3)%4：stage s−1</text>
+<text x="680" y="410" font-size="10" fill="#111827" text-anchor="middle" dominant-baseline="central">已读完，空着，下一步重填</text>
+<text x="14" y="453" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">B 寄存器</text>
+<text x="14" y="470" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">8 片段 + 2 scale</text>
+<rect x="124" y="438" width="152" height="46" fill="#ffedd5" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="200" y="453" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">bf[s%4]：stage s</text>
+<text x="200" y="470" font-size="10" fill="#111827" text-anchor="middle" dominant-baseline="central">两段的 MFMA 都在用</text>
+<rect x="284" y="438" width="152" height="46" fill="#ffedd5" stroke="#111827" stroke-width="0.9" rx="3"/>
+<text x="360" y="453" font-size="10.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">bf[(s+1)%4]：stage s+1</text>
+<text x="360" y="470" font-size="10" fill="#111827" text-anchor="middle" dominant-baseline="central">段 0 里写进来</text>
+<text x="444" y="453" font-size="10" fill="#6b7280" text-anchor="start" dominant-baseline="central">代码里声明了 4 套（bf[RING]），同一时刻只活 2 套，</text>
+<text x="444" y="470" font-size="10" fill="#6b7280" text-anchor="start" dominant-baseline="central">编译器复用到 2 套物理寄存器上（PF_B = 2 的 tile 是 3 套）</text>
+<text x="14" y="510" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">stage 号超出本 tile 时，读的是下一个 tile 的开头：一个 tile 的最后两个 step 已经在搬下一个 tile 的 A stage 0、1 和 B stage 0，</text>
+<text x="14" y="529" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">epilogue 写回期间这些 load 都在路上</text>
+</svg>

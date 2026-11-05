@@ -1,0 +1,48 @@
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:   0%|          | 1/851 [00:01<16:35,  1.17s/it]Loading weights:   2%|▏         | 13/851 [00:01<01:01, 13.63it/s]Loading weights:   2%|▏         | 20/851 [00:01<00:41, 20.17it/s]Loading weights:   3%|▎         | 26/851 [00:01<00:32, 25.35it/s]Loading weights:   5%|▍         | 40/851 [00:01<00:19, 41.96it/s]Loading weights:   6%|▌         | 47/851 [00:01<00:20, 39.46it/s]Loading weights:   8%|▊         | 64/851 [00:02<00:13, 58.08it/s]Loading weights:   8%|▊         | 72/851 [00:02<00:13, 57.88it/s]Loading weights:  10%|▉         | 82/851 [00:02<00:12, 62.12it/s]Loading weights:  11%|█         | 95/851 [00:02<00:10, 70.89it/s]Loading weights:  12%|█▏        | 103/851 [00:02<00:11, 64.84it/s]Loading weights:  14%|█▍        | 118/851 [00:02<00:09, 80.86it/s]Loading weights:  15%|█▍        | 127/851 [00:02<00:09, 74.12it/s]Loading weights:  16%|█▌        | 135/851 [00:03<00:11, 63.30it/s]Loading weights:  17%|█▋        | 147/851 [00:03<00:09, 70.91it/s]Loading weights:  18%|█▊        | 155/851 [00:03<00:10, 66.05it/s]Loading weights:  20%|█▉        | 167/851 [00:03<00:09, 75.33it/s]Loading weights:  21%|██        | 175/851 [00:03<00:10, 61.70it/s]Loading weights:  22%|██▏       | 186/851 [00:03<00:09, 69.00it/s]Loading weights:  23%|██▎       | 194/851 [00:03<00:09, 66.98it/s]Loading weights:  24%|██▎       | 202/851 [00:04<00:10, 59.01it/s]Loading weights:  25%|██▍       | 209/851 [00:04<00:11, 56.56it/s]Loading weights:  26%|██▌       | 219/851 [00:04<00:09, 64.32it/s]Loading weights:  27%|██▋       | 226/851 [00:04<00:09, 63.95it/s]Loading weights:  28%|██▊       | 238/851 [00:04<00:08, 75.21it/s]Loading weights:  29%|██▉       | 246/851 [00:04<00:08, 69.54it/s]Loading weights:  30%|██▉       | 254/851 [00:04<00:09, 60.05it/s]Loading weights:  31%|███       | 261/851 [00:05<00:11, 51.02it/s]Loading weights:  32%|███▏      | 275/851 [00:05<00:08, 67.67it/s]Loading weights:  33%|███▎      | 283/851 [00:05<00:09, 60.53it/s]Loading weights:  34%|███▍      | 292/851 [00:05<00:08, 64.49it/s]Loading weights:  35%|███▌      | 299/851 [00:05<00:08, 64.43it/s]Loading weights:  36%|███▌      | 306/851 [00:05<00:09, 55.05it/s]Loading weights:  37%|███▋      | 312/851 [00:05<00:11, 48.18it/s]Loading weights:  37%|███▋      | 319/851 [00:06<00:10, 50.93it/s]Loading weights:  39%|███▉      | 331/851 [00:06<00:08, 62.58it/s]Loading weights:  40%|███▉      | 338/851 [00:06<00:08, 61.70it/s]Loading weights:  41%|████      | 345/851 [00:06<00:08, 60.22it/s]Loading weights:  41%|████▏     | 352/851 [00:06<00:08, 61.01it/s]Loading weights:  42%|████▏     | 359/851 [00:06<00:09, 51.34it/s]Loading weights:  43%|████▎     | 365/851 [00:06<00:10, 47.27it/s]Loading weights:  44%|████▎     | 371/851 [00:07<00:10, 46.40it/s]Loading weights:  45%|████▌     | 384/851 [00:07<00:07, 59.93it/s]Loading weights:  46%|████▌     | 391/851 [00:07<00:07, 59.69it/s]Loading weights:  47%|████▋     | 398/851 [00:07<00:07, 59.80it/s]Loading weights:  48%|████▊     | 405/851 [00:07<00:07, 60.40it/s]Loading weights:  49%|████▊     | 413/851 [00:07<00:07, 59.86it/s]Loading weights:  49%|████▉     | 420/851 [00:07<00:08, 50.93it/s]Loading weights:  51%|█████     | 430/851 [00:07<00:07, 57.68it/s]Loading weights:  51%|█████▏    | 438/851 [00:08<00:06, 62.38it/s]Loading weights:  53%|█████▎    | 448/851 [00:08<00:05, 69.73it/s]Loading weights:  54%|█████▎    | 456/851 [00:08<00:06, 60.88it/s]Loading weights:  55%|█████▍    | 465/851 [00:08<00:05, 66.60it/s]Loading weights:  56%|█████▌    | 473/851 [00:08<00:07, 49.22it/s]Loading weights:  57%|█████▋    | 486/851 [00:08<00:05, 63.01it/s]Loading weights:  58%|█████▊    | 494/851 [00:09<00:06, 58.00it/s]Loading weights:  59%|█████▉    | 504/851 [00:09<00:05, 60.60it/s]Loading weights:  61%|██████    | 517/851 [00:09<00:04, 74.02it/s]Loading weights:  62%|██████▏   | 526/851 [00:09<00:05, 55.33it/s]Loading weights:  64%|██████▎   | 542/851 [00:09<00:04, 73.23it/s]Loading weights:  65%|██████▍   | 551/851 [00:09<00:04, 66.81it/s]Loading weights:  66%|██████▌   | 559/851 [00:10<00:04, 59.49it/s]Loading weights:  67%|██████▋   | 572/851 [00:10<00:04, 67.99it/s]Loading weights:  68%|██████▊   | 580/851 [00:10<00:04, 58.83it/s]Loading weights:  70%|██████▉   | 593/851 [00:10<00:03, 71.36it/s]Loading weights:  71%|███████   | 602/851 [00:10<00:03, 68.48it/s]Loading weights:  72%|███████▏  | 611/851 [00:10<00:03, 67.15it/s]Loading weights:  73%|███████▎  | 622/851 [00:10<00:02, 76.51it/s]Loading weights:  74%|███████▍  | 631/851 [00:11<00:03, 56.32it/s]Loading weights:  76%|███████▌  | 646/851 [00:11<00:02, 72.88it/s]Loading weights:  77%|███████▋  | 655/851 [00:11<00:02, 66.05it/s]Loading weights:  78%|███████▊  | 663/851 [00:11<00:02, 67.02it/s]Loading weights:  79%|███████▉  | 671/851 [00:11<00:02, 62.76it/s]Loading weights:  80%|███████▉  | 678/851 [00:11<00:03, 52.48it/s]Loading weights:  80%|████████  | 684/851 [00:12<00:03, 49.48it/s]Loading weights:  82%|████████▏ | 699/851 [00:12<00:02, 69.92it/s]Loading weights:  83%|████████▎ | 707/851 [00:12<00:02, 63.78it/s]Loading weights:  84%|████████▍ | 716/851 [00:12<00:01, 67.74it/s]Loading weights:  85%|████████▌ | 725/851 [00:12<00:01, 71.40it/s]Loading weights:  86%|████████▌ | 733/851 [00:12<00:02, 58.48it/s]Loading weights:  87%|████████▋ | 740/851 [00:12<00:01, 56.94it/s]Loading weights:  89%|████████▊ | 754/851 [00:13<00:01, 68.71it/s]Loading weights:  90%|████████▉ | 762/851 [00:13<00:01, 71.09it/s]Loading weights:  90%|█████████ | 770/851 [00:13<00:01, 65.80it/s]Loading weights:  92%|█████████▏| 780/851 [00:13<00:00, 73.27it/s]Loading weights:  93%|█████████▎| 788/851 [00:13<00:00, 65.80it/s]Loading weights:  94%|█████████▎| 796/851 [00:13<00:00, 65.79it/s]Loading weights:  95%|█████████▌| 809/851 [00:13<00:00, 76.53it/s]Loading weights:  96%|█████████▋| 821/851 [00:13<00:00, 84.37it/s]Loading weights:  98%|█████████▊| 830/851 [00:14<00:00, 74.29it/s]Loading weights:  98%|█████████▊| 838/851 [00:14<00:00, 63.39it/s]Loading weights:  99%|█████████▉| 845/851 [00:14<00:00, 60.65it/s]Loading weights: 100%|██████████| 851/851 [00:14<00:00, 59.09it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (297193 > 262144). Running this sequence through the model will result in indexing errors
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+seed 0 mxfp4      ppl 7.8155  (132s)
+seed 0 mbs128     ppl 7.8008  (196s)
+seed 0 mbs128_s   ppl 7.7144  (216s)
+seed 0 mbs512     ppl 8.0274  (230s)
+seed 0 mbs512_s   ppl 8.0031  (248s)
+seed 0 mbs128_a   ppl 7.7871  (288s)
+seed 1 bf16       ppl 7.3716  (250s)
+seed 1 mxfp4      ppl 7.9975  (235s)
+seed 1 mbs128     ppl 7.8211  (258s)
+seed 1 mbs128_s   ppl 7.7254  (265s)
+seed 1 mbs512     ppl 7.6881  (270s)
+seed 1 mbs512_s   ppl 7.9210  (264s)
+seed 1 mbs128_a   ppl 7.8905  (277s)
+seed 2 bf16       ppl 7.3796  (246s)
+seed 2 mxfp4      ppl 7.9375  (169s)
+seed 2 mbs128     ppl 7.9778  (193s)
+seed 2 mbs128_s   ppl 7.6633  (206s)
+seed 2 mbs512     ppl 7.5899  (217s)
+seed 2 mbs512_s   ppl 8.1783  (233s)
+seed 2 mbs128_a   ppl 7.8549  (261s)
+seed 3 bf16       ppl 7.3747  (247s)
+seed 3 mxfp4      ppl 7.9799  (255s)
+seed 3 mbs128     ppl 7.8495  (259s)
+seed 3 mbs128_s   ppl 8.0641  (255s)
+seed 3 mbs512     ppl 7.8648  (247s)
+seed 3 mbs512_s   ppl 7.9177  (253s)
+seed 3 mbs128_a   ppl 7.8817  (272s)
+seed 4 bf16       ppl 7.3957  (254s)
+seed 4 mxfp4      ppl 7.8276  (266s)
+seed 4 mbs128     ppl 7.8690  (234s)
+seed 4 mbs128_s   ppl 7.6288  (220s)
+seed 4 mbs512     ppl 7.6165  (226s)
+seed 4 mbs512_s   ppl 7.8867  (221s)
+seed 4 mbs128_a   ppl 7.7945  (249s)
+
+format         mean     sd  per seed
+bf16         7.3826 0.0105  7.392 7.372 7.380 7.375 7.396
+mxfp4        7.9116 0.0851  7.815 7.997 7.938 7.980 7.828
+mbs128       7.8636 0.0689  7.801 7.821 7.978 7.850 7.869
+mbs128_s     7.7592 0.1749  7.714 7.725 7.663 8.064 7.629
+mbs512       7.7573 0.1852  8.027 7.688 7.590 7.865 7.616
+mbs512_s     7.9814 0.1182  8.003 7.921 8.178 7.918 7.887
+mbs128_a     7.8417 0.0484  7.787 7.891 7.855 7.882 7.794

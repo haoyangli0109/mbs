@@ -1,0 +1,26 @@
+2026-11-02 15:31:30 start mbs128_w on GPU 7 port 18300
+2026-11-02 15:32:49 up; smoke: ' Paris.\nA. True\nB. False\n\n<think>\nThinking Process:\n\n1.  **Analyze the'
+[atom 15:32:01] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 128 layers online-quantized
+[atom 15:32:01] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/mbs128_w/online_quant_info_20261102_153201_785957907.json
+2026-11-02:15:34:15 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-02:15:34:15 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/mbs128_w/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3.5-9B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 3, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     3|exact_match|↑  |0.7081|±  |0.0125|
+|     |       |strict-match    |     3|exact_match|↑  |0.7597|±  |0.0118|
+
+2026-11-02 15:34:27 done mbs128_w
+2026-11-02 15:34:27 start mbs128_s on GPU 7 port 18300
+2026-11-02 15:35:31 up; smoke: ' Paris.\nA. True\nB. False\n\n<think>\n\n</think>\n\nThe capital of France is Paris.\n\n**'
+[atom 15:34:56] [rank_0] Post-load online quantization and weight processing done: 0.62 seconds, 128 layers online-quantized
+[atom 15:34:56] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/mbs128_s/online_quant_info_20261102_153456_601320521.json
+2026-11-02:15:36:55 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-02:15:36:55 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/mbs128_s/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3.5-9B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 3, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     3|exact_match|↑  |0.7536|±  |0.0119|
+|     |       |strict-match    |     3|exact_match|↑  |0.7635|±  |0.0117|
+
+2026-11-02 15:37:06 done mbs128_s

@@ -1,0 +1,49 @@
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<03:44,  1.90it/s]Loading weights:   0%|          | 2/427 [00:01<03:34,  1.98it/s]Loading weights:   4%|▎         | 15/427 [00:01<00:20, 19.83it/s]Loading weights:   7%|▋         | 29/427 [00:01<00:10, 39.08it/s]Loading weights:  10%|█         | 43/427 [00:01<00:06, 56.79it/s]Loading weights:  14%|█▍        | 61/427 [00:01<00:04, 79.70it/s]Loading weights:  19%|█▊        | 79/427 [00:01<00:03, 101.65it/s]Loading weights:  22%|██▏       | 95/427 [00:01<00:02, 111.89it/s]Loading weights:  26%|██▌       | 109/427 [00:01<00:02, 114.23it/s]Loading weights:  30%|███       | 129/427 [00:01<00:02, 136.13it/s]Loading weights:  34%|███▍      | 145/427 [00:02<00:02, 122.71it/s]Loading weights:  37%|███▋      | 159/427 [00:02<00:02, 101.19it/s]Loading weights:  41%|████      | 173/427 [00:02<00:02, 103.53it/s]Loading weights:  44%|████▍     | 187/427 [00:02<00:02, 105.79it/s]Loading weights:  47%|████▋     | 200/427 [00:02<00:02, 110.21it/s]Loading weights:  50%|████▉     | 212/427 [00:02<00:02, 92.18it/s] Loading weights:  53%|█████▎    | 225/427 [00:02<00:02, 90.09it/s]Loading weights:  56%|█████▌    | 240/427 [00:03<00:01, 99.84it/s]Loading weights:  59%|█████▉    | 253/427 [00:03<00:01, 103.72it/s]Loading weights:  62%|██████▏   | 264/427 [00:03<00:01, 85.61it/s] Loading weights:  65%|██████▌   | 279/427 [00:03<00:01, 98.49it/s]Loading weights:  68%|██████▊   | 292/427 [00:03<00:01, 100.26it/s]Loading weights:  71%|███████   | 303/427 [00:03<00:01, 100.58it/s]Loading weights:  74%|███████▎  | 314/427 [00:03<00:01, 83.72it/s] Loading weights:  78%|███████▊  | 331/427 [00:04<00:01, 86.67it/s]Loading weights:  80%|████████  | 343/427 [00:04<00:00, 93.44it/s]Loading weights:  83%|████████▎ | 355/427 [00:04<00:00, 98.10it/s]Loading weights:  86%|████████▌ | 366/427 [00:04<00:00, 86.30it/s]Loading weights:  90%|████████▉ | 384/427 [00:04<00:00, 107.75it/s]Loading weights:  93%|█████████▎| 398/427 [00:04<00:00, 109.45it/s]Loading weights:  96%|█████████▋| 411/427 [00:04<00:00, 108.42it/s]Loading weights:  99%|█████████▉| 423/427 [00:04<00:00, 103.59it/s]Loading weights: 100%|██████████| 427/427 [00:04<00:00, 85.79it/s] 
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (297193 > 262144). Running this sequence through the model will result in indexing errors
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+seed 0 bf16       ppl 8.6854  (33s)
+seed 0 mxfp4      ppl 10.1420  (27s)
+seed 0 mbs128     ppl 9.1730  (27s)
+seed 0 mbs128_s   ppl 9.0430  (27s)
+seed 0 mbs512     ppl 9.3888  (27s)
+seed 0 mbs512_s   ppl 9.5726  (27s)
+seed 0 mbs128_a   ppl 9.6975  (27s)
+seed 1 bf16       ppl 8.5831  (25s)
+seed 1 mxfp4      ppl 9.9504  (27s)
+seed 1 mbs128     ppl 8.8833  (27s)
+seed 1 mbs128_s   ppl 8.9291  (27s)
+seed 1 mbs512     ppl 8.8507  (27s)
+seed 1 mbs512_s   ppl 9.1953  (27s)
+seed 1 mbs128_a   ppl 9.4353  (27s)
+seed 2 bf16       ppl 8.5762  (24s)
+seed 2 mxfp4      ppl 9.9185  (27s)
+seed 2 mbs128     ppl 8.8511  (27s)
+seed 2 mbs128_s   ppl 8.7998  (27s)
+seed 2 mbs512     ppl 9.0239  (27s)
+seed 2 mbs512_s   ppl 8.8662  (27s)
+seed 2 mbs128_a   ppl 9.3826  (27s)
+seed 3 bf16       ppl 8.6543  (24s)
+seed 3 mxfp4      ppl 10.1045  (27s)
+seed 3 mbs128     ppl 9.3829  (27s)
+seed 3 mbs128_s   ppl 8.8186  (27s)
+seed 3 mbs512     ppl 9.1897  (27s)
+seed 3 mbs512_s   ppl 9.3887  (27s)
+seed 3 mbs128_a   ppl 9.5696  (33s)
+seed 4 bf16       ppl 8.7726  (54s)
+seed 4 mxfp4      ppl 10.0245  (59s)
+seed 4 mbs128     ppl 8.9720  (74s)
+seed 4 mbs128_s   ppl 9.1611  (94s)
+seed 4 mbs512     ppl 8.9040  (64s)
+seed 4 mbs512_s   ppl 9.3794  (66s)
+seed 4 mbs128_a   ppl 9.4156  (65s)
+
+format         mean     sd  per seed
+bf16         8.6543 0.0809  8.685 8.583 8.576 8.654 8.773
+mxfp4       10.0280 0.0960  10.142 9.950 9.918 10.105 10.024
+mbs128       9.0524 0.2232  9.173 8.883 8.851 9.383 8.972
+mbs128_s     8.9503 0.1529  9.043 8.929 8.800 8.819 9.161
+mbs512       9.0714 0.2201  9.389 8.851 9.024 9.190 8.904
+mbs512_s     9.2805 0.2673  9.573 9.195 8.866 9.389 9.379
+mbs128_a     9.5001 0.1313  9.697 9.435 9.383 9.570 9.416

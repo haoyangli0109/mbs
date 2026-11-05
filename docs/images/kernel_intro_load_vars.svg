@@ -1,0 +1,335 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="786" viewBox="0 0 860 786" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="单 wave kernel 的 load 里各变量指向哪些数据，以 K = 512 为例。① 一行 B 上的刻度：kc、stage 和 h、g、kblk、ktile、kpack；② 一步里一个 16 行子块是 16 行 × 64 B，lane L 读第 L%16 行的第 L/16 块；③ 同一个 lane 在每个子块里都读第 row16 行">
+<rect width="860" height="786" fill="#ffffff"/>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">单 wave kernel 的 load：每个变量指向哪些数据（以 K = 512 为例）</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">B 的一行 256 B，一小格 16 B（32 个 K）。深色是 lane 37（row16 = 5，g = 2）在第 kc = 1 步读的 16 B</text>
+<text x="14" y="78" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">① 一行 B 上的几种刻度：横向是 K，往右一小格 +16 B</text>
+<text x="236" y="102" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行内字节 kp</text>
+<text x="244" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="281" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">16</text>
+<text x="318" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">32</text>
+<text x="355" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">48</text>
+<text x="392" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">64</text>
+<text x="429" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">80</text>
+<text x="466" y="102" font-size="9" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="700">96</text>
+<text x="503" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">112</text>
+<text x="540" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">128</text>
+<text x="577" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">144</text>
+<text x="614" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">160</text>
+<text x="651" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">176</text>
+<text x="688" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">192</text>
+<text x="725" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">208</text>
+<text x="762" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">224</text>
+<text x="799" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">240</text>
+<text x="836" y="102" font-size="8" fill="#6b7280" text-anchor="middle" dominant-baseline="central">256</text>
+<text x="236" y="126" font-size="10" fill="#111827" text-anchor="end" dominant-baseline="central">kc：第几步（64 B，128 个 K）</text>
+<rect x="244" y="114" width="148" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="318" y="126" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">kc = 0</text>
+<rect x="392" y="114" width="148" height="24" fill="#86efac" stroke="#ffffff" stroke-width="1"/>
+<text x="466" y="126" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">kc = 1</text>
+<rect x="540" y="114" width="148" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="614" y="126" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">kc = 2</text>
+<rect x="688" y="114" width="148" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="762" y="126" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">kc = 3</text>
+<text x="236" y="156" font-size="10" fill="#111827" text-anchor="end" dominant-baseline="central">wg kernel 里：stage = kc/2，h = kc%2</text>
+<rect x="244" y="144" width="148" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="318" y="156" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage 0 · h 0</text>
+<rect x="392" y="144" width="148" height="24" fill="#86efac" stroke="#ffffff" stroke-width="1"/>
+<text x="466" y="156" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">stage 0 · h 1</text>
+<rect x="540" y="144" width="148" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="614" y="156" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage 1 · h 0</text>
+<rect x="688" y="144" width="148" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="762" y="156" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">stage 1 · h 1</text>
+<text x="236" y="186" font-size="10" fill="#111827" text-anchor="end" dominant-baseline="central">g = lane/16：这一步里第几块</text>
+<rect x="244" y="174" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="262.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="281" y="174" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="299.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="318" y="174" width="37" height="24" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="336.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">2</text>
+<rect x="355" y="174" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="373.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">3</text>
+<rect x="392" y="174" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="410.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="429" y="174" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="447.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="466" y="174" width="37" height="24" fill="#111827" stroke="#ffffff" stroke-width="1"/>
+<text x="484.5" y="186" font-size="9.5" fill="#ffffff" text-anchor="middle" dominant-baseline="central" font-weight="600">2</text>
+<rect x="503" y="174" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="521.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">3</text>
+<rect x="540" y="174" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="558.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="577" y="174" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="595.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="614" y="174" width="37" height="24" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="632.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">2</text>
+<rect x="651" y="174" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="669.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">3</text>
+<rect x="688" y="174" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="706.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="725" y="174" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="743.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="762" y="174" width="37" height="24" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="780.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">2</text>
+<rect x="799" y="174" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="817.5" y="186" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="236" y="216" font-size="10" fill="#111827" text-anchor="end" dominant-baseline="central">kblk = 4·kc + g：第几个 32-K 块</text>
+<rect x="244" y="204" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="262.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="281" y="204" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="299.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="318" y="204" width="37" height="24" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="336.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">2</text>
+<rect x="355" y="204" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="373.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">3</text>
+<rect x="392" y="204" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="410.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">4</text>
+<rect x="429" y="204" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="447.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">5</text>
+<rect x="466" y="204" width="37" height="24" fill="#111827" stroke="#ffffff" stroke-width="1"/>
+<text x="484.5" y="216" font-size="9.5" fill="#ffffff" text-anchor="middle" dominant-baseline="central" font-weight="600">6</text>
+<rect x="503" y="204" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="521.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">7</text>
+<rect x="540" y="204" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="558.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">8</text>
+<rect x="577" y="204" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="595.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">9</text>
+<rect x="614" y="204" width="37" height="24" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="632.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">10</text>
+<rect x="651" y="204" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="669.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">11</text>
+<rect x="688" y="204" width="37" height="24" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="706.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">12</text>
+<rect x="725" y="204" width="37" height="24" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="743.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">13</text>
+<rect x="762" y="204" width="37" height="24" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="780.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">14</text>
+<rect x="799" y="204" width="37" height="24" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="817.5" y="216" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">15</text>
+<text x="236" y="246" font-size="10" fill="#111827" text-anchor="end" dominant-baseline="central">ktile = 2·kc + g/2：第几个 K tile（32 B）</text>
+<rect x="244" y="234" width="74" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="281" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="318" y="234" width="74" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="355" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="392" y="234" width="74" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="429" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">2</text>
+<rect x="466" y="234" width="74" height="24" fill="#86efac" stroke="#ffffff" stroke-width="1"/>
+<text x="503" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">3</text>
+<rect x="540" y="234" width="74" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="577" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">4</text>
+<rect x="614" y="234" width="74" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="651" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">5</text>
+<rect x="688" y="234" width="74" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="725" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">6</text>
+<rect x="762" y="234" width="74" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="799" y="246" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">7</text>
+<text x="236" y="276" font-size="10" fill="#111827" text-anchor="end" dominant-baseline="central">kpack = g &amp; 1：K tile 里第几格</text>
+<rect x="244" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="262.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="281" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="299.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="318" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="336.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="355" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="373.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="392" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="410.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="429" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="447.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="466" y="264" width="37" height="24" fill="#111827" stroke="#ffffff" stroke-width="1"/>
+<text x="484.5" y="276" font-size="9.5" fill="#ffffff" text-anchor="middle" dominant-baseline="central" font-weight="600">0</text>
+<rect x="503" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="521.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="540" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="558.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="577" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="595.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="614" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="632.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="651" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="669.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="688" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="706.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="725" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="743.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="762" y="264" width="37" height="24" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="780.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="799" y="264" width="37" height="24" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<text x="817.5" y="276" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="14" y="302" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">lane 37 在 kc = 1：kpstart = ktile·32 + kpack·16 = 3·32 + 0·16 = 96，也就是 kc·64 + g·16 = 64 + 32 = 96；A 的 aoff 是同一个值</text>
+<text x="14" y="322" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">kblk = 6 用来查这 32 个 K 的 scale；ktile、kpack 就是 4.1 节说的“K tile”和“格”，flatB 会把 kpstart 再拆成这两位</text>
+<text x="14" y="364" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">② 一步里一个子块：16 行 × 64 B（1 KB）</text>
+<text x="14" y="384" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">格里是 lane 号：lane L 读第 row16 = L%16 行、</text>
+<text x="14" y="402" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">第 g = L/16 块（16 B）</text>
+<text x="97" y="425" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">g = 0</text>
+<text x="143" y="425" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">g = 1</text>
+<text x="189" y="425" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">g = 2</text>
+<text x="235" y="425" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">g = 3</text>
+<text x="68" y="442" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 0</text>
+<rect x="74" y="434" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="442" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">0</text>
+<rect x="120" y="434" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="442" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">16</text>
+<rect x="166" y="434" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="442" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">32</text>
+<rect x="212" y="434" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="442" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">48</text>
+<text x="68" y="458" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 1</text>
+<rect x="74" y="450" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="458" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">1</text>
+<rect x="120" y="450" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="458" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">17</text>
+<rect x="166" y="450" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="458" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">33</text>
+<rect x="212" y="450" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="458" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">49</text>
+<text x="68" y="474" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 2</text>
+<rect x="74" y="466" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="474" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">2</text>
+<rect x="120" y="466" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="474" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">18</text>
+<rect x="166" y="466" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="474" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">34</text>
+<rect x="212" y="466" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="474" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">50</text>
+<text x="68" y="490" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 3</text>
+<rect x="74" y="482" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="490" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">3</text>
+<rect x="120" y="482" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="490" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">19</text>
+<rect x="166" y="482" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="490" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">35</text>
+<rect x="212" y="482" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="490" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">51</text>
+<text x="68" y="506" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 4</text>
+<rect x="74" y="498" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="506" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">4</text>
+<rect x="120" y="498" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="506" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">20</text>
+<rect x="166" y="498" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="506" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">36</text>
+<rect x="212" y="498" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="506" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">52</text>
+<text x="68" y="522" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 5</text>
+<rect x="74" y="514" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="522" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">5</text>
+<rect x="120" y="514" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="522" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">21</text>
+<rect x="166" y="514" width="46" height="16" fill="#111827" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="522" font-size="8.5" fill="#ffffff" text-anchor="middle" dominant-baseline="central" font-weight="600">37</text>
+<rect x="212" y="514" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="522" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">53</text>
+<text x="68" y="538" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 6</text>
+<rect x="74" y="530" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="538" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">6</text>
+<rect x="120" y="530" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="538" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">22</text>
+<rect x="166" y="530" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="538" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">38</text>
+<rect x="212" y="530" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="538" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">54</text>
+<text x="68" y="554" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 7</text>
+<rect x="74" y="546" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="554" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">7</text>
+<rect x="120" y="546" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="554" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">23</text>
+<rect x="166" y="546" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="554" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">39</text>
+<rect x="212" y="546" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="554" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">55</text>
+<text x="68" y="570" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 8</text>
+<rect x="74" y="562" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="570" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">8</text>
+<rect x="120" y="562" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="570" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">24</text>
+<rect x="166" y="562" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="570" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">40</text>
+<rect x="212" y="562" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="570" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">56</text>
+<text x="68" y="586" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 9</text>
+<rect x="74" y="578" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="586" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">9</text>
+<rect x="120" y="578" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="586" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">25</text>
+<rect x="166" y="578" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="586" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">41</text>
+<rect x="212" y="578" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="586" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">57</text>
+<text x="68" y="602" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 10</text>
+<rect x="74" y="594" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="602" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">10</text>
+<rect x="120" y="594" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="602" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">26</text>
+<rect x="166" y="594" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="602" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">42</text>
+<rect x="212" y="594" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="602" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">58</text>
+<text x="68" y="618" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 11</text>
+<rect x="74" y="610" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="618" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">11</text>
+<rect x="120" y="610" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="618" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">27</text>
+<rect x="166" y="610" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="618" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">43</text>
+<rect x="212" y="610" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="618" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">59</text>
+<text x="68" y="634" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 12</text>
+<rect x="74" y="626" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="634" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">12</text>
+<rect x="120" y="626" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="634" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">28</text>
+<rect x="166" y="626" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="634" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">44</text>
+<rect x="212" y="626" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="634" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">60</text>
+<text x="68" y="650" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 13</text>
+<rect x="74" y="642" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="650" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">13</text>
+<rect x="120" y="642" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="650" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">29</text>
+<rect x="166" y="642" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="650" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">45</text>
+<rect x="212" y="642" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="650" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">61</text>
+<text x="68" y="666" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 14</text>
+<rect x="74" y="658" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="666" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">14</text>
+<rect x="120" y="658" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="666" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">30</text>
+<rect x="166" y="658" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="666" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">46</text>
+<rect x="212" y="658" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="666" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">62</text>
+<text x="68" y="682" font-size="8.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 15</text>
+<rect x="74" y="674" width="46" height="16" fill="#dbeafe" stroke="#ffffff" stroke-width="1"/>
+<text x="97" y="682" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">15</text>
+<rect x="120" y="674" width="46" height="16" fill="#ffedd5" stroke="#ffffff" stroke-width="1"/>
+<text x="143" y="682" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">31</text>
+<rect x="166" y="674" width="46" height="16" fill="#dcfce7" stroke="#ffffff" stroke-width="1"/>
+<text x="189" y="682" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">47</text>
+<rect x="212" y="674" width="46" height="16" fill="#f3e8ff" stroke="#ffffff" stroke-width="1"/>
+<text x="235" y="682" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central">63</text>
+<rect x="74" y="434" width="184" height="256" fill="none" stroke="#111827" stroke-width="1"/>
+<text x="380" y="364" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">③ 行方向：tile 里的 NSUB 个子块（这里 NSUB = 4）</text>
+<text x="380" y="384" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">同一个 lane 在每个子块里都读第 row16 行：</text>
+<text x="380" y="402" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">bn = n0 + 16·ni + row16</text>
+<text x="432" y="425" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">B 的行</text>
+<rect x="400" y="434" width="64" height="64" fill="#dbeafe" stroke="#111827" stroke-width="1"/>
+<rect x="400" y="454" width="64" height="4" fill="#111827"/>
+<text x="474" y="458" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">ni = 0：行 n0+0 … n0+15</text>
+<text x="474" y="475" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">lane 37 读 n0+5（深色）</text>
+<rect x="400" y="498" width="64" height="64" fill="#ffedd5" stroke="#111827" stroke-width="1"/>
+<rect x="400" y="518" width="64" height="4" fill="#111827"/>
+<text x="474" y="522" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">ni = 1：行 n0+16 … n0+31</text>
+<text x="474" y="539" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">lane 37 读 n0+21（深色）</text>
+<rect x="400" y="562" width="64" height="64" fill="#dcfce7" stroke="#111827" stroke-width="1"/>
+<rect x="400" y="582" width="64" height="4" fill="#111827"/>
+<text x="474" y="586" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">ni = 2：行 n0+32 … n0+47</text>
+<text x="474" y="603" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">lane 37 读 n0+37（深色）</text>
+<rect x="400" y="626" width="64" height="64" fill="#f3e8ff" stroke="#111827" stroke-width="1"/>
+<rect x="400" y="646" width="64" height="4" fill="#111827"/>
+<text x="474" y="650" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">ni = 3：行 n0+48 … n0+63</text>
+<text x="474" y="667" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">lane 37 读 n0+53（深色）</text>
+<text x="380" y="710" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">n0 = blockIdx.x·16·NSUB；A 同理：am = m0 + 16·mi + row16，</text>
+<text x="380" y="730" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">m0 = blockIdx.y·16·MSUB</text>
+<text x="14" y="766" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">合起来：flatB(bn, kpstart) = (bn/16)·8K + kc·1024 + 16·lane。例：n0 = 64、ni = 2 → bn = 101，地址 = 6·4096 + 1·1024 + 16·37 = 26192</text>
+</svg>

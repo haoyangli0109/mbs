@@ -1,0 +1,27 @@
+2026-11-03 04:03:43 GPU 5 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mxfp4 bash e2e.sh run mxfp4 5 18330
+2026-11-03 04:03:43 GPU 7 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mbs128_s bash e2e.sh run mbs128_s 7 18300
+2026-11-03 04:03:43 start mxfp4 on GPU 5 port 18330
+2026-11-03 04:03:43 GPU 6 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mbs128 bash e2e.sh run mbs128 6 18320
+2026-11-03 04:03:43 start mbs128_s on GPU 7 port 18300
+2026-11-03 04:03:43 start mbs128 on GPU 6 port 18320
+2026-11-03 04:05:12 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 04:04:28] [rank_0] Post-load online quantization and weight processing done: 0.69 seconds, 256 layers online-quantized
+[atom 04:04:28] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b/mbs128/online_quant_info_20261103_040428_605963594.json
+2026-11-03 04:05:12 up; smoke: ' Paris.\nThe capital of Germany is Berlin.\nThe capital of Italy is Rome.\nThe capital of Spain is'
+[atom 04:04:28] [rank_0] Post-load online quantization and weight processing done: 0.71 seconds, 256 layers online-quantized
+[atom 04:04:28] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b/mbs128_s/online_quant_info_20261103_040428_243221599.json
+2026-11-03 04:05:48 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 04:04:27] [rank_0] Post-load online quantization and weight processing done: 0.11 seconds, 256 layers online-quantized
+[atom 04:04:27] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b/mxfp4/online_quant_info_20261103_040427_362334202.json
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+2026-11-03 04:13:42 done mbs128
+2026-11-03 04:13:42 GPU 6 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mbs128 bash e2e.sh run mbs128 6 18320
+[ 118.0 min] 149/150 done, 0 failed, 716 tok/s  aime26 134/149
+finished in 118.3 min, 0 failed
+2026-11-03 06:04:15 done mxfp4
+2026-11-03 06:04:15 GPU 5 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mxfp4 bash e2e.sh run mxfp4 5 18330
+[ 160.1 min] 149/150 done, 0 failed, 592 tok/s  aime26 139/149
+finished in 160.1 min, 0 failed
+2026-11-03 06:45:27 done mbs128_s
+2026-11-03 06:45:27 GPU 7 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mbs128_s bash e2e.sh run mbs128_s 7 18300

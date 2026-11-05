@@ -1,0 +1,7 @@
+2026-11-02 19:23:06 start mbs128_s on GPU 7 port 18300
+2026-11-02 19:24:15 up; smoke: ' Paris.\nA. True\nB. False\n\n<think>\n\n</think>\n\nThe capital of France is Paris.\n\n**'
+[atom 19:23:38] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 128 layers online-quantized
+[atom 19:23:38] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime/mbs128_s/online_quant_info_20261102_192338_601998719.json
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+2026-11-02 19:26:10 done mbs128_s

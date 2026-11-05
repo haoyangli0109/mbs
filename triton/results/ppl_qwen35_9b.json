@@ -1,0 +1,131 @@
+{
+ "bf16": {
+  "ppl": 8.64649423029051,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.0,
+  "eval_seconds": 35.6
+ },
+ "mxfp4": {
+  "ppl": 10.059351385698525,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.6,
+  "eval_seconds": 26.5
+ },
+ "mbs128": {
+  "ppl": 8.84285399856237,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.2,
+  "eval_seconds": 27.3
+ },
+ "mbs256": {
+  "ppl": 9.102477217683326,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.2,
+  "eval_seconds": 27.3
+ },
+ "mbs512": {
+  "ppl": 8.779925182653116,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.2,
+  "eval_seconds": 28.1
+ },
+ "mbs128_a": {
+  "ppl": 9.499015042354786,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.0,
+  "eval_seconds": 27.8
+ },
+ "mbs128_s": {
+  "ppl": 8.874270474706716,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "quant_seconds": 0.0,
+  "eval_seconds": 27.5
+ },
+ "mbs128_w": {
+  "ppl": 9.159209095973244,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 0.8,
+  "eval_seconds": 34.9
+ },
+ "mbs256_a": {
+  "ppl": 9.521822716011737,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 0.2,
+  "eval_seconds": 28.1
+ },
+ "mbs1024": {
+  "ppl": 8.913907738242585,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 0.1,
+  "eval_seconds": 27.7
+ },
+ "mbs128_w256": {
+  "ppl": 8.964993128402298,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 2.2,
+  "eval_seconds": 28.0
+ },
+ "mbs256_s": {
+  "ppl": 9.391152189902506,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 0.9,
+  "eval_seconds": 35.4
+ },
+ "mbs512_s": {
+  "ppl": 9.25493164651627,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 0.2,
+  "eval_seconds": 27.0
+ },
+ "mbs1024_s": {
+  "ppl": 9.410932022204092,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 248,
+  "quant_seconds": 0.0,
+  "eval_seconds": 27.4
+ }
+}

@@ -1,0 +1,12 @@
+plain {"BLOCK_K": 256, "BLOCK_M": 256, "BLOCK_N": 256, "GROUP_M": 4, "matrix_instr_nonkdim": 16, "num_stages": 2, "num_warps": 8, "waves_per_eu": 1}
+plain M=8192 N=24576 K=4096: 640.7 us, 2574 TFLOPS, {'agpr_count': '116', 'sgpr_spill_count': '0', 'vgpr_count': '244', 'vgpr_spill_count': '0'}
+  v_mfma*=64  v_accvgpr*=55  s_*=49  ds_read*=36  v_add_u32_e32=30  s_waitcnt*=20  buffer_load*=12  v_perm*=6  ds_bpermute_b32=4  v_mov*=4  ds_write*=4  s_barrier*=2  v_cndmask_b32_e32=2  v_cndmask_b32_e64=2
+  w|LLLwLRRRRRRRRRRRRwRRwRRwMRRMMwMwMMMMMMMMMMMMMMMMMMMMLLMMMMMMMMLLwLwLRRRRRRRRRRRRRwRwwRRwMRRwMwMwMMMMMMMMMMMMMLL|MMMMMMMMMMMMMMMMwWwWwWwW
+mbs128 {"BLOCK_K": 256, "BLOCK_M": 128, "BLOCK_N": 256, "GROUP_M": 4, "matrix_instr_nonkdim": 32, "num_stages": 2, "num_warps": 4, "waves_per_eu": 1}
+mbs128 M=8192 N=24576 K=4096: 1220.8 us, 1351 TFLOPS, {'agpr_count': '152', 'sgpr_spill_count': '0', 'vgpr_count': '408', 'vgpr_spill_count': '0'}
+  v_pk_mul*=253  ds_read*=56  v_accvgpr*=37  s_waitcnt*=33  s_*=32  v_mfma*=32  buffer_load*=28  v_add_u32_e32=20  v_cndmask_b32_e64=20  v_perm*=12  v_add_lshl_u32=10  ds_write*=8  v_lshl_or_b32=6  v_mul_f32*=6  s_barrier*=4  v_mov*=2
+  w|LLLLLLLLLLLRRRRRRRRRRRRRRRRRRRRLLLwwWw|RRwVVVVwVVVVRRwVVVVwVVVVRRwVVVVwVVVVRRwVVVVwVVVVwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVwVVVVVVVVVVVVVVVVVVVVVVVVLLLVLVMVVVMLLLLLLVVRMRRRRRRRRRRRwwMwMwwMMMMMMMRRRRRRRMMRMMLLLLw|Ww|RRwVVVVwVVVVRRwVVVVwVVVVRRwVVVVwVVVVRRwVVVVwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMMVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMMWWWWWWMMMwMwMMMMMMMMw
+mbs256 {"BLOCK_K": 256, "BLOCK_M": 256, "BLOCK_N": 128, "GROUP_M": 4, "matrix_instr_nonkdim": 16, "num_stages": 3, "num_warps": 8, "waves_per_eu": 2}
+mbs256 M=8192 N=24576 K=4096: 1028.1 us, 1604 TFLOPS, {'agpr_count': '67', 'sgpr_spill_count': '0', 'vgpr_count': '195', 'vgpr_spill_count': '0'}
+  v_pk_mul*=64  s_*=46  v_mfma*=32  v_cndmask_b32_e64=29  v_add_u32_e32=24  ds_read*=18  buffer_load*=16  s_waitcnt*=10  v_perm*=4  ds_bpermute_b32=2  s_barrier*=2
+  LLLwLwLRRRRLRRRRRRRRRRRRRLLLLLLLLwwwVVVwVVVVVLLwVVVVwVVVVRw|MVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMMMMMMMMMMMMMMMMMMMMWMw|MMMMMMMMMM

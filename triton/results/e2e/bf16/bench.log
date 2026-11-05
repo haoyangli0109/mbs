@@ -1,0 +1,123 @@
+Namespace(backend='vllm', base_url='http://localhost:18320', host='127.0.0.1', port=8000, endpoint='/v1/completions', dataset_name='random', dataset_path=None, max_concurrency=64, model='/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', tokenizer=None, best_of=1, use_beam_search=False, num_prompts=256, logprobs=None, request_rate=inf, burstiness=1.0, seed=0, trust_remote_code=False, disable_tqdm=False, profile=False, save_result=True, save_detailed=False, metadata=None, result_dir='/home/haoyanli/a121_quark/mbs/triton/results/e2e/bf16/bench', result_filename='isl1024_osl1024_c64.json', ignore_eos=True, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='99', goodput=None, sonnet_input_len=550, sonnet_output_len=150, sonnet_prefix_len=200, sharegpt_output_len=None, random_input_len=1024, random_output_len=1024, random_range_ratio=1.0, random_prefix_len=0, use_chat_template=False, hf_subset=None, hf_split=None, hf_output_len=None, tokenizer_mode='auto', served_model_name=None, lora_modules=None, num_warmups=1)
+-------------------  Input/Output Length Statistics  -------------------
+ input_lens : min=1024  max=1024  mean=1024.00  avg_token_mismatch=0.00  
+ output_lens: min=1024  max=1024  mean=1024.00 
+------------------------------------------------------------------------ 
+
+Starting initial single prompt test run...
+Warming up with 1 requests...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:12<00:00, 12.61s/it]100%|██████████| 1/1 [00:12<00:00, 12.61s/it]
+Warmup completed.
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 64
+  0%|          | 0/256 [00:00<?, ?it/s]  0%|          | 1/256 [00:09<40:02,  9.42s/it] 25%|██▌       | 65/256 [00:18<00:47,  4.06it/s] 50%|█████     | 129/256 [00:28<00:23,  5.34it/s] 75%|███████▌  | 193/256 [00:37<00:10,  5.92it/s]100%|██████████| 256/256 [00:37<00:00,  6.83it/s]
+Starting main benchmark run...
+============ Serving Benchmark Result ============
+Successful requests:                     256       
+Benchmark duration (s):                  37.49     
+Total input tokens:                      262144    
+Total generated tokens:                  262144    
+Request throughput (req/s):              6.83      
+Output token throughput (tok/s):         6992.57   
+Total Token throughput (tok/s):          13985.14  
+Concurrency:                             63.93     
+---------------Time to First Token----------------
+Mean TTFT (ms):                          756.41    
+Median TTFT (ms):                        708.21    
+P99 TTFT (ms):                           1172.45   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          8.41      
+Median TPOT (ms):                        8.48      
+P99 TPOT (ms):                           8.99      
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           8.40      
+Median ITL (ms):                         7.92      
+P99 ITL (ms):                            10.00     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          9361.59   
+Median E2EL (ms):                        9370.59   
+P99 E2EL (ms):                           9416.57   
+==================================================
+Namespace(backend='vllm', base_url='http://localhost:18320', host='127.0.0.1', port=8000, endpoint='/v1/completions', dataset_name='random', dataset_path=None, max_concurrency=32, model='/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', tokenizer=None, best_of=1, use_beam_search=False, num_prompts=128, logprobs=None, request_rate=inf, burstiness=1.0, seed=0, trust_remote_code=False, disable_tqdm=False, profile=False, save_result=True, save_detailed=False, metadata=None, result_dir='/home/haoyanli/a121_quark/mbs/triton/results/e2e/bf16/bench', result_filename='isl4096_osl256_c32.json', ignore_eos=True, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='99', goodput=None, sonnet_input_len=550, sonnet_output_len=150, sonnet_prefix_len=200, sharegpt_output_len=None, random_input_len=4096, random_output_len=256, random_range_ratio=1.0, random_prefix_len=0, use_chat_template=False, hf_subset=None, hf_split=None, hf_output_len=None, tokenizer_mode='auto', served_model_name=None, lora_modules=None, num_warmups=1)
+-------------------  Input/Output Length Statistics  -------------------
+ input_lens : min=4096  max=4096  mean=4096.00  avg_token_mismatch=0.00  
+ output_lens: min=256   max=256   mean=256.00  
+------------------------------------------------------------------------ 
+
+Starting initial single prompt test run...
+Warming up with 1 requests...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:01<00:00,  1.58s/it]100%|██████████| 1/1 [00:01<00:00,  1.59s/it]
+Warmup completed.
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 32
+  0%|          | 0/128 [00:00<?, ?it/s]  1%|          | 1/128 [00:04<08:40,  4.10s/it] 26%|██▌       | 33/128 [00:08<00:20,  4.72it/s] 51%|█████     | 65/128 [00:12<00:10,  6.16it/s] 76%|███████▌  | 97/128 [00:16<00:04,  6.81it/s]100%|██████████| 128/128 [00:16<00:00,  7.84it/s]
+Starting main benchmark run...
+============ Serving Benchmark Result ============
+Successful requests:                     128       
+Benchmark duration (s):                  16.32     
+Total input tokens:                      524288    
+Total generated tokens:                  32768     
+Request throughput (req/s):              7.84      
+Output token throughput (tok/s):         2007.90   
+Total Token throughput (tok/s):          34134.30  
+Concurrency:                             31.94     
+---------------Time to First Token----------------
+Mean TTFT (ms):                          1261.07   
+Median TTFT (ms):                        1218.61   
+P99 TTFT (ms):                           2159.84   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.02     
+Median TPOT (ms):                        11.21     
+P99 TPOT (ms):                           15.32     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           10.98     
+Median ITL (ms):                         7.43      
+P99 ITL (ms):                            10.03     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          4072.44   
+Median E2EL (ms):                        4071.32   
+P99 E2EL (ms):                           4099.87   
+==================================================
+Namespace(backend='vllm', base_url='http://localhost:18320', host='127.0.0.1', port=8000, endpoint='/v1/completions', dataset_name='random', dataset_path=None, max_concurrency=256, model='/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', tokenizer=None, best_of=1, use_beam_search=False, num_prompts=1024, logprobs=None, request_rate=inf, burstiness=1.0, seed=0, trust_remote_code=False, disable_tqdm=False, profile=False, save_result=True, save_detailed=False, metadata=None, result_dir='/home/haoyanli/a121_quark/mbs/triton/results/e2e/bf16/bench', result_filename='isl1024_osl1024_c256.json', ignore_eos=True, percentile_metrics='ttft,tpot,itl,e2el', metric_percentiles='99', goodput=None, sonnet_input_len=550, sonnet_output_len=150, sonnet_prefix_len=200, sharegpt_output_len=None, random_input_len=1024, random_output_len=1024, random_range_ratio=1.0, random_prefix_len=0, use_chat_template=False, hf_subset=None, hf_split=None, hf_output_len=None, tokenizer_mode='auto', served_model_name=None, lora_modules=None, num_warmups=1)
+-------------------  Input/Output Length Statistics  -------------------
+ input_lens : min=1024  max=1024  mean=1024.00  avg_token_mismatch=0.00  
+ output_lens: min=1024  max=1024  mean=1024.00 
+------------------------------------------------------------------------ 
+
+Starting initial single prompt test run...
+Warming up with 1 requests...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:05<00:00,  5.70s/it]100%|██████████| 1/1 [00:05<00:00,  5.70s/it]
+Warmup completed.
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 256
+  0%|          | 0/1024 [00:00<?, ?it/s]  0%|          | 1/1024 [00:24<6:51:22, 24.13s/it] 25%|██▌       | 257/1024 [00:48<02:02,  6.27it/s] 50%|█████     | 512/1024 [01:04<01:21,  6.27it/s] 50%|█████     | 513/1024 [01:12<01:01,  8.27it/s] 75%|███████▌  | 768/1024 [01:24<00:30,  8.27it/s] 75%|███████▌  | 769/1024 [01:36<00:27,  9.20it/s]100%|██████████| 1024/1024 [01:36<00:00, 10.63it/s]
+Starting main benchmark run...
+============ Serving Benchmark Result ============
+Successful requests:                     1024      
+Benchmark duration (s):                  96.32     
+Total input tokens:                      1048576   
+Total generated tokens:                  1048576   
+Request throughput (req/s):              10.63     
+Output token throughput (tok/s):         10885.99  
+Total Token throughput (tok/s):          21771.99  
+Concurrency:                             255.65    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          2360.02   
+Median TTFT (ms):                        2392.41   
+P99 TTFT (ms):                           4355.44   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          21.20     
+Median TPOT (ms):                        21.24     
+P99 TPOT (ms):                           23.05     
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           21.21     
+Median ITL (ms):                         19.26     
+P99 ITL (ms):                            34.06     
+----------------End-to-end Latency----------------
+Mean E2EL (ms):                          24048.29  
+Median E2EL (ms):                        24036.23  
+P99 E2EL (ms):                           24154.14  
+==================================================

@@ -1,0 +1,58 @@
+{
+ "mxfp4 weights": {
+  "ppl": 10.429499512417262,
+  "weight_qsnr": 18.8845747925394,
+  "max_moved_pct": 74.8512784064104,
+  "span": null,
+  "ncand": 0,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "MBS-S weights": {
+  "ppl": 10.42436526479077,
+  "weight_qsnr": 19.26451284444997,
+  "max_moved_pct": 0.0,
+  "span": null,
+  "ncand": 1,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "MBS-D span 1": {
+  "ppl": 10.505120449040328,
+  "weight_qsnr": 19.91205581079839,
+  "max_moved_pct": 51.10294876467203,
+  "span": 1.0,
+  "ncand": 16,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "MBS-D span 0.5": {
+  "ppl": 10.586529435527064,
+  "weight_qsnr": 19.658830454649852,
+  "max_moved_pct": 54.76297203469392,
+  "span": 0.5,
+  "ncand": 16,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "MBS-D span 0.25": {
+  "ppl": 10.6543686045911,
+  "weight_qsnr": 19.509276912008858,
+  "max_moved_pct": 34.45169200067935,
+  "span": 0.25,
+  "ncand": 16,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "MBS-D span 0.125": {
+  "ppl": 10.676284186065118,
+  "weight_qsnr": 19.45309506427251,
+  "max_moved_pct": 30.16413628767078,
+  "span": 0.125,
+  "ncand": 16,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "MBS-D span 0.0625": {
+  "ppl": 10.63255815861699,
+  "weight_qsnr": 19.382571213112826,
+  "max_moved_pct": 0.0,
+  "span": 0.0625,
+  "ncand": 16,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ }
+}

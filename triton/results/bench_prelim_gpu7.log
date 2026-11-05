@@ -1,0 +1,70 @@
+2026-11-02 14:04:16 start mxfp4 on GPU 7 port 18300
+2026-11-02 14:05:20 up; smoke: ' Paris.\nThe capital of France is Paris.\nA.\nTrue\nB.\nFalse\nThe capital of'
+[atom 14:04:46] [rank_0] Post-load online quantization and weight processing done: 0.06 seconds, 128 layers online-quantized
+[atom 14:04:46] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mxfp4/online_quant_info_20261102_140446_208964778.json
+Request throughput (req/s):              8.20      
+Output token throughput (tok/s):         8395.11   
+Total Token throughput (tok/s):          16790.22  
+Mean TTFT (ms):                          483.44    
+Median TTFT (ms):                        455.45    
+P99 TTFT (ms):                           680.16    
+Mean TPOT (ms):                          7.14      
+Median TPOT (ms):                        7.16      
+P99 TPOT (ms):                           7.44      
+Request throughput (req/s):              10.90     
+Output token throughput (tok/s):         2789.16   
+Total Token throughput (tok/s):          47415.80  
+Mean TTFT (ms):                          765.97    
+Median TTFT (ms):                        741.99    
+P99 TTFT (ms):                           1269.78   
+Mean TPOT (ms):                          8.48      
+Median TPOT (ms):                        8.57      
+P99 TPOT (ms):                           10.90     
+Request throughput (req/s):              13.91     
+Output token throughput (tok/s):         14240.15  
+2026-11-02 14:08:07 done mxfp4
+2026-11-02 14:08:07 done mxfp4
+e2e.sh: line 143: syntax error near unexpected token `;;'
+e2e.sh: line 143: `  ;;'
+2026-11-02 14:08:07 start mbs128 on GPU 7 port 18300
+2026-11-02 14:09:26 up; smoke: ' Paris.\nA. True\nB. False\nAnswer:\nA\n\nWhat is the name of the 1'
+[atom 14:08:42] [rank_0] Post-load online quantization and weight processing done: 0.65 seconds, 128 layers online-quantized
+[atom 14:08:42] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mbs128/online_quant_info_20261102_140842_826438297.json
+Output token throughput (tok/s):         6632.30   
+Mean TTFT (ms):                          745.12    
+Mean TPOT (ms):                          8.92      
+Output token throughput (tok/s):         2007.20   
+Mean TTFT (ms):                          1208.30   
+Mean TPOT (ms):                          11.24     
+Output token throughput (tok/s):         11005.18  
+Mean TTFT (ms):                          2411.71   
+Mean TPOT (ms):                          20.66     
+2026-11-02 14:12:04 done mbs128
+2026-11-02 14:12:04 start mbs256 on GPU 7 port 18300
+2026-11-02 14:13:18 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 14:12:34] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 128 layers online-quantized
+[atom 14:12:34] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mbs256/online_quant_info_20261102_141234_384539772.json
+Output token throughput (tok/s):         7068.85   
+Mean TTFT (ms):                          726.61    
+Mean TPOT (ms):                          8.34      
+Output token throughput (tok/s):         2173.94   
+Mean TTFT (ms):                          1090.30   
+Mean TPOT (ms):                          10.46     
+Output token throughput (tok/s):         12022.45  
+Mean TTFT (ms):                          2047.91   
+Mean TPOT (ms):                          19.28     
+2026-11-02 14:16:31 done mbs256
+2026-11-02 14:16:31 start mbs512 on GPU 7 port 18300
+2026-11-02 14:17:45 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 14:17:01] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 128 layers online-quantized
+[atom 14:17:01] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mbs512/online_quant_info_20261102_141701_130139781.json
+Output token throughput (tok/s):         7023.53   
+Mean TTFT (ms):                          637.62    
+Mean TPOT (ms):                          8.49      
+Output token throughput (tok/s):         2117.88   
+Mean TTFT (ms):                          1050.97   
+Mean TPOT (ms):                          11.01     
+Output token throughput (tok/s):         11558.84  
+Mean TTFT (ms):                          2220.40   
+Mean TPOT (ms):                          19.96     
+2026-11-02 14:21:01 done mbs512

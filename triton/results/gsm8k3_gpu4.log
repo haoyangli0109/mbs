@@ -1,0 +1,24 @@
+2026-11-02 15:24:09 start bf16 on GPU 4 port 18340
+2026-11-02 15:25:55 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+2026-11-02:15:27:33 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-02:15:27:33 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/bf16/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3.5-9B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', 'base_url': 'http://localhost:18340/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 3, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     3|exact_match|↑  |0.8567|±  |0.0097|
+|     |       |strict-match    |     3|exact_match|↑  |0.8696|±  |0.0093|
+
+2026-11-02 15:27:44 done bf16
+2026-11-02 15:27:44 start mbs256 on GPU 4 port 18340
+2026-11-02 15:28:48 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 15:28:14] [rank_0] Post-load online quantization and weight processing done: 0.66 seconds, 128 layers online-quantized
+[atom 15:28:14] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/mbs256/online_quant_info_20261102_152814_268857395.json
+2026-11-02:15:30:12 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-02:15:30:12 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_3shot/mbs256/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3.5-9B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', 'base_url': 'http://localhost:18340/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 3, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     3|exact_match|↑  |0.7528|±  |0.0119|
+|     |       |strict-match    |     3|exact_match|↑  |0.7506|±  |0.0119|
+
+2026-11-02 15:30:23 done mbs256

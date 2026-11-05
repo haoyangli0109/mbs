@@ -1,0 +1,13 @@
+2026-11-02 15:31:30 start mbs128_s on GPU 6 port 18320
+2026-11-02 15:32:34 up; smoke: ' Paris.\nA. True\nB. False\n\n<think>\n\n</think>\n\nThe capital of France is Paris.\n\n**'
+[atom 15:32:01] [rank_0] Post-load online quantization and weight processing done: 0.64 seconds, 128 layers online-quantized
+[atom 15:32:01] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mbs128_s/online_quant_info_20261102_153201_534670113.json
+2026-11-02:15:34:00 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-02:15:34:00 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mbs128_s/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3.5-9B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', 'base_url': 'http://localhost:18320/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.7415|±  |0.0121|
+|     |       |strict-match    |     5|exact_match|↑  |0.7468|±  |0.0120|
+
+2026-11-02 15:34:12 done mbs128_s

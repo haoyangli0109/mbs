@@ -1,0 +1,73 @@
+Using the latest cached version of the dataset since math-ai/aime26 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /root/.cache/huggingface/datasets/math-ai___aime26/default/0.0.0/79037aebdb6580008fb960d17cb21fd3099083e3 (last modified on Mon Nov  2 16:35:46 2026).
+aime26: 2 done, 148 to run
+[   2.0 min] 0/148 done, 0 failed, 0 tok/s  
+[   4.0 min] 0/148 done, 0 failed, 0 tok/s  
+[   6.0 min] 1/148 done, 0 failed, 28 tok/s  aime26 1/1
+[   8.0 min] 2/148 done, 0 failed, 47 tok/s  aime26 2/2
+[  10.0 min] 4/148 done, 0 failed, 96 tok/s  aime26 4/4
+[  12.0 min] 8/148 done, 0 failed, 190 tok/s  aime26 8/8
+[  14.0 min] 11/148 done, 0 failed, 241 tok/s  aime26 11/11
+[  16.0 min] 17/148 done, 0 failed, 369 tok/s  aime26 17/17
+[  18.0 min] 20/148 done, 0 failed, 403 tok/s  aime26 20/20
+[  20.0 min] 21/148 done, 0 failed, 387 tok/s  aime26 21/21
+[  22.0 min] 25/148 done, 0 failed, 437 tok/s  aime26 25/25
+[  24.0 min] 27/148 done, 0 failed, 430 tok/s  aime26 27/27
+[  26.0 min] 30/148 done, 0 failed, 470 tok/s  aime26 30/30
+[  28.0 min] 31/148 done, 0 failed, 460 tok/s  aime26 31/31
+[  30.0 min] 34/148 done, 0 failed, 487 tok/s  aime26 33/34
+[  32.0 min] 34/148 done, 0 failed, 456 tok/s  aime26 33/34
+[  34.0 min] 37/148 done, 0 failed, 498 tok/s  aime26 35/37
+[  36.0 min] 40/148 done, 0 failed, 519 tok/s  aime26 38/40
+[  38.0 min] 45/148 done, 0 failed, 559 tok/s  aime26 43/45
+[  40.0 min] 50/148 done, 0 failed, 583 tok/s  aime26 48/50
+[  42.0 min] 53/148 done, 0 failed, 598 tok/s  aime26 51/53
+[  44.0 min] 55/148 done, 0 failed, 602 tok/s  aime26 52/55
+[  46.0 min] 57/148 done, 0 failed, 588 tok/s  aime26 54/57
+[  48.0 min] 59/148 done, 0 failed, 592 tok/s  aime26 56/59
+[  50.0 min] 59/148 done, 0 failed, 568 tok/s  aime26 56/59
+[  52.0 min] 59/148 done, 0 failed, 546 tok/s  aime26 56/59
+[  54.0 min] 62/148 done, 0 failed, 562 tok/s  aime26 59/62
+[  56.0 min] 63/148 done, 0 failed, 557 tok/s  aime26 60/63
+[  58.0 min] 66/148 done, 0 failed, 581 tok/s  aime26 63/66
+[  60.0 min] 67/148 done, 0 failed, 570 tok/s  aime26 64/67
+[  62.0 min] 68/148 done, 0 failed, 558 tok/s  aime26 65/68
+[  64.0 min] 72/148 done, 0 failed, 565 tok/s  aime26 69/72
+[  66.0 min] 77/148 done, 0 failed, 587 tok/s  aime26 74/77
+[  68.0 min] 78/148 done, 0 failed, 576 tok/s  aime26 75/78
+[  70.0 min] 81/148 done, 0 failed, 582 tok/s  aime26 78/81
+[  72.0 min] 82/148 done, 0 failed, 580 tok/s  aime26 79/82
+[  74.0 min] 83/148 done, 0 failed, 570 tok/s  aime26 80/83
+[  76.0 min] 86/148 done, 0 failed, 584 tok/s  aime26 82/86
+[  78.0 min] 87/148 done, 0 failed, 578 tok/s  aime26 83/87
+[  80.0 min] 89/148 done, 0 failed, 579 tok/s  aime26 84/89
+[  82.0 min] 90/148 done, 0 failed, 567 tok/s  aime26 85/90
+[  84.0 min] 92/148 done, 0 failed, 574 tok/s  aime26 86/92
+[  86.0 min] 95/148 done, 0 failed, 579 tok/s  aime26 89/95
+[  88.0 min] 97/148 done, 0 failed, 586 tok/s  aime26 90/97
+[  90.0 min] 98/148 done, 0 failed, 580 tok/s  aime26 91/98
+[  92.0 min] 101/148 done, 0 failed, 584 tok/s  aime26 94/101
+[  94.0 min] 103/148 done, 0 failed, 581 tok/s  aime26 96/103
+[  96.0 min] 106/148 done, 0 failed, 584 tok/s  aime26 99/106
+[  98.0 min] 109/148 done, 0 failed, 594 tok/s  aime26 101/109
+[ 100.0 min] 113/148 done, 0 failed, 602 tok/s  aime26 105/113
+[ 102.0 min] 117/148 done, 0 failed, 614 tok/s  aime26 108/117
+[ 104.0 min] 120/148 done, 0 failed, 621 tok/s  aime26 111/120
+[ 106.0 min] 122/148 done, 0 failed, 625 tok/s  aime26 112/122
+[ 108.0 min] 122/148 done, 0 failed, 613 tok/s  aime26 112/122
+[ 110.0 min] 122/148 done, 0 failed, 602 tok/s  aime26 112/122
+[ 112.0 min] 123/148 done, 0 failed, 603 tok/s  aime26 112/123
+[ 114.0 min] 125/148 done, 0 failed, 600 tok/s  aime26 114/125
+[ 116.0 min] 126/148 done, 0 failed, 594 tok/s  aime26 115/126
+[ 118.0 min] 128/148 done, 0 failed, 592 tok/s  aime26 117/128
+[ 120.0 min] 132/148 done, 0 failed, 604 tok/s  aime26 120/132
+[ 122.0 min] 133/148 done, 0 failed, 599 tok/s  aime26 121/133
+[ 124.0 min] 136/148 done, 0 failed, 605 tok/s  aime26 123/136
+[ 126.0 min] 138/148 done, 0 failed, 605 tok/s  aime26 125/138
+[ 128.0 min] 140/148 done, 0 failed, 609 tok/s  aime26 127/140
+[ 130.0 min] 140/148 done, 0 failed, 600 tok/s  aime26 127/140
+[ 132.0 min] 143/148 done, 0 failed, 612 tok/s  aime26 129/143
+[ 134.0 min] 147/148 done, 0 failed, 631 tok/s  aime26 132/147
+[ 136.0 min] 147/148 done, 0 failed, 622 tok/s  aime26 132/147
+[ 138.0 min] 147/148 done, 0 failed, 613 tok/s  aime26 132/147
+finished in 138.3 min, 0 failed

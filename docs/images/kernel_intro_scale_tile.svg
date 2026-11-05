@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="686" viewBox="0 0 790 686" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="一个 stage 的 scale，按 256×256 tile 画。A scale 是 256 行 × 8 个 K 块 = 2 KB，按 32 行切成 8 块，每块 256 B；wave w 用 buffer_load_dword lds 搬第 w 和 w+4 块进 LDS，4 个 wave 再各用 ds_read_b32 读全部 8 块。B scale 每个 wave 只要自己的 64 行 × 8 = 512 B，2 块，直接读进 VGPR。显存里每 32 行一组，组内一个 stage 是连续的 256 B，块与块相隔 32 × scaleN_pad 字节">
+<rect width="790" height="686" fill="#ffffff"/>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">一个 stage 的 scale：A 要 256 行 × 8 个 K 块，B 每个 wave 要 64 行 × 8 个 K 块</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">都按 32 行切成 256 B 一块，A、B 的布局完全一样（同一个 flatS）；区别只在谁读、读到哪</text>
+<text x="14" y="78" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">① A scale：256 行 × 8 个 K 块 = 2 KB，切成 8 块</text>
+<text x="152" y="100" font-size="9.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">K 块 0–3（h = 0）</text>
+<path d="M114 112L114 108L190 108L190 112" fill="none" stroke="#6b7280" stroke-width="1"/>
+<text x="232" y="100" font-size="9.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">K 块 4–7（h = 1）</text>
+<path d="M194 112L194 108L270 108L270 112" fill="none" stroke="#6b7280" stroke-width="1"/>
+<rect x="112" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="124" width="160" height="24" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="192" y="136" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 0</text>
+<text x="106" y="136" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 0–31</text>
+<text x="278" y="136" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 0、1</text>
+<text x="328" y="136" font-size="9.5" fill="#2563eb" text-anchor="start" dominant-baseline="central" font-weight="600">wave 0 搬</text>
+<rect x="112" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="153" width="160" height="24" fill="none" stroke="#ea580c" stroke-width="2"/>
+<text x="192" y="165" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 1</text>
+<text x="106" y="165" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 32–63</text>
+<text x="278" y="165" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 2、3</text>
+<text x="328" y="165" font-size="9.5" fill="#ea580c" text-anchor="start" dominant-baseline="central" font-weight="600">wave 1 搬</text>
+<rect x="112" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="182" width="160" height="24" fill="none" stroke="#16a34a" stroke-width="2"/>
+<text x="192" y="194" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 2</text>
+<text x="106" y="194" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 64–95</text>
+<text x="278" y="194" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 4、5</text>
+<text x="328" y="194" font-size="9.5" fill="#16a34a" text-anchor="start" dominant-baseline="central" font-weight="600">wave 2 搬</text>
+<rect x="112" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="211" width="160" height="24" fill="none" stroke="#9333ea" stroke-width="2"/>
+<text x="192" y="223" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 3</text>
+<text x="106" y="223" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 96–127</text>
+<text x="278" y="223" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 6、7</text>
+<text x="328" y="223" font-size="9.5" fill="#9333ea" text-anchor="start" dominant-baseline="central" font-weight="600">wave 3 搬</text>
+<rect x="112" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="240" width="160" height="24" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="192" y="252" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 4</text>
+<text x="106" y="252" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 128–159</text>
+<text x="278" y="252" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 8、9</text>
+<text x="328" y="252" font-size="9.5" fill="#2563eb" text-anchor="start" dominant-baseline="central" font-weight="600">wave 0 搬</text>
+<rect x="112" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="269" width="160" height="24" fill="none" stroke="#ea580c" stroke-width="2"/>
+<text x="192" y="281" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 5</text>
+<text x="106" y="281" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 160–191</text>
+<text x="278" y="281" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 10、11</text>
+<text x="328" y="281" font-size="9.5" fill="#ea580c" text-anchor="start" dominant-baseline="central" font-weight="600">wave 1 搬</text>
+<rect x="112" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="298" width="160" height="24" fill="none" stroke="#16a34a" stroke-width="2"/>
+<text x="192" y="310" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 6</text>
+<text x="106" y="310" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 192–223</text>
+<text x="278" y="310" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 12、13</text>
+<text x="328" y="310" font-size="9.5" fill="#16a34a" text-anchor="start" dominant-baseline="central" font-weight="600">wave 2 搬</text>
+<rect x="112" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="132" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="152" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="172" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="192" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="212" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="232" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="252" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="112" y="327" width="160" height="24" fill="none" stroke="#9333ea" stroke-width="2"/>
+<text x="192" y="339" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p = 7</text>
+<text x="106" y="339" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">行 224–255</text>
+<text x="278" y="339" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">mi 14、15</text>
+<text x="328" y="339" font-size="9.5" fill="#9333ea" text-anchor="start" dominant-baseline="central" font-weight="600">wave 3 搬</text>
+<text x="14" y="368" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">每个 wave 用 buffer_load_dword … lds 搬 2 块进 LDS 槽</text>
+<text x="14" y="385" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">（放在 A 数据后面）；4 个 wave 再各用 ds_read_b32</text>
+<text x="14" y="402" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">读全部 8 块，所以 A scale 是共用的</text>
+<text x="410" y="78" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">② B scale：每个 wave 64 行 × 8 个 K 块 = 512 B，2 块</text>
+<text x="564" y="100" font-size="9.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">K 块 0–3（h = 0）</text>
+<path d="M526 112L526 108L602 108L602 112" fill="none" stroke="#6b7280" stroke-width="1"/>
+<text x="644" y="100" font-size="9.5" fill="#6b7280" text-anchor="middle" dominant-baseline="central">K 块 4–7（h = 1）</text>
+<path d="M606 112L606 108L682 108L682 112" fill="none" stroke="#6b7280" stroke-width="1"/>
+<rect x="524" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="124" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="124" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="124" width="160" height="24" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="604" y="136" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 0 · p = 0</text>
+<text x="518" y="136" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 0–31</text>
+<text x="690" y="136" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 0、1 → bs[0]</text>
+<rect x="524" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="153" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="153" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="153" width="160" height="24" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="604" y="165" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 0 · p = 1</text>
+<text x="518" y="165" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 32–63</text>
+<text x="690" y="165" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 2、3 → bs[1]</text>
+<rect x="524" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="182" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="182" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="182" width="160" height="24" fill="none" stroke="#ea580c" stroke-width="2"/>
+<text x="604" y="194" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 1 · p = 0</text>
+<text x="518" y="194" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 64–95</text>
+<text x="690" y="194" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 0、1 → bs[0]</text>
+<rect x="524" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="211" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="211" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="211" width="160" height="24" fill="none" stroke="#ea580c" stroke-width="2"/>
+<text x="604" y="223" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 1 · p = 1</text>
+<text x="518" y="223" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 96–127</text>
+<text x="690" y="223" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 2、3 → bs[1]</text>
+<rect x="524" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="240" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="240" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="240" width="160" height="24" fill="none" stroke="#16a34a" stroke-width="2"/>
+<text x="604" y="252" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 2 · p = 0</text>
+<text x="518" y="252" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 128–159</text>
+<text x="690" y="252" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 0、1 → bs[0]</text>
+<rect x="524" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="269" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="269" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="269" width="160" height="24" fill="none" stroke="#16a34a" stroke-width="2"/>
+<text x="604" y="281" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 2 · p = 1</text>
+<text x="518" y="281" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 160–191</text>
+<text x="690" y="281" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 2、3 → bs[1]</text>
+<rect x="524" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="298" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="298" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="298" width="160" height="24" fill="none" stroke="#9333ea" stroke-width="2"/>
+<text x="604" y="310" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 3 · p = 0</text>
+<text x="518" y="310" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 192–223</text>
+<text x="690" y="310" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 0、1 → bs[0]</text>
+<rect x="524" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="544" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="564" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="584" y="327" width="20" height="24" fill="#fcd34d" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="604" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="624" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="644" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="664" y="327" width="20" height="24" fill="#fef3c7" stroke="#ffffff" stroke-width="0.6"/>
+<rect x="524" y="327" width="160" height="24" fill="none" stroke="#9333ea" stroke-width="2"/>
+<text x="604" y="339" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">wave 3 · p = 1</text>
+<text x="518" y="339" font-size="9.5" fill="#6b7280" text-anchor="end" dominant-baseline="central">n 224–255</text>
+<text x="690" y="339" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">ni 2、3 → bs[1]</text>
+<text x="410" y="368" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">每个 wave 只用 buffer_load_dword 读自己的 2 块，</text>
+<text x="410" y="385" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">直接进 VGPR（bs[0]、bs[1]），不经过 LDS；</text>
+<text x="410" y="402" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">4 个 wave 合起来也是 256 行 × 8 = 2 KB</text>
+<text x="14" y="452" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">③ 显存里：scale 张量按 32 行一组，每组 32 × pad 字节；组内一个 stage 是连续的 256 B（第 s 段）</text>
+<text x="167" y="472" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">stage 0</text>
+<text x="201" y="472" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">stage 1</text>
+<text x="265" y="472" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">stage s</text>
+<text x="329" y="472" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">最后一个</text>
+<text x="14" y="491" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 0 块（第 0 组）</text>
+<rect x="150" y="482" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="482" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="482" width="34" height="18" fill="#fcd34d" stroke="#2563eb" stroke-width="1.8"/>
+<text x="265" y="491" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=0</text>
+<rect x="312" y="482" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="491" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="491" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="513" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 1 块（第 1 组）</text>
+<rect x="150" y="504" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="504" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="504" width="34" height="18" fill="#fcd34d" stroke="#ea580c" stroke-width="1.8"/>
+<text x="265" y="513" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=1</text>
+<rect x="312" y="504" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="513" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="513" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="535" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 2 块（第 2 组）</text>
+<rect x="150" y="526" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="526" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="526" width="34" height="18" fill="#fcd34d" stroke="#16a34a" stroke-width="1.8"/>
+<text x="265" y="535" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=2</text>
+<rect x="312" y="526" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="535" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="535" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="557" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 3 块（第 3 组）</text>
+<rect x="150" y="548" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="548" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="548" width="34" height="18" fill="#fcd34d" stroke="#9333ea" stroke-width="1.8"/>
+<text x="265" y="557" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=3</text>
+<rect x="312" y="548" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="557" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="557" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="579" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 4 块（第 4 组）</text>
+<rect x="150" y="570" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="570" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="570" width="34" height="18" fill="#fcd34d" stroke="#2563eb" stroke-width="1.8"/>
+<text x="265" y="579" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=4</text>
+<rect x="312" y="570" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="579" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="579" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="601" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 5 块（第 5 组）</text>
+<rect x="150" y="592" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="592" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="592" width="34" height="18" fill="#fcd34d" stroke="#ea580c" stroke-width="1.8"/>
+<text x="265" y="601" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=5</text>
+<rect x="312" y="592" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="601" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="601" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="623" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 6 块（第 6 组）</text>
+<rect x="150" y="614" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="614" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="614" width="34" height="18" fill="#fcd34d" stroke="#16a34a" stroke-width="1.8"/>
+<text x="265" y="623" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=6</text>
+<rect x="312" y="614" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="623" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="623" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="14" y="645" font-size="10" fill="#111827" text-anchor="start" dominant-baseline="central">A 第 p = 7 块（第 7 组）</text>
+<rect x="150" y="636" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="184" y="636" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="248" y="636" width="34" height="18" fill="#fcd34d" stroke="#9333ea" stroke-width="1.8"/>
+<text x="265" y="645" font-size="8.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600">p=7</text>
+<rect x="312" y="636" width="34" height="18" fill="#f3f4f6" stroke="#ffffff" stroke-width="0.8"/>
+<text x="233" y="645" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="297" y="645" font-size="11" fill="#6b7280" text-anchor="middle" dominant-baseline="central">…</text>
+<text x="380" y="484" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">A scale 第 p 块（stage s，lane L 的 dword）：</text>
+<text x="380" y="503" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">AScale + (m0/32 + p)·32·pad + 256·s + 4·L</text>
+<text x="380" y="522" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">8 块各自连续 256 B，块与块相隔 32·pad 字节</text>
+<text x="380" y="541" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">（K = 5120 时 pad = 160：一组 5120 B = 20 段）</text>
+<text x="380" y="579" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">B scale 一样，换成本 wave 的 n0：</text>
+<text x="380" y="598" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">BScale + (n0/32 + p)·32·pad + 256·s + 4·L</text>
+<text x="380" y="617" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">每个 wave 只有 p = 0、1 两块</text>
+<text x="14" y="676" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">pad = scaleN_pad（K/32 向上取整到 8 的倍数）；图 12 放大其中一块，看 64 个 lane 各拿哪 4 个字节</text>
+</svg>

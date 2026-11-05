@@ -1,0 +1,35 @@
+Using the latest cached version of the dataset since math-ai/aime26 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /root/.cache/huggingface/datasets/math-ai___aime26/default/0.0.0/79037aebdb6580008fb960d17cb21fd3099083e3 (last modified on Mon Nov  2 16:35:46 2026).
+aime26: 0 done, 240 to run
+[   2.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   4.0 min] 4/240 done, 0 failed, 121 tok/s  aime26 4/4
+[   6.0 min] 10/240 done, 0 failed, 258 tok/s  aime26 10/10
+[   8.0 min] 12/240 done, 0 failed, 258 tok/s  aime26 12/12
+[  10.0 min] 20/240 done, 0 failed, 439 tok/s  aime26 20/20
+[  12.0 min] 31/240 done, 0 failed, 659 tok/s  aime26 31/31
+[  14.0 min] 48/240 done, 0 failed, 1002 tok/s  aime26 47/48
+[  16.0 min] 63/240 done, 0 failed, 1244 tok/s  aime26 62/63
+[  18.0 min] 74/240 done, 0 failed, 1358 tok/s  aime26 73/74
+[  20.0 min] 85/240 done, 0 failed, 1489 tok/s  aime26 84/85
+[  22.0 min] 97/240 done, 0 failed, 1612 tok/s  aime26 96/97
+[  24.0 min] 104/240 done, 0 failed, 1632 tok/s  aime26 102/104
+[  26.0 min] 115/240 done, 0 failed, 1744 tok/s  aime26 112/115
+[  28.0 min] 122/240 done, 0 failed, 1771 tok/s  aime26 118/122
+[  30.0 min] 138/240 done, 0 failed, 1949 tok/s  aime26 133/138
+[  32.0 min] 146/240 done, 0 failed, 1916 tok/s  aime26 141/146
+[  34.0 min] 152/240 done, 0 failed, 1902 tok/s  aime26 147/152
+[  36.0 min] 158/240 done, 0 failed, 1888 tok/s  aime26 153/158
+[  38.0 min] 167/240 done, 0 failed, 1918 tok/s  aime26 161/167
+[  40.0 min] 174/240 done, 0 failed, 1925 tok/s  aime26 168/174
+[  42.0 min] 180/240 done, 0 failed, 1924 tok/s  aime26 174/180
+[  44.0 min] 190/240 done, 0 failed, 1989 tok/s  aime26 183/190
+[  46.0 min] 195/240 done, 0 failed, 1978 tok/s  aime26 187/195
+[  48.0 min] 201/240 done, 0 failed, 1989 tok/s  aime26 193/201
+[  50.0 min] 208/240 done, 0 failed, 2015 tok/s  aime26 198/208
+[  52.0 min] 209/240 done, 0 failed, 1960 tok/s  aime26 199/209
+[  54.0 min] 216/240 done, 0 failed, 2002 tok/s  aime26 202/216
+[  56.0 min] 218/240 done, 0 failed, 1968 tok/s  aime26 204/218
+[  58.0 min] 220/240 done, 0 failed, 1941 tok/s  aime26 204/220
+[  60.0 min] 232/240 done, 0 failed, 2142 tok/s  aime26 205/232
+[  62.0 min] 236/240 done, 0 failed, 2154 tok/s  aime26 207/236
+finished in 63.0 min, 0 failed

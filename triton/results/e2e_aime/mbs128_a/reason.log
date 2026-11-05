@@ -1,0 +1,94 @@
+Using the latest cached version of the dataset since math-ai/aime26 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /root/.cache/huggingface/datasets/math-ai___aime26/default/0.0.0/79037aebdb6580008fb960d17cb21fd3099083e3 (last modified on Mon Nov  2 16:35:46 2026).
+aime26: 0 done, 240 to run
+[   2.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   4.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   6.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   8.0 min] 0/240 done, 0 failed, 0 tok/s  
+[  10.0 min] 4/240 done, 0 failed, 117 tok/s  aime26 4/4
+[  12.0 min] 4/240 done, 0 failed, 97 tok/s  aime26 4/4
+[  14.0 min] 5/240 done, 0 failed, 110 tok/s  aime26 5/5
+[  16.0 min] 8/240 done, 0 failed, 174 tok/s  aime26 8/8
+[  18.0 min] 9/240 done, 0 failed, 179 tok/s  aime26 9/9
+[  20.0 min] 10/240 done, 0 failed, 185 tok/s  aime26 10/10
+[  22.0 min] 10/240 done, 0 failed, 168 tok/s  aime26 10/10
+[  24.0 min] 13/240 done, 0 failed, 220 tok/s  aime26 13/13
+[  26.0 min] 17/240 done, 0 failed, 287 tok/s  aime26 17/17
+[  28.0 min] 21/240 done, 0 failed, 349 tok/s  aime26 21/21
+[  30.0 min] 25/240 done, 0 failed, 407 tok/s  aime26 25/25
+[  32.0 min] 27/240 done, 0 failed, 421 tok/s  aime26 27/27
+[  34.0 min] 30/240 done, 0 failed, 454 tok/s  aime26 30/30
+[  36.0 min] 34/240 done, 0 failed, 503 tok/s  aime26 34/34
+[  38.0 min] 39/240 done, 0 failed, 569 tok/s  aime26 39/39
+[  40.0 min] 44/240 done, 0 failed, 631 tok/s  aime26 44/44
+[  42.0 min] 46/240 done, 0 failed, 637 tok/s  aime26 46/46
+[  44.0 min] 49/240 done, 0 failed, 661 tok/s  aime26 49/49
+[  46.0 min] 50/240 done, 0 failed, 650 tok/s  aime26 50/50
+[  48.0 min] 51/240 done, 0 failed, 640 tok/s  aime26 51/51
+[  50.0 min] 51/240 done, 0 failed, 614 tok/s  aime26 51/51
+[  52.0 min] 52/240 done, 0 failed, 600 tok/s  aime26 52/52
+[  54.0 min] 57/240 done, 0 failed, 660 tok/s  aime26 57/57
+[  56.0 min] 61/240 done, 0 failed, 701 tok/s  aime26 61/61
+[  58.0 min] 63/240 done, 0 failed, 709 tok/s  aime26 63/63
+[  60.0 min] 63/240 done, 0 failed, 686 tok/s  aime26 63/63
+[  62.0 min] 65/240 done, 0 failed, 685 tok/s  aime26 65/65
+[  64.0 min] 66/240 done, 0 failed, 679 tok/s  aime26 66/66
+[  66.0 min] 67/240 done, 0 failed, 674 tok/s  aime26 67/67
+[  68.0 min] 68/240 done, 0 failed, 670 tok/s  aime26 68/68
+[  70.0 min] 68/240 done, 0 failed, 651 tok/s  aime26 68/68
+[  72.0 min] 69/240 done, 0 failed, 648 tok/s  aime26 68/69
+[  74.0 min] 69/240 done, 0 failed, 630 tok/s  aime26 68/69
+[  76.0 min] 69/240 done, 0 failed, 614 tok/s  aime26 68/69
+[  78.0 min] 72/240 done, 0 failed, 642 tok/s  aime26 71/72
+[  80.0 min] 72/240 done, 0 failed, 626 tok/s  aime26 71/72
+[  82.0 min] 75/240 done, 0 failed, 650 tok/s  aime26 74/75
+[  84.0 min] 75/240 done, 0 failed, 635 tok/s  aime26 74/75
+[  86.0 min] 78/240 done, 0 failed, 663 tok/s  aime26 77/78
+[  88.0 min] 80/240 done, 0 failed, 676 tok/s  aime26 79/80
+[  90.0 min] 80/240 done, 0 failed, 661 tok/s  aime26 79/80
+[  92.0 min] 81/240 done, 0 failed, 660 tok/s  aime26 79/81
+[  94.0 min] 82/240 done, 0 failed, 660 tok/s  aime26 80/82
+[  96.0 min] 86/240 done, 0 failed, 701 tok/s  aime26 84/86
+[  98.0 min] 86/240 done, 0 failed, 687 tok/s  aime26 84/86
+[ 100.0 min] 86/240 done, 0 failed, 673 tok/s  aime26 84/86
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 279, in evaluate
+    await asyncio.gather(
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 253, in worker
+    rec = await run_one(session, url, task, item, args, files)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 187, in run_one
+    async with session.post(f"{url}/v1/chat/completions", json=payload) as r:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 878, in _connect_and_send_request
+    await resp.start(conn)
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client_reqrep.py", line 745, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/streams.py", line 716, in read
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 362, in <module>
+    asyncio.run(evaluate(args))
+  File "/usr/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt

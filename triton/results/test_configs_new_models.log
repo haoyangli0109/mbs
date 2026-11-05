@@ -1,0 +1,109 @@
+[aiter] WARNING: NUMA balancing is enabled, which may cause errors. It is recommended to disable NUMA balancing by running "sudo sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'" for more details: https://rocm.docs.amd.com/en/latest/how-to/system-optimization/mi300x.html#disable-numa-auto-balancing
+element check: a dropped 128-K block shows as up to 1.10 (threshold 5e-2)
+mxfp4_mbs       N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs       N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs       N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs       N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs       N= 1024 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_a     N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs_a     N= 1024 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs_w     N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs_w     N= 1024 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs256    N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs256    N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs256    N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256    N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs256    N= 1024 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs256_a  N= 1024 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs512    N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs512    N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs512    N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs512    N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs512    N= 1024 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=16480 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=14336 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N= 5120 K= 6144: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=34816 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N= 5120 K=17408: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=16384 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=   96 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=12288 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N= 1024 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=10240 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N= 6144 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=   48 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N=17408 K= 5120: 180 M values done, failures so far 0
+mxfp4_mbs1024   N= 6144 K= 4096: 180 M values done, failures so far 0
+mxfp4_mbs1024   N= 1024 K= 4096: 180 M values done, failures so far 0
+worst element error / typical size 2.17e-02 at ('mxfp4_mbs_a', 16383, 14336, 5120)
+ALL PASS

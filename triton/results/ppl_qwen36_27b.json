@@ -1,0 +1,101 @@
+{
+ "bf16": {
+  "ppl": 7.403169057110722,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.0,
+  "eval_seconds": 58.6
+ },
+ "mxfp4": {
+  "ppl": 7.850346078868928,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.7,
+  "eval_seconds": 52.8
+ },
+ "mbs128": {
+  "ppl": 7.933974731142288,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.5,
+  "eval_seconds": 53.8
+ },
+ "mbs512": {
+  "ppl": 7.791797777219689,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.5,
+  "eval_seconds": 54.4
+ },
+ "mbs128_s": {
+  "ppl": 7.628437124992048,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.4,
+  "eval_seconds": 53.4
+ },
+ "mbs128_a": {
+  "ppl": 7.747513678875052,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.0,
+  "eval_seconds": 54.0
+ },
+ "mbs128_w": {
+  "ppl": 7.969788250164132,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.5,
+  "eval_seconds": 54.0
+ },
+ "mbs256": {
+  "ppl": 7.940060944813242,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.5,
+  "eval_seconds": 53.9
+ },
+ "mbs1024": {
+  "ppl": 7.893987677056285,
+  "model": "/data/Qwen/Qwen3.6-27B",
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [],
+  "quantized_linears": 496,
+  "quant_seconds": 0.5,
+  "eval_seconds": 55.1
+ }
+}

@@ -1,0 +1,76 @@
+From 84561db9785c1947ab88223afb033a3d8b830973 Mon Sep 17 00:00:00 2001
+From: root <root@gbt350-odcdh2-a12-1.png-odc.dcgpu>
+Date: Tue, 3 Nov 2026 03:40:27 +0000
+Subject: [PATCH] compile cache: key the artifact on the checkpoint's config
+
+Config.compute_hash keyed the torch.compile artifact on the quant,
+compilation and parallel configs and a few flags, but not on the model:
+two checkpoints of one architecture (Qwen3.5-9B and Qwen3.6-27B, both
+Qwen3_5ForConditionalGeneration) hashed identically, so the second one
+loaded the first's graph and failed assert_size_stride (hidden 5120 vs
+4096). Add the hf_config JSON (after HF overrides) to the factors.
+
+Co-authored-by: Cursor <cursoragent@cursor.com>
+---
+ atom/config.py                |  5 +++++
+ tests/test_indexer_cp_gate.py | 14 ++++++++++++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/atom/config.py b/atom/config.py
+index 75292bfb8..f66ffb4a9 100644
+--- a/atom/config.py
++++ b/atom/config.py
+@@ -2717,6 +2717,11 @@ class Config:
+         # deploying it on top of a cache built with the other setting — reuses a
+         # stale artifact and trips assert_size_stride at runtime.
+         factors.append(bool(envs.ATOM_REPLICATE_VOCAB_EMBED))
++        # The checkpoint's own config (sizes, layer types, dtypes, HF overrides).
++        # Without it two checkpoints of one architecture -- Qwen3.5-9B and
++        # Qwen3.6-27B -- hash identically, and the second loads the first's
++        # artifact and trips assert_size_stride at runtime.
++        factors.append(self.hf_config.to_json_string())
+ 
+         hash_str = hashlib.md5(
+             str(factors).encode(), usedforsecurity=False
+diff --git a/tests/test_indexer_cp_gate.py b/tests/test_indexer_cp_gate.py
+index 0af5a5d60..d7333a3a7 100644
+--- a/tests/test_indexer_cp_gate.py
++++ b/tests/test_indexer_cp_gate.py
+@@ -90,7 +90,7 @@ def test_topology_gate_reasons_are_human_readable():
+ # ───────────────────────────────────────────────────── compilation key ──
+ 
+ 
+-def _hash_with(indexer_dcp_only: bool) -> str:
++def _hash_with(indexer_dcp_only: bool, hf_json: str = "{}") -> str:
+     """``Config.compute_hash`` over a stand-in carrying only what it reads.
+ 
+     Constructing a real ``Config`` needs a model directory, which this suite
+@@ -112,7 +112,7 @@ def _hash_with(indexer_dcp_only: bool) -> str:
+         dcp_config=SimpleNamespace(indexer_dcp_only=indexer_dcp_only),
+         enable_dp_attention=False,
+         index_cache_dtype="fp8",
+-        hf_config=SimpleNamespace(),
++        hf_config=SimpleNamespace(to_json_string=lambda: hf_json),
+     )
+     return Config.compute_hash(stub)
+ 
+@@ -132,6 +132,16 @@ def test_the_two_indexer_modes_do_not_share_a_compiled_artifact():
+     assert _hash_with(True) != _hash_with(False)
+ 
+ 
++def test_two_checkpoints_of_one_architecture_do_not_share_a_compiled_artifact():
++    """Qwen3.5-9B and Qwen3.6-27B are both ``Qwen3_5ForConditionalGeneration``
++    and run the same source, so nothing else in the key tells them apart: the
++    27B server loaded the 9B graph and failed ``assert_size_stride`` on its
++    5120-wide hidden states (the 9B's are 4096)."""
++    assert _hash_with(False, '{"hidden_size": 4096}') != _hash_with(
++        False, '{"hidden_size": 5120}'
++    )
++
++
+ def test_the_compilation_key_is_stable_for_one_mode():
+     """Guard against keying on something unstable, which would never cache."""
+     assert _hash_with(False) == _hash_with(False)
+-- 
+2.34.1
+

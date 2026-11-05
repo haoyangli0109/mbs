@@ -1,0 +1,58 @@
+{
+ "mxfp4 weights": {
+  "ppl": 7.747513678875052,
+  "weight_qsnr": 18.920852316192452,
+  "max_moved_pct": 69.96977902290344,
+  "span": null,
+  "ncand": 0,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ },
+ "MBS-S weights": {
+  "ppl": 7.628437124992048,
+  "weight_qsnr": 19.279420067999112,
+  "max_moved_pct": 0.0,
+  "span": null,
+  "ncand": 1,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ },
+ "MBS-D span 1": {
+  "ppl": 7.933974731142288,
+  "weight_qsnr": 19.929035756547268,
+  "max_moved_pct": 52.207290923740445,
+  "span": 1.0,
+  "ncand": 16,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ },
+ "MBS-D span 0.5": {
+  "ppl": 7.971322885709409,
+  "weight_qsnr": 19.677616220717816,
+  "max_moved_pct": 56.43260005113575,
+  "span": 0.5,
+  "ncand": 16,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ },
+ "MBS-D span 0.25": {
+  "ppl": 7.71874470807819,
+  "weight_qsnr": 19.526198909410326,
+  "max_moved_pct": 35.53528324833136,
+  "span": 0.25,
+  "ncand": 16,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ },
+ "MBS-D span 0.125": {
+  "ppl": 8.009074277218474,
+  "weight_qsnr": 19.468703206384856,
+  "max_moved_pct": 31.003855051169396,
+  "span": 0.125,
+  "ncand": 16,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ },
+ "MBS-D span 0.0625": {
+  "ppl": 7.807434422449221,
+  "weight_qsnr": 19.397417417713587,
+  "max_moved_pct": 0.0,
+  "span": 0.0625,
+  "ncand": 16,
+  "model": "/data/Qwen/Qwen3.6-27B"
+ }
+}

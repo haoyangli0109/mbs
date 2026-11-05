@@ -1,0 +1,253 @@
+2026-11-03 03:41:41 GPU 4 start: cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=4 python hf_eval.py ppl --model /data/Qwen/Qwen3.6-27B --formats bf16 mxfp4 mbs128 mbs512 mbs128_s mbs128_a mbs128_w mbs256 mbs1024 --out results/ppl_qwen36_27b.json > results/ppl_qwen36_27b.log 2>&1
+2026-11-03 03:41:41 GPU 6 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run bf16 6 18320
+2026-11-03 03:41:41 GPU 7 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mxfp4 7 18300
+2026-11-03 03:41:41 start bf16 on GPU 6 port 18320
+2026-11-03 03:41:41 GPU 5 start: cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=5 python hf_eval.py ppl --model /mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B --formats bf16 mxfp4 mbs128 mbs512 mbs128_s mbs128_a mbs128_w mbs256 mbs1024 --out results/ppl_qwen3_8b.json > results/ppl_qwen3_8b.log 2>&1
+2026-11-03 03:41:41 start mxfp4 on GPU 7 port 18300
+2026-11-03 03:44:00 GPU 5 done (exit 0): cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=5 python hf_eval.py ppl --model /mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B --formats bf16 mxfp4 mbs128 mbs512 mbs128_s mbs128_a mbs128_w mbs256 mbs1024 --out results/ppl_qwen3_8b.json > results/ppl_qwen3_8b.log 2>&1
+2026-11-03 03:44:00 GPU 5 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128 5 18330
+2026-11-03 03:44:00 start mbs128 on GPU 5 port 18330
+2026-11-03 03:44:16 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 03:42:26] [rank_0] Post-load online quantization and weight processing done: 0.12 seconds, 256 layers online-quantized
+[atom 03:42:26] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mxfp4/online_quant_info_20261103_034226_199701013.json
+2026-11-03 03:44:16 up; smoke: ' Paris.\n\n<think>\n\n</think>\n\nThat is correct. Paris is the capital and most populous city of France. It is'
+2026-11-03 03:45:44 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 03:44:42] [rank_0] Post-load online quantization and weight processing done: 0.67 seconds, 256 layers online-quantized
+[atom 03:44:42] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128/online_quant_info_20261103_034442_275887572.json
+2026-11-03:03:47:00 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:47:00 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mxfp4/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.6702|±  |0.0129|
+|     |       |strict-match    |     5|exact_match|↑  |0.6513|±  |0.0131|
+
+2026-11-03 03:47:11 done mxfp4
+2026-11-03 03:47:11 GPU 7 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mxfp4 7 18300
+2026-11-03 03:47:11 GPU 7 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs512 7 18300
+2026-11-03 03:47:11 start mbs512 on GPU 7 port 18300
+2026-11-03:03:47:42 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:47:42 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/bf16/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18320/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.6058|±  |0.0135|
+|     |       |strict-match    |     5|exact_match|↑  |0.5762|±  |0.0136|
+
+2026-11-03 03:47:54 done bf16
+2026-11-03 03:47:54 GPU 6 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run bf16 6 18320
+2026-11-03 03:47:54 GPU 6 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128_a 6 18320
+2026-11-03 03:47:54 start mbs128_a on GPU 6 port 18320
+2026-11-03 03:48:56 up; smoke: ' Paris.\n\n<think>\n\n</think>\n\nThat is correct. Paris is the capital and largest city of France. It is located'
+[atom 03:47:53] [rank_0] Post-load online quantization and weight processing done: 0.71 seconds, 256 layers online-quantized
+[atom 03:47:53] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs512/online_quant_info_20261103_034753_603752817.json
+2026-11-03:03:49:05 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:49:05 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18330/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.3639|±  |0.0133|
+|     |       |strict-match    |     5|exact_match|↑  |0.3290|±  |0.0129|
+
+2026-11-03 03:49:17 done mbs128
+2026-11-03 03:49:17 GPU 5 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128 5 18330
+2026-11-03 03:49:17 GPU 5 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128_s 5 18330
+2026-11-03 03:49:17 start mbs128_s on GPU 5 port 18330
+2026-11-03 03:49:33 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 03:48:35] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 256 layers online-quantized
+[atom 03:48:35] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128_a/online_quant_info_20261103_034835_629105157.json
+2026-11-03 03:50:23 GPU 4 done (exit 0): cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=4 python hf_eval.py ppl --model /data/Qwen/Qwen3.6-27B --formats bf16 mxfp4 mbs128 mbs512 mbs128_s mbs128_a mbs128_w mbs256 mbs1024 --out results/ppl_qwen36_27b.json > results/ppl_qwen36_27b.log 2>&1
+2026-11-03 03:50:23 GPU 4 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128_w 4 18340
+2026-11-03 03:50:23 start mbs128_w on GPU 4 port 18340
+2026-11-03 03:51:22 up; smoke: ' Paris.\nThe capital of Germany is Berlin.\nThe capital of Italy is Rome.\nThe capital of Spain is'
+[atom 03:49:59] [rank_0] Post-load online quantization and weight processing done: 0.68 seconds, 256 layers online-quantized
+[atom 03:49:59] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128_s/online_quant_info_20261103_034959_081091049.json
+2026-11-03:03:51:59 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:51:59 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs512/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.4026|±  |0.0135|
+|     |       |strict-match    |     5|exact_match|↑  |0.3616|±  |0.0132|
+
+2026-11-03 03:52:02 up; smoke: " Paris.\n\n<think>\nHere's a thinking process:\n\n1.  **Analyze User Input:** The user states"
+[atom 03:51:04] [rank_0] Post-load online quantization and weight processing done: 0.70 seconds, 256 layers online-quantized
+[atom 03:51:04] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128_w/online_quant_info_20261103_035104_213307577.json
+2026-11-03 03:52:11 done mbs512
+2026-11-03 03:52:11 GPU 7 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs512 7 18300
+2026-11-03 03:52:11 GPU 7 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs256 7 18300
+2026-11-03 03:52:11 start mbs256 on GPU 7 port 18300
+2026-11-03:03:52:44 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:52:44 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128_a/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18320/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.7104|±  |0.0125|
+|     |       |strict-match    |     5|exact_match|↑  |0.6929|±  |0.0127|
+
+2026-11-03 03:52:56 done mbs128_a
+2026-11-03 03:52:56 GPU 6 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128_a 6 18320
+2026-11-03 03:52:56 GPU 6 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run bf16 6 18320
+2026-11-03 03:52:56 start bf16 on GPU 6 port 18320
+2026-11-03 03:53:46 up; smoke: ' Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of Germany is Berlin. The'
+2026-11-03 03:53:55 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 03:52:52] [rank_0] Post-load online quantization and weight processing done: 0.71 seconds, 256 layers online-quantized
+[atom 03:52:52] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs256/online_quant_info_20261103_035252_798197998.json
+2026-11-03:03:54:40 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:54:40 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128_s/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18330/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.4678|±  |0.0137|
+|     |       |strict-match    |     5|exact_match|↑  |0.4488|±  |0.0137|
+
+2026-11-03 03:54:52 done mbs128_s
+2026-11-03 03:54:52 GPU 5 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128_s 5 18330
+2026-11-03 03:54:52 GPU 5 start: cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=5 python exp_mbsd_span.py --model /mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B --out results/mbsd_span_qwen3_8b.json > results/mbsd_span_qwen3_8b.log 2>&1
+2026-11-03:03:54:54 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:54:54 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/bf16/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18320/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8779|±  |0.0090|
+|     |       |strict-match    |     5|exact_match|↑  |0.8741|±  |0.0091|
+
+2026-11-03 03:55:06 done bf16
+2026-11-03 03:55:06 GPU 6 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run bf16 6 18320
+2026-11-03 03:55:06 GPU 6 start: cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=6 python exp_mbsd_span.py --model /data/Qwen/Qwen3.6-27B --out results/mbsd_span_qwen36_27b.json > results/mbsd_span_qwen36_27b.log 2>&1
+2026-11-03:03:55:06 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:55:06 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs128_w/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18340/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.3662|±  |0.0133|
+|     |       |strict-match    |     5|exact_match|↑  |0.3328|±  |0.0130|
+
+2026-11-03 03:55:18 done mbs128_w
+2026-11-03 03:55:18 GPU 4 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs128_w 4 18340
+2026-11-03 03:55:18 GPU 4 start: cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=4 python exp_mbsd_span.py --model /mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B --out results/mbsd_span_qwen35_9b.json > results/mbsd_span_qwen35_9b.log 2>&1
+2026-11-03 03:56:12 GPU 5 done (exit 0): cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=5 python exp_mbsd_span.py --model /mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B --out results/mbsd_span_qwen3_8b.json > results/mbsd_span_qwen3_8b.log 2>&1
+2026-11-03 03:56:12 GPU 5 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mxfp4 5 18330
+2026-11-03 03:56:12 start mxfp4 on GPU 5 port 18330
+2026-11-03 03:57:02 up; smoke: ' Paris. The capital of France is Paris. The capital of France is Paris. The capital of France is Paris. The'
+[atom 03:56:42] [rank_0] Post-load online quantization and weight processing done: 0.04 seconds, 144 layers online-quantized
+[atom 03:56:42] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mxfp4/online_quant_info_20261103_035642_731196730.json
+2026-11-03:03:57:08 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:57:08 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mbs256/gsm8k/__data__Qwen__Qwen3.6-27B/*.jsonl
+local-completions ({'model': '/data/Qwen/Qwen3.6-27B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.5110|±  |0.0138|
+|     |       |strict-match    |     5|exact_match|↑  |0.4784|±  |0.0138|
+
+2026-11-03 03:57:20 done mbs256
+2026-11-03 03:57:20 GPU 7 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b bash e2e.sh run mbs256 7 18300
+2026-11-03 03:57:20 GPU 7 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128 7 18300
+2026-11-03 03:57:20 start mbs128 on GPU 7 port 18300
+2026-11-03:03:58:02 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:58:02 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mxfp4/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18330/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8249|±  |0.0105|
+|     |       |strict-match    |     5|exact_match|↑  |0.8211|±  |0.0106|
+
+2026-11-03 03:58:13 done mxfp4
+2026-11-03 03:58:13 GPU 5 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mxfp4 5 18330
+2026-11-03 03:58:13 GPU 5 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs512 5 18330
+2026-11-03 03:58:13 start mbs512 on GPU 5 port 18330
+2026-11-03 03:58:15 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 03:57:49] [rank_0] Post-load online quantization and weight processing done: 0.65 seconds, 144 layers online-quantized
+[atom 03:57:49] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128/online_quant_info_20261103_035749_861393921.json
+2026-11-03 03:59:03 GPU 4 done (exit 0): cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=4 python exp_mbsd_span.py --model /mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B --out results/mbsd_span_qwen35_9b.json > results/mbsd_span_qwen35_9b.log 2>&1
+2026-11-03 03:59:03 GPU 4 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128_a 4 18340
+2026-11-03 03:59:03 start mbs128_a on GPU 4 port 18340
+2026-11-03 03:59:09 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 03:58:45] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 144 layers online-quantized
+[atom 03:58:45] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs512/online_quant_info_20261103_035845_726960002.json
+2026-11-03:03:59:27 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:03:59:27 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8506|±  |0.0098|
+|     |       |strict-match    |     5|exact_match|↑  |0.8446|±  |0.0100|
+
+2026-11-03 03:59:39 done mbs128
+2026-11-03 03:59:39 GPU 7 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128 7 18300
+2026-11-03 03:59:39 GPU 7 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128_s 7 18300
+2026-11-03 03:59:39 start mbs128_s on GPU 7 port 18300
+2026-11-03 03:59:54 up; smoke: ' Paris. What is the capital of Italy? The capital of Italy is Rome. The capital of Germany is Berlin. What'
+[atom 03:59:34] [rank_0] Post-load online quantization and weight processing done: 0.59 seconds, 144 layers online-quantized
+[atom 03:59:34] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128_a/online_quant_info_20261103_035934_798404953.json
+2026-11-03:04:00:17 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:04:00:17 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs512/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18330/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8476|±  |0.0099|
+|     |       |strict-match    |     5|exact_match|↑  |0.8461|±  |0.0099|
+
+2026-11-03 04:00:24 up; smoke: ' Paris. The capital of France is Paris. The capital of France is Paris. The capital of France is Paris. The'
+[atom 04:00:10] [rank_0] Post-load online quantization and weight processing done: 0.66 seconds, 144 layers online-quantized
+[atom 04:00:10] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128_s/online_quant_info_20261103_040010_420672259.json
+2026-11-03 04:00:28 done mbs512
+2026-11-03 04:00:28 GPU 5 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs512 5 18330
+2026-11-03 04:00:28 GPU 5 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128_w 5 18330
+2026-11-03 04:00:28 start mbs128_w on GPU 5 port 18330
+2026-11-03:04:01:00 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:04:01:00 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128_a/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18340/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8506|±  |0.0098|
+|     |       |strict-match    |     5|exact_match|↑  |0.8453|±  |0.0100|
+
+2026-11-03 04:01:12 done mbs128_a
+2026-11-03 04:01:12 GPU 4 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128_a 4 18340
+2026-11-03 04:01:12 GPU 4 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs256 4 18340
+2026-11-03 04:01:12 start mbs256 on GPU 4 port 18340
+2026-11-03 04:01:19 up; smoke: ' Paris. The capital of France is Paris. The capital of France is Paris. The capital of France is Paris. The'
+[atom 04:00:59] [rank_0] Post-load online quantization and weight processing done: 0.65 seconds, 144 layers online-quantized
+[atom 04:00:59] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128_w/online_quant_info_20261103_040059_270157644.json
+2026-11-03:04:01:34 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:04:01:34 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128_s/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18300/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8415|±  |0.0101|
+|     |       |strict-match    |     5|exact_match|↑  |0.8522|±  |0.0098|
+
+2026-11-03 04:01:46 done mbs128_s
+2026-11-03 04:01:46 GPU 7 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128_s 7 18300
+2026-11-03 04:02:02 up; smoke: ' Paris. The capital of France is Paris. The capital of France is Paris. The capital of France is Paris. The'
+[atom 04:01:41] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 144 layers online-quantized
+[atom 04:01:41] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs256/online_quant_info_20261103_040141_633940026.json
+2026-11-03:04:02:26 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:04:02:26 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs128_w/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18330/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8324|±  |0.0103|
+|     |       |strict-match    |     5|exact_match|↑  |0.8332|±  |0.0103|
+
+2026-11-03 04:02:33 GPU 6 done (exit 0): cd .. && AITER_LOG_LEVEL=WARNING HIP_VISIBLE_DEVICES=6 python exp_mbsd_span.py --model /data/Qwen/Qwen3.6-27B --out results/mbsd_span_qwen36_27b.json > results/mbsd_span_qwen36_27b.log 2>&1
+2026-11-03 04:02:38 done mbs128_w
+2026-11-03 04:02:38 GPU 5 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs128_w 5 18330
+2026-11-03:04:03:12 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-03:04:03:12 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b/mbs256/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3-8B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B', 'base_url': 'http://localhost:18340/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8423|±  |  0.01|
+|     |       |strict-match    |     5|exact_match|↑  |0.8453|±  |  0.01|
+
+2026-11-03 04:03:23 done mbs256
+2026-11-03 04:03:23 GPU 4 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_q3_8b bash e2e.sh run mbs256 4 18340
+2026-11-03 04:03:23 GPU 4 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_bf16 bash e2e.sh run bf16 4 18340
+2026-11-03 04:03:23 start bf16 on GPU 4 port 18340
+2026-11-03 04:05:29 up; smoke: ' Paris.\n\n<think>\n\n</think>\n\nThat is correct. Paris is the capital and most populous city of France. It is'
+[ 122.0 min] 148/150 done, 0 failed, 639 tok/s  aime26 139/148
+finished in 123.5 min, 0 failed
+2026-11-03 06:09:06 done bf16
+2026-11-03 06:09:06 GPU 4 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_bf16 bash e2e.sh run bf16 4 18340

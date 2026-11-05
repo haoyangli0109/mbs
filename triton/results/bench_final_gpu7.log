@@ -1,0 +1,14 @@
+2026-11-02 15:16:35 start mbs512 on GPU 7 port 18300
+2026-11-02 15:18:27 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 15:17:06] [rank_0] Post-load online quantization and weight processing done: 0.64 seconds, 128 layers online-quantized
+[atom 15:17:06] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mbs512/online_quant_info_20261102_151706_786710453.json
+Output token throughput (tok/s):         7711.80   
+Mean TTFT (ms):                          620.76    
+Mean TPOT (ms):                          7.69      
+Output token throughput (tok/s):         2270.17   
+Mean TTFT (ms):                          1020.86   
+Mean TPOT (ms):                          10.11     
+Output token throughput (tok/s):         12440.70  
+Mean TTFT (ms):                          1899.78   
+Mean TPOT (ms):                          18.69     
+2026-11-02 15:21:50 done mbs512

@@ -1,0 +1,11 @@
+2026-11-02 13:42:24 start bf16 on GPU 4 port 18310
+2026-11-02 13:43:43 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+2026-11-02:13:45:17 INFO     [loggers.evaluation_tracker:247] Saving results aggregated
+2026-11-02:13:45:17 INFO     [loggers.evaluation_tracker:119] Saving per-task samples to /home/haoyanli/a121_quark/mbs/triton/results/e2e/bf16/gsm8k/__mnt__dcgpuval__haoyanli__Qwen__Qwen3.5-9B/*.jsonl
+local-completions ({'model': '/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B', 'base_url': 'http://localhost:18310/v1/completions', 'num_concurrent': 64, 'max_retries': 3, 'timeout': 1800, 'tokenized_requests': False}), gen_kwargs: ({}), limit: None, num_fewshot: 5, batch_size: 1
+|Tasks|Version|     Filter     |n-shot|  Metric   |   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|---|-----:|---|-----:|
+|gsm8k|      3|flexible-extract|     5|exact_match|↑  |0.8597|±  |0.0096|
+|     |       |strict-match    |     5|exact_match|↑  |0.8779|±  |0.0090|
+
+2026-11-02 13:45:29 done bf16

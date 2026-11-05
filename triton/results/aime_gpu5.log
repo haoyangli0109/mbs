@@ -1,0 +1,7 @@
+2026-11-02 16:36:47 start mxfp4 on GPU 5 port 18330
+2026-11-02 16:38:28 up; smoke: ' Paris.\nThe capital of France is Paris.\nA.\nTrue\nB.\nFalse\nThe capital of'
+[atom 16:37:18] [rank_0] Post-load online quantization and weight processing done: 0.06 seconds, 128 layers online-quantized
+[atom 16:37:18] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime/mxfp4/online_quant_info_20261102_163718_676642862.json
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+2026-11-02 19:20:36 done mxfp4

@@ -1,0 +1,56 @@
+Using the latest cached version of the dataset since math-ai/aime26 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /root/.cache/huggingface/datasets/math-ai___aime26/default/0.0.0/79037aebdb6580008fb960d17cb21fd3099083e3 (last modified on Mon Nov  2 16:35:46 2026).
+aime26: 0 done, 150 to run
+[   2.0 min] 0/150 done, 0 failed, 0 tok/s  
+[   4.0 min] 0/150 done, 0 failed, 0 tok/s  
+[   6.0 min] 3/150 done, 0 failed, 129 tok/s  aime26 3/3
+[   8.0 min] 5/150 done, 0 failed, 179 tok/s  aime26 5/5
+[  10.0 min] 12/150 done, 0 failed, 406 tok/s  aime26 12/12
+[  12.0 min] 14/150 done, 0 failed, 406 tok/s  aime26 14/14
+[  14.0 min] 18/150 done, 0 failed, 479 tok/s  aime26 18/18
+[  16.0 min] 23/150 done, 0 failed, 580 tok/s  aime26 23/23
+[  18.0 min] 28/150 done, 0 failed, 666 tok/s  aime26 28/28
+[  20.0 min] 29/150 done, 0 failed, 629 tok/s  aime26 28/29
+[  22.0 min] 31/150 done, 0 failed, 629 tok/s  aime26 30/31
+[  24.0 min] 34/150 done, 0 failed, 658 tok/s  aime26 33/34
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 279, in evaluate
+    await asyncio.gather(
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 253, in worker
+    rec = await run_one(session, url, task, item, args, files)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 187, in run_one
+    async with session.post(f"{url}/v1/chat/completions", json=payload) as r:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 878, in _connect_and_send_request
+    await resp.start(conn)
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client_reqrep.py", line 745, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/streams.py", line 716, in read
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 362, in <module>
+    asyncio.run(evaluate(args))
+  File "/usr/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt

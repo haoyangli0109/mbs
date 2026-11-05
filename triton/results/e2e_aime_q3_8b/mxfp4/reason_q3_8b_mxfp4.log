@@ -1,0 +1,15 @@
+Using the latest cached version of the dataset since math-ai/aime26 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /root/.cache/huggingface/datasets/math-ai___aime26/default/0.0.0/79037aebdb6580008fb960d17cb21fd3099083e3 (last modified on Mon Nov  2 16:35:46 2026).
+aime26: 0 done, 150 to run
+[   2.0 min] 15/150 done, 0 failed, 967 tok/s  aime26 14/15
+[   4.0 min] 34/150 done, 0 failed, 1358 tok/s  aime26 30/34
+[   6.0 min] 51/150 done, 0 failed, 1643 tok/s  aime26 38/51
+[   8.0 min] 63/150 done, 0 failed, 1659 tok/s  aime26 46/63
+[  10.0 min] 79/150 done, 0 failed, 1826 tok/s  aime26 54/79
+[  12.0 min] 93/150 done, 0 failed, 1898 tok/s  aime26 60/93
+[  14.0 min] 112/150 done, 0 failed, 1985 tok/s  aime26 70/112
+[  16.0 min] 121/150 done, 0 failed, 1925 tok/s  aime26 74/121
+[  18.0 min] 132/150 done, 0 failed, 1922 tok/s  aime26 77/132
+[  20.0 min] 142/150 done, 0 failed, 1942 tok/s  aime26 79/142
+[  22.0 min] 148/150 done, 0 failed, 1892 tok/s  aime26 79/148
+finished in 23.9 min, 0 failed

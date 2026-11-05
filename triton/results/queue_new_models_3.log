@@ -1,0 +1,43 @@
+2026-11-03 04:50:25 GPU 1 start: MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mbs128 bash e2e.sh run mbs128 1 18410
+2026-11-03 04:50:25 GPU 0 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_bf16 bash e2e.sh run bf16 0 18400
+2026-11-03 04:50:25 start mbs128 on GPU 1 port 18410
+2026-11-03 04:50:25 GPU 2 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_mxfp4 bash e2e.sh run mxfp4 2 18420
+2026-11-03 04:50:25 start bf16 on GPU 0 port 18400
+2026-11-03 04:50:25 GPU 3 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_mbs128_s bash e2e.sh run mbs128_s 3 18430
+2026-11-03 04:50:25 start mxfp4 on GPU 2 port 18420
+2026-11-03 04:50:25 start mbs128_s on GPU 3 port 18430
+2026-11-03 04:51:15 up; smoke: ' Paris. The capital of France is Paris. The capital of France is Paris. The capital of France is Paris. The'
+[atom 04:50:58] [rank_0] Post-load online quantization and weight processing done: 0.04 seconds, 144 layers online-quantized
+[atom 04:50:58] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b/mxfp4/online_quant_info_20261103_045058_560243989.json
+2026-11-03 04:51:15 up; smoke: ' Paris. The capital of France is Paris. The capital of France is Paris. The capital of France is Paris. The'
+[atom 04:50:59] [rank_0] Post-load online quantization and weight processing done: 0.66 seconds, 144 layers online-quantized
+[atom 04:50:59] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b/mbs128_s/online_quant_info_20261103_045059_139832920.json
+2026-11-03 04:51:15 up; smoke: ' Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of Germany is Berlin. The'
+2026-11-03 04:51:59 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 04:51:13] [rank_0] Post-load online quantization and weight processing done: 0.71 seconds, 256 layers online-quantized
+[atom 04:51:13] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b/mbs128/online_quant_info_20261103_045113_089086668.json
+[  22.0 min] 148/150 done, 0 failed, 1892 tok/s  aime26 79/148
+finished in 23.9 min, 0 failed
+2026-11-03 05:15:18 done mxfp4
+2026-11-03 05:15:18 GPU 2 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_mxfp4 bash e2e.sh run mxfp4 2 18420
+2026-11-03 05:15:18 GPU 2 start: MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_mbs128 bash e2e.sh run mbs128 2 18420
+2026-11-03 05:15:18 start mbs128 on GPU 2 port 18420
+2026-11-03 05:16:03 up; smoke: ' Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The'
+[atom 05:15:48] [rank_0] Post-load online quantization and weight processing done: 0.63 seconds, 144 layers online-quantized
+[atom 05:15:48] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b/mbs128/online_quant_info_20261103_051548_332774807.json
+[  24.0 min] 149/150 done, 0 failed, 1763 tok/s  aime26 99/149
+finished in 25.0 min, 0 failed
+2026-11-03 05:16:26 done bf16
+2026-11-03 05:16:26 GPU 0 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_bf16 bash e2e.sh run bf16 0 18400
+[  26.0 min] 144/150 done, 0 failed, 1629 tok/s  aime26 90/144
+finished in 27.9 min, 0 failed
+2026-11-03 05:19:17 done mbs128_s
+2026-11-03 05:19:17 GPU 3 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_mbs128_s bash e2e.sh run mbs128_s 3 18430
+[  28.0 min] 148/150 done, 0 failed, 1592 tok/s  aime26 88/148
+finished in 28.5 min, 0 failed
+2026-11-03 05:44:46 done mbs128
+2026-11-03 05:44:46 GPU 2 done (exit 0): MODEL=/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q3_8b MAX_LEN=40960 MAX_TOKENS=38912 REASON_SAMPLING='{"temperature": 0.6}' SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=48 REASON_TAG=q3_8b_mbs128 bash e2e.sh run mbs128 2 18420
+[ 138.0 min] 147/148 done, 0 failed, 613 tok/s  aime26 132/147
+finished in 138.3 min, 0 failed
+2026-11-03 07:10:26 done mbs128
+2026-11-03 07:10:26 GPU 1 done (exit 0): MODEL=/data/Qwen/Qwen3.6-27B OUT=/home/haoyanli/a121_quark/mbs/triton/results/e2e_aime_q36_27b MAX_LEN=90112 SKIP_GSM8K=1 REASON=1 SAMPLES=5 CONC=40 REASON_TAG=q36_27b_mbs128 bash e2e.sh run mbs128 1 18410

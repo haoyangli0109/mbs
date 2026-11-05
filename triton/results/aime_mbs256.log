@@ -1,0 +1,7 @@
+2026-11-02 19:23:06 start mbs256 on GPU 5 port 18330
+2026-11-02 19:24:15 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+[atom 19:23:38] [rank_0] Post-load online quantization and weight processing done: 0.64 seconds, 128 layers online-quantized
+[atom 19:23:38] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime/mbs256/online_quant_info_20261102_192338_417052756.json
+[ 108.0 min] 142/150 done, 0 failed, 1335 tok/s  aime26 69/142
+finished in 109.5 min, 0 failed
+2026-11-02 21:13:52 done mbs256

@@ -1,0 +1,4 @@
+2026-11-03 03:35:08 start bf16 on GPU 5 port 18330
+2026-11-03 03:37:18 server bf16 failed, see /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/bf16/server.log
+2026-11-03 03:37:18 start mxfp4 on GPU 5 port 18330
+2026-11-03 03:38:38 server mxfp4 failed, see /home/haoyanli/a121_quark/mbs/triton/results/e2e_q36_27b/mxfp4/server.log

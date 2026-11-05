@@ -1,0 +1,124 @@
+Using the latest cached version of the dataset since math-ai/aime26 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /root/.cache/huggingface/datasets/math-ai___aime26/default/0.0.0/79037aebdb6580008fb960d17cb21fd3099083e3 (last modified on Mon Nov  2 16:35:46 2026).
+aime26: 0 done, 240 to run
+[   2.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   4.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   6.0 min] 0/240 done, 0 failed, 0 tok/s  
+[   8.0 min] 0/240 done, 0 failed, 0 tok/s  
+[  10.0 min] 1/240 done, 0 failed, 30 tok/s  aime26 1/1
+[  12.0 min] 1/240 done, 0 failed, 25 tok/s  aime26 1/1
+[  14.0 min] 1/240 done, 0 failed, 21 tok/s  aime26 1/1
+[  16.0 min] 1/240 done, 0 failed, 19 tok/s  aime26 1/1
+[  18.0 min] 2/240 done, 0 failed, 42 tok/s  aime26 2/2
+[  20.0 min] 2/240 done, 0 failed, 38 tok/s  aime26 2/2
+[  22.0 min] 2/240 done, 0 failed, 34 tok/s  aime26 2/2
+[  24.0 min] 3/240 done, 0 failed, 54 tok/s  aime26 3/3
+[  26.0 min] 3/240 done, 0 failed, 50 tok/s  aime26 3/3
+[  28.0 min] 3/240 done, 0 failed, 46 tok/s  aime26 3/3
+[  30.0 min] 3/240 done, 0 failed, 43 tok/s  aime26 3/3
+[  32.0 min] 3/240 done, 0 failed, 41 tok/s  aime26 3/3
+[  34.0 min] 4/240 done, 0 failed, 58 tok/s  aime26 4/4
+[  36.0 min] 4/240 done, 0 failed, 55 tok/s  aime26 4/4
+[  38.0 min] 4/240 done, 0 failed, 52 tok/s  aime26 4/4
+[  40.0 min] 4/240 done, 0 failed, 49 tok/s  aime26 4/4
+[  42.0 min] 4/240 done, 0 failed, 47 tok/s  aime26 4/4
+[  44.0 min] 4/240 done, 0 failed, 45 tok/s  aime26 4/4
+[  46.0 min] 5/240 done, 0 failed, 60 tok/s  aime26 5/5
+[  48.0 min] 5/240 done, 0 failed, 57 tok/s  aime26 5/5
+[  50.0 min] 5/240 done, 0 failed, 55 tok/s  aime26 5/5
+[  52.0 min] 5/240 done, 0 failed, 53 tok/s  aime26 5/5
+[  54.0 min] 5/240 done, 0 failed, 51 tok/s  aime26 5/5
+[  56.0 min] 5/240 done, 0 failed, 49 tok/s  aime26 5/5
+[  58.0 min] 5/240 done, 0 failed, 47 tok/s  aime26 5/5
+[  60.0 min] 5/240 done, 0 failed, 46 tok/s  aime26 5/5
+[  62.0 min] 5/240 done, 0 failed, 44 tok/s  aime26 5/5
+[  64.0 min] 5/240 done, 0 failed, 43 tok/s  aime26 5/5
+[  66.0 min] 7/240 done, 0 failed, 73 tok/s  aime26 7/7
+[  68.0 min] 7/240 done, 0 failed, 70 tok/s  aime26 7/7
+[  70.0 min] 7/240 done, 0 failed, 68 tok/s  aime26 7/7
+[  72.1 min] 7/240 done, 0 failed, 67 tok/s  aime26 7/7
+[  74.1 min] 7/240 done, 0 failed, 65 tok/s  aime26 7/7
+[  76.1 min] 7/240 done, 0 failed, 63 tok/s  aime26 7/7
+[  78.1 min] 7/240 done, 0 failed, 61 tok/s  aime26 7/7
+[  80.1 min] 7/240 done, 0 failed, 60 tok/s  aime26 7/7
+[  82.1 min] 8/240 done, 0 failed, 73 tok/s  aime26 8/8
+[  84.1 min] 8/240 done, 0 failed, 71 tok/s  aime26 8/8
+[  86.1 min] 8/240 done, 0 failed, 70 tok/s  aime26 8/8
+[  88.1 min] 8/240 done, 0 failed, 68 tok/s  aime26 8/8
+[  90.1 min] 8/240 done, 0 failed, 67 tok/s  aime26 8/8
+[  92.1 min] 8/240 done, 0 failed, 65 tok/s  aime26 8/8
+[  94.1 min] 8/240 done, 0 failed, 64 tok/s  aime26 8/8
+[  96.1 min] 8/240 done, 0 failed, 62 tok/s  aime26 8/8
+[  98.1 min] 8/240 done, 0 failed, 61 tok/s  aime26 8/8
+[ 100.1 min] 86/240 done, 0 failed, 1124 tok/s  aime26 8/86
+[ 102.1 min] 87/240 done, 0 failed, 1115 tok/s  aime26 8/87
+[ 104.1 min] 88/240 done, 0 failed, 1107 tok/s  aime26 8/88
+[ 106.1 min] 90/240 done, 0 failed, 1112 tok/s  aime26 8/90
+[ 108.1 min] 91/240 done, 0 failed, 1104 tok/s  aime26 8/91
+[ 110.1 min] 92/240 done, 0 failed, 1096 tok/s  aime26 8/92
+[ 112.1 min] 94/240 done, 0 failed, 1101 tok/s  aime26 8/94
+[ 114.1 min] 95/240 done, 0 failed, 1094 tok/s  aime26 8/95
+[ 116.1 min] 96/240 done, 0 failed, 1087 tok/s  aime26 8/96
+[ 118.1 min] 97/240 done, 0 failed, 1080 tok/s  aime26 8/97
+[ 120.1 min] 99/240 done, 0 failed, 1085 tok/s  aime26 8/99
+[ 122.1 min] 101/240 done, 0 failed, 1089 tok/s  aime26 8/101
+[ 124.1 min] 103/240 done, 0 failed, 1094 tok/s  aime26 8/103
+[ 126.1 min] 106/240 done, 0 failed, 1106 tok/s  aime26 9/106
+[ 128.1 min] 108/240 done, 0 failed, 1110 tok/s  aime26 9/108
+[ 130.1 min] 111/240 done, 0 failed, 1123 tok/s  aime26 10/111
+[ 132.1 min] 112/240 done, 0 failed, 1116 tok/s  aime26 10/112
+[ 134.1 min] 113/240 done, 0 failed, 1109 tok/s  aime26 10/113
+[ 136.1 min] 116/240 done, 0 failed, 1123 tok/s  aime26 10/116
+[ 138.1 min] 118/240 done, 0 failed, 1127 tok/s  aime26 10/118
+[ 140.1 min] 121/240 done, 0 failed, 1140 tok/s  aime26 10/121
+[ 142.1 min] 124/240 done, 0 failed, 1153 tok/s  aime26 10/124
+[ 144.1 min] 126/240 done, 0 failed, 1156 tok/s  aime26 10/126
+[ 146.1 min] 129/240 done, 0 failed, 1168 tok/s  aime26 10/129
+[ 148.1 min] 133/240 done, 0 failed, 1189 tok/s  aime26 10/133
+[ 150.1 min] 137/240 done, 0 failed, 1210 tok/s  aime26 10/137
+[ 152.1 min] 140/240 done, 0 failed, 1221 tok/s  aime26 10/140
+[ 154.1 min] 143/240 done, 0 failed, 1231 tok/s  aime26 10/143
+[ 156.1 min] 147/240 done, 0 failed, 1250 tok/s  aime26 10/147
+[ 158.1 min] 151/240 done, 0 failed, 1269 tok/s  aime26 10/151
+[ 160.1 min] 156/240 done, 0 failed, 1296 tok/s  aime26 10/156
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 279, in evaluate
+    await asyncio.gather(
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 253, in worker
+    rec = await run_one(session, url, task, item, args, files)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 187, in run_one
+    async with session.post(f"{url}/v1/chat/completions", json=payload) as r:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client.py", line 878, in _connect_and_send_request
+    await resp.start(conn)
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/client_reqrep.py", line 745, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/streams.py", line 716, in read
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/haoyanli/a121_quark/mbs/triton/atom_e2e/../reason_eval.py", line 362, in <module>
+    asyncio.run(evaluate(args))
+  File "/usr/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt

@@ -1,0 +1,5 @@
+2026-11-02 18:55:18 start bf16 on GPU 6 port 18320
+2026-11-02 18:56:22 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+2026-11-02 19:22:18 done bf16

@@ -1,0 +1,80 @@
+{
+ "mxfp4": {
+  "ppl": 10.018722734893002,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [
+   "*in_proj_a",
+   "*in_proj_b"
+  ],
+  "quantized_linears": 200,
+  "quant_seconds": 0.6,
+  "eval_seconds": 34.1
+ },
+ "mbs128": {
+  "ppl": 8.8650381879604,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [
+   "*in_proj_a",
+   "*in_proj_b"
+  ],
+  "quantized_linears": 200,
+  "quant_seconds": 0.2,
+  "eval_seconds": 26.6
+ },
+ "mbs256": {
+  "ppl": 9.066824629464568,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [
+   "*in_proj_a",
+   "*in_proj_b"
+  ],
+  "quantized_linears": 200,
+  "quant_seconds": 0.1,
+  "eval_seconds": 27.1
+ },
+ "mbs512": {
+  "ppl": 8.790052411928357,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [
+   "*in_proj_a",
+   "*in_proj_b"
+  ],
+  "quantized_linears": 200,
+  "quant_seconds": 0.1,
+  "eval_seconds": 27.0
+ },
+ "mbs128_a": {
+  "ppl": 9.550006808039393,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [
+   "*in_proj_a",
+   "*in_proj_b"
+  ],
+  "quantized_linears": 200,
+  "quant_seconds": 0.0,
+  "eval_seconds": 26.7
+ },
+ "mbs128_s": {
+  "ppl": 8.931481030705376,
+  "windows": 145,
+  "seqlen": 2048,
+  "tokens": 296815,
+  "exclude": [
+   "*in_proj_a",
+   "*in_proj_b"
+  ],
+  "quantized_linears": 200,
+  "quant_seconds": 0.0,
+  "eval_seconds": 26.7
+ }
+}

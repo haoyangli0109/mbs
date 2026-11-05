@@ -1,0 +1,177 @@
+{
+ "bf16|seed0": {
+  "ppl": 9.737370614223538,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mxfp4|seed0": {
+  "ppl": 11.056631374256504,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128|seed0": {
+  "ppl": 10.549847864588703,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_s|seed0": {
+  "ppl": 10.59369068720634,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512|seed0": {
+  "ppl": 10.751880037383348,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512_s|seed0": {
+  "ppl": 10.541733127049339,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_a|seed0": {
+  "ppl": 10.586871466539003,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "bf16|seed1": {
+  "ppl": 9.747031807935157,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mxfp4|seed1": {
+  "ppl": 11.081463738587358,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128|seed1": {
+  "ppl": 10.474929751987869,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_s|seed1": {
+  "ppl": 10.388166133971694,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512|seed1": {
+  "ppl": 10.61166663024846,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512_s|seed1": {
+  "ppl": 10.585044903922073,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_a|seed1": {
+  "ppl": 10.605282534506614,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "bf16|seed2": {
+  "ppl": 9.706220241773254,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mxfp4|seed2": {
+  "ppl": 10.75722298515866,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128|seed2": {
+  "ppl": 10.586210245954979,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_s|seed2": {
+  "ppl": 10.540719708177969,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512|seed2": {
+  "ppl": 10.733157743408722,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512_s|seed2": {
+  "ppl": 10.65187859737717,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_a|seed2": {
+  "ppl": 10.295632694862142,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "bf16|seed3": {
+  "ppl": 9.720916161983896,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mxfp4|seed3": {
+  "ppl": 11.106920399089827,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128|seed3": {
+  "ppl": 10.237008985950316,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_s|seed3": {
+  "ppl": 10.441811882056756,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512|seed3": {
+  "ppl": 10.501269859905301,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512_s|seed3": {
+  "ppl": 10.523722453143327,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_a|seed3": {
+  "ppl": 10.612845428094687,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "bf16|seed4": {
+  "ppl": 9.768092417544503,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mxfp4|seed4": {
+  "ppl": 11.049001506845896,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128|seed4": {
+  "ppl": 10.398699472859596,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_s|seed4": {
+  "ppl": 10.639744723014498,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512|seed4": {
+  "ppl": 10.819196239527239,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs512_s|seed4": {
+  "ppl": 10.85941863270701,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ },
+ "mbs128_a|seed4": {
+  "ppl": 10.562097413912925,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3-8B"
+ }
+}

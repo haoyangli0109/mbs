@@ -1,0 +1,47 @@
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:07,  3.11it/s]Loading weights:   1%|          | 2/399 [00:00<02:21,  2.81it/s]Loading weights:   4%|▍         | 16/399 [00:00<00:13, 27.55it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:08, 45.33it/s]Loading weights:  11%|█         | 42/399 [00:01<00:05, 66.35it/s]Loading weights:  14%|█▍        | 55/399 [00:01<00:04, 80.27it/s]Loading weights:  18%|█▊        | 70/399 [00:01<00:03, 97.39it/s]Loading weights:  21%|██        | 82/399 [00:01<00:03, 98.87it/s]Loading weights:  24%|██▎       | 94/399 [00:01<00:03, 100.61it/s]Loading weights:  27%|██▋       | 109/399 [00:01<00:02, 113.03it/s]Loading weights:  31%|███▏      | 125/399 [00:01<00:02, 120.00it/s]Loading weights:  35%|███▍      | 138/399 [00:01<00:02, 115.21it/s]Loading weights:  40%|███▉      | 158/399 [00:01<00:01, 131.62it/s]Loading weights:  43%|████▎     | 172/399 [00:02<00:01, 125.58it/s]Loading weights:  48%|████▊     | 191/399 [00:02<00:01, 136.59it/s]Loading weights:  51%|█████▏    | 205/399 [00:02<00:01, 129.15it/s]Loading weights:  55%|█████▍    | 219/399 [00:02<00:01, 121.75it/s]Loading weights:  58%|█████▊    | 232/399 [00:02<00:01, 116.49it/s]Loading weights:  61%|██████    | 244/399 [00:02<00:01, 108.86it/s]Loading weights:  64%|██████▍   | 255/399 [00:02<00:01, 102.63it/s]Loading weights:  67%|██████▋   | 266/399 [00:02<00:01, 97.30it/s] Loading weights:  69%|██████▉   | 276/399 [00:03<00:01, 89.78it/s]Loading weights:  72%|███████▏  | 286/399 [00:03<00:01, 86.46it/s]Loading weights:  74%|███████▍  | 296/399 [00:03<00:01, 85.98it/s]Loading weights:  76%|███████▋  | 305/399 [00:03<00:01, 86.42it/s]Loading weights:  79%|███████▊  | 314/399 [00:03<00:01, 81.80it/s]Loading weights:  81%|████████  | 324/399 [00:03<00:00, 80.67it/s]Loading weights:  84%|████████▍ | 336/399 [00:03<00:00, 88.74it/s]Loading weights:  87%|████████▋ | 347/399 [00:03<00:00, 91.81it/s]Loading weights:  90%|████████▉ | 358/399 [00:04<00:00, 93.81it/s]Loading weights:  92%|█████████▏| 369/399 [00:04<00:00, 96.13it/s]Loading weights:  95%|█████████▍| 379/399 [00:04<00:00, 93.40it/s]Loading weights:  98%|█████████▊| 391/399 [00:04<00:00, 96.61it/s]Loading weights: 100%|██████████| 399/399 [00:04<00:00, 91.03it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (299078 > 131072). Running this sequence through the model will result in indexing errors
+seed 0 bf16       ppl 9.7374  (12s)
+seed 0 mxfp4      ppl 11.0566  (7s)
+seed 0 mbs128     ppl 10.5498  (8s)
+seed 0 mbs128_s   ppl 10.5937  (8s)
+seed 0 mbs512     ppl 10.7519  (7s)
+seed 0 mbs512_s   ppl 10.5417  (7s)
+seed 0 mbs128_a   ppl 10.5869  (7s)
+seed 1 bf16       ppl 9.7470  (8s)
+seed 1 mxfp4      ppl 11.0815  (6s)
+seed 1 mbs128     ppl 10.4749  (8s)
+seed 1 mbs128_s   ppl 10.3882  (8s)
+seed 1 mbs512     ppl 10.6117  (7s)
+seed 1 mbs512_s   ppl 10.5850  (7s)
+seed 1 mbs128_a   ppl 10.6053  (7s)
+seed 2 bf16       ppl 9.7062  (8s)
+seed 2 mxfp4      ppl 10.7572  (6s)
+seed 2 mbs128     ppl 10.5862  (8s)
+seed 2 mbs128_s   ppl 10.5407  (8s)
+seed 2 mbs512     ppl 10.7332  (7s)
+seed 2 mbs512_s   ppl 10.6519  (7s)
+seed 2 mbs128_a   ppl 10.2956  (7s)
+seed 3 bf16       ppl 9.7209  (8s)
+seed 3 mxfp4      ppl 11.1069  (6s)
+seed 3 mbs128     ppl 10.2370  (8s)
+seed 3 mbs128_s   ppl 10.4418  (8s)
+seed 3 mbs512     ppl 10.5013  (7s)
+seed 3 mbs512_s   ppl 10.5237  (7s)
+seed 3 mbs128_a   ppl 10.6128  (7s)
+seed 4 bf16       ppl 9.7681  (8s)
+seed 4 mxfp4      ppl 11.0490  (6s)
+seed 4 mbs128     ppl 10.3987  (8s)
+seed 4 mbs128_s   ppl 10.6397  (8s)
+seed 4 mbs512     ppl 10.8192  (7s)
+seed 4 mbs512_s   ppl 10.8594  (7s)
+seed 4 mbs128_a   ppl 10.5621  (7s)
+
+format         mean     sd  per seed
+bf16         9.7359 0.0238  9.737 9.747 9.706 9.721 9.768
+mxfp4       11.0102 0.1433  11.057 11.081 10.757 11.107 11.049
+mbs128      10.4493 0.1389  10.550 10.475 10.586 10.237 10.399
+mbs128_s    10.5208 0.1045  10.594 10.388 10.541 10.442 10.640
+mbs512      10.6834 0.1264  10.752 10.612 10.733 10.501 10.819
+mbs512_s    10.6324 0.1362  10.542 10.585 10.652 10.524 10.859
+mbs128_a    10.5325 0.1339  10.587 10.605 10.296 10.613 10.562

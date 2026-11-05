@@ -1,0 +1,40 @@
+2026-11-02 14:04:16 start mxfp4 on GPU 6 port 18320
+2026-11-02 14:05:19 up; smoke: ' Paris.\nThe capital of France is Paris.\nA.\nTrue\nB.\nFalse\nThe capital of'
+[atom 14:04:46] [rank_0] Post-load online quantization and weight processing done: 0.06 seconds, 128 layers online-quantized
+[atom 14:04:46] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e/mxfp4/online_quant_info_20261102_140446_208964778.json
+Request throughput (req/s):              8.17      
+Output token throughput (tok/s):         8361.65   
+Total Token throughput (tok/s):          16723.30  
+Mean TTFT (ms):                          487.48    
+Median TTFT (ms):                        468.04    
+P99 TTFT (ms):                           687.44    
+Mean TPOT (ms):                          7.17      
+Median TPOT (ms):                        7.20      
+P99 TPOT (ms):                           7.47      
+Request throughput (req/s):              10.96     
+Output token throughput (tok/s):         2806.43   
+Total Token throughput (tok/s):          47709.23  
+Mean TTFT (ms):                          754.09    
+Median TTFT (ms):                        743.25    
+P99 TTFT (ms):                           1250.29   
+Mean TPOT (ms):                          8.45      
+Median TPOT (ms):                        8.56      
+P99 TPOT (ms):                           10.87     
+Request throughput (req/s):              13.85     
+Output token throughput (tok/s):         14187.45  
+2026-11-02 14:08:07 done mxfp4
+2026-11-02 14:08:07 done mxfp4
+e2e.sh: line 143: syntax error near unexpected token `;;'
+e2e.sh: line 143: `  ;;'
+2026-11-02 14:08:07 start bf16 on GPU 6 port 18320
+2026-11-02 14:09:16 up; smoke: ' Paris.\nThe capital of France is Paris.\nThe capital of France is Paris.\nThe capital of France is'
+Output token throughput (tok/s):         6992.57   
+Mean TTFT (ms):                          756.41    
+Mean TPOT (ms):                          8.41      
+Output token throughput (tok/s):         2007.90   
+Mean TTFT (ms):                          1261.07   
+Mean TPOT (ms):                          11.02     
+Output token throughput (tok/s):         10885.99  
+Mean TTFT (ms):                          2360.02   
+Mean TPOT (ms):                          21.20     
+2026-11-02 14:12:42 done bf16

@@ -1,0 +1,7 @@
+2026-11-02 19:23:06 start mbs128_w on GPU 6 port 18320
+2026-11-02 19:24:53 up; smoke: ' Paris.\nA. True\nB. False\n\n<think>\nThinking Process:\n\n1.  **Analyze the'
+[atom 19:23:37] [rank_0] Post-load online quantization and weight processing done: 0.64 seconds, 128 layers online-quantized
+[atom 19:23:37] Online quantization info saved to /home/haoyanli/a121_quark/mbs/triton/results/e2e_aime/mbs128_w/online_quant_info_20261102_192337_562961807.json
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+2026-11-02 19:26:10 done mbs128_w

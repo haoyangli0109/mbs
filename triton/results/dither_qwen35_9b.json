@@ -1,0 +1,177 @@
+{
+ "bf16|seed0": {
+  "ppl": 8.685353193450679,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mxfp4|seed0": {
+  "ppl": 10.142014892691726,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128|seed0": {
+  "ppl": 9.17297306488691,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_s|seed0": {
+  "ppl": 9.043038138226605,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512|seed0": {
+  "ppl": 9.38878696851622,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512_s|seed0": {
+  "ppl": 9.572636910484901,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_a|seed0": {
+  "ppl": 9.697465357877496,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "bf16|seed1": {
+  "ppl": 8.583079779573886,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mxfp4|seed1": {
+  "ppl": 9.950373921171577,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128|seed1": {
+  "ppl": 8.883325304439133,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_s|seed1": {
+  "ppl": 8.929114038178946,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512|seed1": {
+  "ppl": 8.850685554126024,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512_s|seed1": {
+  "ppl": 9.195293195768063,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_a|seed1": {
+  "ppl": 9.435345530086733,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "bf16|seed2": {
+  "ppl": 8.576155511029606,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mxfp4|seed2": {
+  "ppl": 9.918478957583963,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128|seed2": {
+  "ppl": 8.85105961548584,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_s|seed2": {
+  "ppl": 8.799782112767131,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512|seed2": {
+  "ppl": 9.023870889900495,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512_s|seed2": {
+  "ppl": 8.866236545218445,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_a|seed2": {
+  "ppl": 9.382568472311567,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "bf16|seed3": {
+  "ppl": 8.654255269833294,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mxfp4|seed3": {
+  "ppl": 10.104537245173045,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128|seed3": {
+  "ppl": 9.382856601423764,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_s|seed3": {
+  "ppl": 8.818645191032731,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512|seed3": {
+  "ppl": 9.189707305595697,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512_s|seed3": {
+  "ppl": 9.388669925479347,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_a|seed3": {
+  "ppl": 9.569632061053987,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "bf16|seed4": {
+  "ppl": 8.772638537595283,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mxfp4|seed4": {
+  "ppl": 10.02448708901977,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128|seed4": {
+  "ppl": 8.971990961821113,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_s|seed4": {
+  "ppl": 9.161106423050038,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512|seed4": {
+  "ppl": 8.903959446473625,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs512_s|seed4": {
+  "ppl": 9.379428458818428,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ },
+ "mbs128_a|seed4": {
+  "ppl": 9.41562259363216,
+  "sigma": 0.02,
+  "model": "/mnt/dcgpuval/haoyanli/Qwen/Qwen3.5-9B"
+ }
+}
