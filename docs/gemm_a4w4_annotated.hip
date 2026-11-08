@@ -484,7 +484,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     // 更好。【例】PF_B = 1
     constexpr int RING = 4;
     constexpr int PF   = 2;
-    constexpr int PF_B = (NSUB <= 4 && MSUB < 16) ? 2 : 1;
+    constexpr int PF_B = (NSUB <= 4 && MSUB < 16) ? 2 : 1; // 1
     // 为什么不会覆盖还在读的槽：step s 在它的段 1 里重填 (s+PF) % RING 号槽。即使 RING 只有
     // PF+1，被填的也是 stage s-1 的槽：它的最后一批片段读取在 step s-1 的段 0 发出，并在
     // step s-1 段 1 开头的 lgkmcnt(0) + barrier 处全部完成。RING = 4 再多留一个 stage 的
@@ -572,11 +572,12 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     // 偏移 8 行（a_jstride）。
     // 【例】lane 37：行 = 37/8 = 4，物理块 = 37%8 = 5，逻辑块 = 5^4 = 1
     // → a_lane = 4·Kp + 1·16 = 4·2560 + 16 = 10256（本 wave 第 0 条 DMA 的 VGPR 偏移）
+    // 这里是HBM地址
     const int a_lane = (lane >> 3) * Kp + (((lane & 7) ^ (lane >> 3)) * 16); 
     // B 片段：一个 16 行子块的一个 K-128 段是连续的 1 KB，lane L 读其中第 L 个 16 字节
     // 这是一个16*128内的偏移，比wave还小，
     // (row16, g）代表本lane要拿的B的是把本次用16行128列得行号0-16，格号0-4, 做shuffle，小块被先按格在行排到新矩阵的行方向了，
-    // 这也就是说原本的1行2格，被排到从左往右，1*16+2这个小格位了，也就是1*16*16+2*16=1*256+2*16
+    // 这也就是说原本的1行2格，被排到从左往右，1*16+2这个小格位了，也就是2*16*16+1*16=2*256+1*16
     const int b_lane = g * 256 + row16 * 16;
     // scale：shuffle 布局里，32 行 × 一个 stage 是 256 字节，lane L 读第 L 个 dword。
     // 【例】lane 37 → s_lane = 148
@@ -684,7 +685,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     //   * 一旦 DMA 对编译器不可见，编译器替 B 插入的等待就会算错（多等或少等），逼得下一个
     //     stage 的 A DMA 提前落地。
     // 读进来的寄存器只会被（同样是 asm 的）MFMA 读，而且是在手写的等待之后。
-     // 对一次加载的一条256*16=2kb, 一个wave一条load 1kb， 所以要2次，一个wave有NSUB条， 2*8就是一个wave要发几条B的load【例】8
+     // 对一次加载的一条256(个k)*16(行一组)=2kb, 一个wave一条load 1kb， 所以要2次，一个wave有NSUB条， 2*8就是一个wave要发几条B的load【例】8
     constexpr int NB              = 2 * NSUB;  
     // 一个wave在一个 step 的总条数 = B 片段 + B scale + A DMA + A scale DMA【例】8 + 2 + 8 + 2 = 20
     // NSUB/2：B_scale，对一个小条32*(256/32）来说(B scale 32行为一组)，需要256B，每个lane用load_dword 4B,
@@ -694,7 +695,8 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     // 编号区间：[0, KBS) B 片段，[KBS, KA) B scale，[KA, KAS) A DMA，[KAS, L) A scale DMA
     constexpr int KBS = NB, KA = KBS + NSUB / 2, KAS = KA + A_LDS_PER_WAVE;
     // 本 wave 在 LDS 槽里负责的那 1/4 的起点（每条 DMA 1 KB）
-    const uint32_t lds_wave_off   = wave * A_LDS_PER_WAVE * 1024;
+    const uint32_t lds_wave_off   = wave * A_LDS_PER_WAVE * 1024; // 每个wave，发8条，8条是8*128=1KB
+    // 从HBM取是行主序，8*256=1KB=一次，然后4个wave，每个8次，一共32kb
     const int a_jstride           = 8 * Kp;   // 第 j 条 A DMA 覆盖第 8j .. 8j+7 行
     // A 的指令加载 tile to 的第 st 个 stage；B / scale 的指令加载 tile tob 的第 stb 个 stage
     // （两者的提前量不同，所以分开传）。
@@ -717,11 +719,20 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     // 偏移，块偏移改走 SGPR soffset：每条多一个发射 cycle，但省下 4 个 VGPR——不这样的话，
     // 这个 tile 会在 epilogue 附近 spill。
     constexpr bool SCALE_SOFF = MSUB >= 16;
+    // 对A每个wave发8条，NSUB=4
     int a_voff[A_LDS_PER_WAVE], b_voff[NSUB];   // 每条 A DMA / 每个 B 子块一个 VGPR 偏移
     int bs_voff[SCALE_SOFF ? 1 : NSUB / 2], as_voff[SCALE_SOFF ? 1 : S_LDS_PER_WAVE];
-    // 第 j 条 A DMA：lane 偏移 + j × 8 行
+    // 以下三个偏移，都是本 lane 的偏移，每个 lane 的值都不一样，所以放在 VGPR 里。是数组也确实因为一个 stage 要发多条 load。每条 load 都从同一个基址出发，去不同的位置，各自需要一个固定的偏移。
+    // 第 j 条 A DMA：lane 偏移 + j × 8 行， j = 0-7
+    // 偏移真的会占用VGPR，这里就i占了8个VGPR了
+    // 本lane, 共有j=8次取数，8行*256个=1kb，每次都是行内同一个位置块1*32，
     static_for<A_LDS_PER_WAVE>([&](auto j) { a_voff[j] = opaque(a_lane + j * a_jstride); });
-    // 第 ni 个 B 子块：lane 偏移 + ni 个 16 行组
+    // 第 ni 个 B 子块：lane 偏移 + ni 个 16 行组。这里还是b_lane的偏移
+    // NSUB = 4：每个 wave 在 N 方向有 4 个 16 行子块，一个 stage 共 64(N) × 256(K)。
+    // b_voff[ni] = b_lane（本 lane 在一条 MFMA 的 1 KB 里的位置，含 32-K 块 g）
+    //            + ni 个 16 行组（每组跨整个 K，KT·512 = 16·K/2 字节）。
+    // K 的另外两层不在这里：K 半段 h 走立即数 h·1024，stage 走描述符基址 stb·2048。
+    // 然后ni表示第几个16行组，那么一组是16*5120/2字节=（5120/64）* 512；KT这个值真的很抽象
     static_for<NSUB>([&](auto ni) { b_voff[ni] = opaque(b_lane + ni * KT * 512); });
     if constexpr (SCALE_SOFF)
     {
@@ -743,10 +754,24 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
         const uint64_t a = (((uint64_t)(uint32_t)r[1] << 32) | (uint32_t)r[0]) + (uint32_t)off;
         return i32x4{(int)a, (int)(a >> 32), max(r[2] - off, 0), r[3]};
     };
+    // 一个 step 处理的是一个 stage，也就是 256 个 K，处理一个 stage（两段）
+    // 段 0 发下一个 stage 的 B：8 条 load 加 2 条 B scale。
+    // 段 1 发再下一个 stage 的 A：8 条 DMA 加 2 条 A scale。
+    // 到了一个 tile 的最后两个 step，这些 load 读的已经是下一个 tile 的数据
     // issue_one<k>(...)：发出一个 step 里的第 k 条全局访存。k 是编译期常量，所以每次调用都
     // 展开成一条确定的指令。
     //   to / st / lds        ：A 的目标 tile、stage 号、LDS 槽
     //   tob / stb / bf / bs  ：B 的目标 tile、stage 号、目的寄存器
+    // k 的含义：一个 step 里第几条全局访存
+    // 编号区间：[0, KBS) B 片段，[KBS, KA) B scale，[KA, KAS) A DMA，[KAS, L) A scale DMA
+    // 256×256 的 tile 每个 step 一共有 20 条全局访存（693 行的 LOADS_PER_STAGE = 8 + 2 + 8 + 2）
+    // 这里只有从HBM加载的指令，A的寄存器加载，在后面交错在MFMA
+    // kc：第几条访存（k = 0..19）；
+    // to/st/lds：A 的目标 tile、stage、LDS 槽（k = 10–19 用）；
+    // tob/stb：B 的目标 tile、stage；bf/bs：B 片段、B scale 写进的寄存器（k = 0–9 用）
+
+    // 共用的偏移（wave级别的)放在 SGPR 和立即数里，每个 lane 不同的那部分放在 VGPR 里，
+    // 比如 a_voff[j]、b_voff[ni]。每个 lane 从自己的地址开始读 16 B，64 个 lane 合起来是 1 KB
     auto issue_one = [&](auto kc, const TileOff& to, int st, uint8_t* lds, const TileOff& tob,
                          int stb, i32x4 (&bf)[NSUB][2],
                          int (&bs)[NSUB / 2]) __attribute__((always_inline)) {
@@ -760,9 +785,16 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
         {
             // B 片段：第 ni 个子块的第 h 个 K 半段（每个 K-128 段 1 KB）。地址 = 描述符基址
             // （tile 偏移 + stage 偏移，每个 stage 2 KB）+ VGPR 偏移 b_voff[ni] + 立即数 h*1024。
-            constexpr int ni = k / 2, h = k % 2;
+            // 这里k取值为8，那么ni=0-4，h=0-1
+            constexpr int ni = k / 2, h = k % 2; // 把k
+            // soffset固定为0，offen启用voffset，
+            // 本lane的偏移voffset, 
+            // 描述符：基址已经挪到“目标 tile 的这一组、第 stb 个 stage”；
+            // offset%3立即数, 编译期常数，前半段是 0，后半段是 1024。
             asm volatile("buffer_load_dwordx4 %0, %1, %2, 0 offen offset:%3"
-                         : "=v"(bf[ni][h])
+                         : "=v"(bf[ni][h]) // 目的寄存器
+                         // tob.b本 wave 在目标 tile 里第一个 16 行组的起点，wave 的偏移已经包含在里面
+                         // stb·2048：这一组里第 stb 个 stage 的位置。一个 stage 在一组里占 16 行 × 128 B = 2 KB。
                          : "v"(b_voff[ni]), "s"(rsrc_at(b_rsrc, tob.b + stb * 2048)), "i"(h * 1024));
         }
         else if constexpr (k < KA)
@@ -771,6 +803,8 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
             constexpr int p = k - KBS;
             if constexpr (SCALE_SOFF)
                 // 256 行的 tile：块偏移走 soffset（%3）
+                // 本wave负责的64，是32*8为一组，发两次
+                // 一行5120，scale有160个，现在要发下一个32*160的scale指令，那么就是要隔32*160字节，意思是换行了
                 asm volatile("buffer_load_dword %0, %1, %2, %3 offen"
                              : "=v"(bs[p])
                              : "v"(bs_voff[0]), "s"(rsrc_at(bs_rsrc, tob.bs + stb * 256)),
@@ -786,10 +820,12 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
             // 下面两类是 LDS DMA：buffer_load ... lds 把读到的数据直接写进 LDS，写入地址 =
             // M0 + lane × 每个 lane 的字节数，不经过 VGPR。所以先用 s_mov_b32 把目的地址写进
             // M0。（编译器会对 clobber 列表里的 m0 报警告，见 summary.md。）
+            // address_space(3) 这个转换确实是在告诉编译器“这个指针指向 LDS”，但 lds_base 这个变量本身，
+            // 是为了拿到一个具体的数：这个槽在 LDS 里的字节地址，比如 0、0x8800。拿到之后写进 M0，DMA 指令才知道把数据写到 LDS 的哪里
             const uint32_t lds_base = (uint32_t)(uintptr_t)(__attribute__((address_space(3))) void*)lds;
             if constexpr (k < KAS)
             {
-                // A DMA 的第 j 条：搬本 wave 负责的第 j 个 8 行组（1 KB）。
+                // A DMA 的第 j 条：搬本 wave 负责的第 j 个 8 行组（1 KB）。j=0-7
                 // 源地址 = 描述符基址（tile 偏移 + stage 偏移，每个 stage 每行 128 字节）+ a_voff[j]；
                 // 目的地址 = 本 wave 在槽里的区域 + j KB。
                 constexpr int j = k - KA;
@@ -797,6 +833,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
                              "buffer_load_dwordx4 %1, %2, 0 offen lds"
                              :
                              : "s"(lds_base + lds_wave_off + j * 1024), "v"(a_voff[j]),
+                             // 本wave那64行起点，第st个stage,每个128字节
                                "s"(rsrc_at(a_rsrc, to.a + st * 128))
                              : "memory", "m0");
             }
@@ -810,6 +847,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
                                  "buffer_load_dword %1, %2, %3 offen lds"
                                  :
                                  : "s"(lds_base + STAGE_A + p * 256), "v"(as_voff[0]),
+                                 // 本wave那64行起点，第st个stage,每个256字节
                                    "s"(rsrc_at(as_rsrc, to.as + st * 256)),
                                    "s"(__builtin_amdgcn_readfirstlane(p * 32 * scaleN_pad))
                                  : "memory", "m0");
@@ -842,8 +880,8 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     //
     // MS0：段 0 的 M 片段数，取偶数，这样两段都能成对使用 scale（一个 scale dword 覆盖两个
     // 子块）。【例】MSUB = 16 时 MS0 = MS1 = 8；MSUB = 10 时 MS0 = 6、MS1 = 4。
-    constexpr int MS0      = (MSUB / 2 + 1) / 2 * 2;
-    constexpr int MS1      = MSUB - MS0;
+    constexpr int MS0      = (MSUB / 2 + 1) / 2 * 2; // 8
+    constexpr int MS1      = MSUB - MS0; // 8 
     // load 只撒在每段前 7/8 的 MFMA 里：实测比撒满整段每个 stage 快约 2%。
     constexpr int LOAD_WIN = 7;
     static_assert(PF >= 2, "stage s+1's A DMA is issued before step s");
@@ -859,9 +897,15 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     //   * 每个 tile 的 epilogue 在两个 step 之间发出 EPI_STORES 条 buffer store（vmcnt 也算
     //     store），所以下一个 tile 的第一个 step 要多放宽这么多条。
     // 【例】W_START = (20 - 10) + 20*0 = 10，W_MID = 10 + 20*0 = 10，EPI_STORES = 32
-    constexpr int EPI_STORES = MSUB * (NSUB / 2);
-    constexpr int W_START    = (LOADS_PER_STAGE - KA) + LOADS_PER_STAGE * (PF_B - 1);
-    constexpr int W_MID      = KA + LOADS_PER_STAGE * (PF - 2);
+    // vmcnt 记的是本 wave 发出去、还没完成的显存访问条数，load 和 store 都算
+    // 所以“等某一条 load 到齐”，就等于“等到最多只剩它后面发的那几条”。
+    constexpr int EPI_STORES = MSUB * (NSUB / 2); // 16 * (4/2) = 32
+    // 等本 stage 的 B，B(s) 是在 step s−1 段 0 那一列发的（蓝格），到 step s 段 0 才用，① 就是用之前的那条虚线。一般情况下 B(s) 在 step s−PF_B 的段 0 发出，在它之后发出的有两部分：
+    // 同一个 step 段 1 的 A 类：LOADS_PER_STAGE − KA = 10 条，这里的shape A是8，ka 10，等10条指令到
+    // 中间隔着的 PF_B − 1 个完整 step，每个 20 条。
+    constexpr int W_START    = (LOADS_PER_STAGE - KA) + LOADS_PER_STAGE * (PF_B - 1); // (20 - 10) + 20*0 = 10
+    // 等下个 stage 的 A。 A(s+1) 是在 step s−1 段 1 发的，而且是那个 step 的最后 10 条。在它之后，只发过本 step 段 0 的 10 条 B(s+1)，也就是 KA；如果 PF 更大，中间还要加上 PF − 2 个整 step。PF = 2，所以结果是 10 + 0 = 10。
+    constexpr int W_MID      = KA + LOADS_PER_STAGE * (PF - 2); //1 0
     static_assert(W_MID + EPI_STORES <= 63 && W_START + EPI_STORES <= 63, "vmcnt is 6 bits");
     // s_waitcnt 立即数的编码（gfx9）：vmcnt 的低 4 位在 [3:0]、高 2 位在 [15:14]，expcnt 在
     // [6:4]，lgkmcnt 在 [11:8]。
@@ -871,6 +915,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
         __builtin_amdgcn_s_waitcnt((n & 15) | (7 << 4) | (0 << 8) | ((n >> 4) << 14));
     };
     // WAIT_ALL：只等 vmcnt(0)（expcnt、lgkmcnt 都填最大值，表示不等）
+    // 表示等到 vmcnt = 0，也就是所有全局访存都完成
     constexpr int WAIT_ALL = (7 << 4) | (15 << 8);
 
     // frag_at(lds, h, mi)：从 LDS 槽里读本 lane 的 A 片段——第 mi 个 16 行子块、第 h 个 K
@@ -888,8 +933,9 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     // A 片段和 A scale 的双缓冲：段 0 用 afr0 / asc0 计算，同时填 afr1 / asc1；段 1 反过来。
     // 片段下标 = h × (这一段的 M 片段数) + 段内的 mi；scale 下标 = 段内的 mi / 2。
     // 大小按较大的段 MS0 分配。【例】每套 16 个片段 = 64 个 VGPR，两套 128 个
-    i32x4 afr0[2 * MS0], afr1[2 * MS0];
-    int asc0[MS0 / 2], asc1[MS0 / 2];
+    // 这里两份缓冲区，一份用来算，另一份同时装下一批数据，这一轮算完，两份互换角色
+    i32x4 afr0[2 * MS0], afr1[2 * MS0]; // 两份A片段
+    int asc0[MS0 / 2], asc1[MS0 / 2]; // 两套A scale
 
 #if MBS_TIMING
     // 分阶段计时：tick(b) 把距上一次 tick 的 cycle 数累加到第 b 个桶。
@@ -917,39 +963,49 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     //   bf / bs   ：本 stage 的 B 片段 / B scale 寄存器
     //   nto, nst, nlds        ：本 step 要发的 A DMA 的目标（tile、stage、LDS 槽）
     //   ntob, nstb, nbf, nbs  ：本 step 要发的 B load 的目标（tile、stage、寄存器）
+    // 一个section分M为两段，段0算A前128行256列，MS0 = 8 的意思就是段 0 算前 8 个 16 行，也就是前 128 行
     auto section = [&](auto sc, i32x4 (&cf)[2 * MS0], int (&cs)[MS0 / 2], i32x4 (&nf)[2 * MS0],
                        int (&ns)[MS0 / 2], const uint8_t* rd_lds, i32x4 (&bf)[NSUB][2],
                        int (&bs)[NSUB / 2], const TileOff& nto, int nst, uint8_t* nlds,
                        const TileOff& ntob, int nstb, i32x4 (&nbf)[NSUB][2],
                        int (&nbs)[NSUB / 2]) __attribute__((always_inline)) {
+        // SIG是段号，0或1
         constexpr int SIG = decltype(sc)::value;
-        // MC / MB：本段计算的 M 片段数和起始下标
+        // MC / MB：本段计算的 M 片段数和起始下标，SIG=0， MC=8， MB=0；SIG=1, MC=8, MB=8，
         constexpr int MC = SIG == 0 ? MS0 : MS1, MB = SIG == 0 ? 0 : MS0;
         // MN / MBN：要为下一段预读的 M 片段数和起始下标
+        // SIG=0，MN=8，MBN=8；SIG=1, MN=8, MBN=0，
         constexpr int MN = SIG == 0 ? MS1 : MS0, MBN = SIG == 0 ? MS0 : 0;
+        // 本段负责的MFMA条数，2个K半段，MC=8，NSUB=4，所以TS=64
         constexpr int TS  = 2 * MC * NSUB;   // 本段的 MFMA 条数（2 个 K 半段）【例】64
-        // NF：预读的片段数（每个 M 片段 2 个 K 半段）；NR：加上 scale 的总读取次数【例】16、20
-        constexpr int NF  = 2 * MN, NR = NF + MN / 2;
+        // NF：预读的片段数（每个 M 片段 2 个 K 半段）；
+        // NR：加上 scale 的总读取次数（一个 ds_read_b32 管 2 个子块）
+        // 从LDS到寄存器，128*256*0.5=16KB，一个ds_read_b128，一个wave只能处理1kb,因此是16次
+        // scale同理128*8=1024B，ds_read_b32，一个wave只能处理64*4B,因此是4次
+        constexpr int NF  = 2 * MN, NR = NF + MN / 2; //【例】16、20
         // 本段负责的全局访存编号区间：段 0 是 [0, KA)（B），段 1 是 [KA, L)（A DMA）【例】各 10 条
+        // SIG=0，KLO=0，NL=10；SIG=1, KLO=10, NL=10，
         constexpr int KLO = SIG == 0 ? 0 : KA, NL = (SIG == 0 ? KA : LOADS_PER_STAGE) - KLO;
         // load 撒在前 TLW 条 MFMA 里：取段长的 7/8，但至少保证每条 load 有一条 MFMA【例】56
-        constexpr int TLW = TS * LOAD_WIN / 8 >= NL ? TS * LOAD_WIN / 8 : NL;
+        constexpr int TLW = TS * LOAD_WIN / 8 >= NL ? TS * LOAD_WIN / 8 : NL; // 56
         static_assert(NR <= TS, "one fragment read per MFMA at most");
         // 按 MFMA 编号 t = 0 .. TS-1 展开整段。每个 t 之前可能插一个 LDS 读、一条全局访存，
         // 然后是第 t 条 MFMA；它们之间都隔着 sched_barrier。
         static_for<TS>([&](auto tc) __attribute__((always_inline)) {
-            constexpr int t = decltype(tc)::value;
+            constexpr int t = decltype(tc)::value; // 0-63
             // 第 r 个 LDS 读放在第 floor(r*TS/NR) 条 MFMA 之前（均匀撒开）。这里反过来求哪个 r
             // 落在当前的 t 上（没有就跳过）。【例】r = 0..19 落在 t = 0, 3, 6, 9, 12, 16, 19, …
-            constexpr int r = (t * NR + TS - 1) / TS;
+            constexpr int r = (t * NR + TS - 1) / TS; // 0-19
             if constexpr (r < NR && r * TS / NR == t)
             {
-                if constexpr (r < NF)
-                    // 片段：K 半段 = r / MN，M 片段 = MBN + r % MN
+                if constexpr (r < NF) // r=0-15
+                    // 片段：K 半段 = r / MN，M 片段 = MBN + r % MN， MN = 8
                     nf[r] = frag_at(rd_lds, r / MN, MBN + r % MN);
-                else
+                else // r=16-19
                     // scale：第 MBN/2 + (r - NF) 个 scale 块
                     ns[r - NF] = scale_at(rd_lds, MBN / 2 + r - NF);
+            // 它前面的指令不能挪到后面，后面的指令也不能挪到前面。参数 0 表示所有种类的指令都不准越过。
+            // 不要扰乱我们精心设计的指令流！
                 __builtin_amdgcn_sched_barrier(0);
             }
             // 第 KLO+k 条全局访存放在第 floor(k*TLW/NL) 条 MFMA 之前。
@@ -1039,13 +1095,21 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
                      "v_mbcnt_hi_u32_b32 %0, -1, %0"
                      : "=v"(lane));
         const int row16 = lane & 15, g = lane >> 4;
+        // u32x4 表示 4 个 32 位无符号整数打包在一起，一共 16 B
         using u32x4 = __attribute__((ext_vector_type(4))) unsigned int;
         // pair(mi, np)：返回本 lane 在第 mi 个行块、第 np 个 N 子块对上的 16 字节
+        // 整个tiel算完 256*8192 8192*256=256*256， 每个wave256*64, 就是16*4个16*16的子块；
+        // 64个lane,分别保存16*4个16*16的子块的相同位置的1行4列个数，1*4*4=16B，是4个寄存器，64个子块就是256个寄存器用满了就
+        // 然后是acc[16][4], mi16,n=4
         // （4 个 dword = 8 个 bf16），顺序是 {s0[0], s1[0], s0[1], s1[1]}。
         auto pair = [&](int mi, int np) __attribute__((always_inline)) {
             // AGPR → VGPR 的拷贝用 volatile asm 钉在这里：交给寄存器分配器的话，它会把全部
             // 256 个累加器的读取都提到 epilogue 的最前面，然后 spill。
             f32x4 x, y;
+            // 是读数：这两行就是把两个累加器的值拷到 x、y，阻止编译器自把256个读取都提到最前一起做
+            // 从wave看，acc[16][4]每个元素代表一个子块C 16*16,但是实际存储是对每个lane而言的，也就是acc每个元素是1行4列
+            // 但是从lane，看，acc[16][4]只是一个f32*4,也就是本wave负责的某个子块的1行4列这种小块的连续4个，L%16,4*(L/16)
+            // 
             asm volatile("" : "=v"(x) : "0"(acc[mi][2 * np]));       // 子块 2np
             asm volatile("" : "=v"(y) : "0"(acc[mi][2 * np + 1]));   // 子块 2np+1
             // 读完立刻清零，为下一个 tile 做准备；清零后再用 "+a" 的空 asm 让它对编译器不透明。
@@ -1053,9 +1117,12 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
             // 附近搬动（并 spill）累加器。
             acc[mi][2 * np] = acc[mi][2 * np + 1] = f32x4{0.f, 0.f, 0.f, 0.f};
             asm volatile("" : "+a"(acc[mi][2 * np]), "+a"(acc[mi][2 * np + 1]));
+            // permlane是一个跨lane指令，交换
             // permlane16_swap(a, b)：把 a 的奇数 lane 组（16 个 lane 为一组）和 b 的偶数组互换；
             // 返回值 [0] 是交换后的 a，[1] 是交换后的 b。s0 处理每个 lane 的第 0、1 列，s1 处理
             // 第 2、3 列。
+            // lane5时，x[0-3]是行5，0-3列；y[0-3]是行5，16-19列，lane 21时，x[0-3]是行5，4-7列；y[0-3]是行5，20-23列
+            // 那交换是lane之间的交换，我们希望lane21的x0-3和lane5的y0-3互换，而让lane5 x0-3不和lane21的y0-3互换，这是参数顺序，硬件性质一起决定的
             const auto s0 = __builtin_amdgcn_permlane16_swap(
                 pack_bf16x2(x[0], x[1]), pack_bf16x2(y[0], y[1]), false, false);
             const auto s1 = __builtin_amdgcn_permlane16_swap(
@@ -1067,29 +1134,34 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
         // MSUB 个偏移提前算好，长期占着 SGPR。
         // NQ：每个行块有几组“两个子块对”（= 64 列 = 128 字节）。NSUB/2 是奇数时，最后一个子块
         // 对单独按每行 64 字节写。
-        constexpr int NQ = NSUB / 4;
+        constexpr int NQ = NSUB / 4; // 1
         const bool lo8   = row16 < 8;   // 本 lane 是不是行块的前 8 行
         // 整行写法下本 lane 负责的列：后 8 行的 lane 负责第二个子块对（+32 列）
+        //  本 lane 最终要写的那 8 列从第几列开始
         const int  ccol  = to.n0 + (row16 >> 3) * 32 + (g & 1) * 16 + (g >> 1) * 8;
-        // 半行写法（单独的子块对）下本 lane 负责的列
-        const int  hcol  = to.n0 + (g & 1) * 16 + (g >> 1) * 8;
+        // 半行写法（单独的子块对）下本 lane 负责的列，
+        const int  hcol  = to.n0 + (g & 1) * 16 + (g >> 1) * 8;// NSUB=6有用
         // 整行写法：va 写行块的第 0..7 行，本 lane 写其中第 (row16 & 7) 行
         int vofs_f = ((to.m0 + (row16 & 7)) * N + ccol) * 2;
         // 半行写法：本 lane 写第 row16 行
-        int vofs_h = ((to.m0 + row16) * N + hcol) * 2;
+        int vofs_h = ((to.m0 + row16) * N + hcol) * 2; // NSUB=6有用
 #pragma unroll
         for (int mi = 0; mi < MSUB; ++mi)   // 每次处理一个 16 行的行块
         {
             // 每个行块之前放一个调度屏障：不然调度器会把很多行块的 AGPR→VGPR 读取都提到前面。
             __builtin_amdgcn_sched_barrier(0);
 #pragma unroll
-            for (int q = 0; q < NQ; ++q)
+            for (int q = 0; q < NQ; ++q) // NQ=1
             {
                 // 两个子块对：v0 是第 64q .. 64q+31 列，v1 是第 64q+32 .. 64q+63 列
-                const u32x4 v0 = pair(mi, 2 * q), v1 = pair(mi, 2 * q + 1);
-                u32x4 va, vb;   // 行块的第 0..7 行 / 第 8..15 行，每行 128 字节
+                // 对lane5而言就是v0为0-7列，v1为32-39列；
+                // 回忆一下256*64，64个lane每个lane写32次16B，也就是1*8列，16*32为一组
+                // 但是这样不利于合并访存，因此通过变化，16*32改为8*64，这样可以每行合并访存128B，
+                // 那么需要做一下数据交换，也就是下面的__builtin_amdgcn_mov_dpp
+                const u32x4 v0 = pair(mi, 2 * q), v1 = pair(mi, 2 * q + 1); // 出来就是b16了
+                u32x4 va, vb;   // 上8行的每lane的8列数据， 下8行的每lane的8列数据，
 #pragma unroll
-                for (int i = 0; i < 4; ++i)
+                for (int i = 0; i < 4; ++i) // 每次dword只能取4B，而8列是16B，所以四次
                 {
                     // DPP row_ror:8（0x128）：在 16 个 lane 组成的一行里循环右移 8 位，即 lane L
                     // 拿到 lane L^8 的值（第 r 行和第 r±8 行互相交换）。
@@ -1097,6 +1169,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
                     const unsigned r1 = __builtin_amdgcn_mov_dpp(v1[i], 0x128, 0xF, 0xF, false);
                     // va：前 8 行的 lane 放自己的 v0（第 r 行的前 32 列），后 8 行的 lane 放第
                     //     r-8 行的 v1（后 32 列），合起来是第 0..7 行、每行 64 列 = 128 字节
+                    // 变换之后就变成行块的第 0..7 行 / 第 8..15 行，每行 128 字节
                     va[i] = lo8 ? v0[i] : r1;
                     // vb：同理，拼出第 8..15 行
                     vb[i] = lo8 ? r0 : v1[i];
@@ -1131,7 +1204,7 @@ gemm_a4w4_wg_kernel(const uint8_t* __restrict__ A,
     // 每一套环形缓冲寄存器在整个循环里都活着，导致 spill。这些数据落进没人读的缓冲。
     // B 寄存器按槽声明了 RING 套，但同一时刻只有 PF_B+1 套是活的，寄存器分配器会把它们复用
     // 到 2（或 3）套物理寄存器上。【例】2 套，共 64 个 VGPR
-    i32x4 bf[RING][NSUB][2];
+    i32x4 bf[RING][NSUB][2]; // RING是4，4LDS流水
     int bs[RING][NSUB / 2];
 
     int id      = blockIdx.x;                 // 本工作组的第一个 tile

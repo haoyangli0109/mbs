@@ -790,6 +790,18 @@ lane L 要第 mi 个子块、第 h 个 K 半段的片段：行 `mi·16 + row16`�
 
 注意读和写时 lane 的角色不同：DMA 时 lane L 负责第 L/8 行，读片段时 lane L 负责第 L%16 行。
 
+**写和读用的是同一个 XOR。**
+
+- **写**（5.3 节）：LDS 的落点由 lane 号定死，程序能改的只是每个 lane 去显存读哪一块。结果是 LDS 第 r 行的物理格 p 里放着逻辑块 `p ^ (r & 7)`。
+- **读**（本节）：要逻辑块 c，就去物理格 `c ^ (r & 7)` 取。XOR 是自己的逆，`(c ^ r) ^ r = c`，所以换算回来用的就是写入时那个式子，不用另写逆映射。
+- **只在行内错开**：错开只发生在一行内部的 8 个 16 B 格之间，A 的第 r 行仍然是 LDS 的第 r 行。LDS 里从头到尾都没有一份按原样排列的 A，但 `frag_at` 每次读出的 16 B 都是要的那个逻辑块，所以 MFMA 拿到的操作数和不 swizzle 时完全一样。
+
+**为什么读 LDS 不用 asm。** 显存访存全都写成了 asm，`frag_at`（还有 6.4 节的 `scale_at`）却只是一次普通的指针解引用。原因有三条：
+
+1. **C++ 写法就能编出想要的指令。** `lds` 指针来自 `__shared__` 数组，编译器知道它指向 LDS。读一个 16 B 的 `i32x4` 就编译成 `ds_read_b128`，读一个 `int` 就编译成 `ds_read_b32`。前提是地址 16 B 对齐：数组声明了 `aligned(16)`，`row * 128 + chk * 16` 也是 16 的倍数。
+2. **显存那边，C++ 要么写不出来，要么控制不住。** `buffer_load … lds` 要先设 M0，C++ 没有对应的写法。B 的 load 要精确控制 vmcnt 的等待阈值（5.5 节）；如果交给编译器，它会按自己的判断插等待，往往直接等到 `vmcnt(0)`，预取就白做了。asm 对编译器是黑盒，编译器不会替它插等待，所以这些 load 之后都要手写 `s_waitcnt`。
+3. **LDS 读交给编译器也不会出错。** 编译器知道这条 `ds_read` 是自己生成的，会在结果第一次被用之前自动插 `s_waitcnt lgkmcnt`。每段开头已经手动等过 `lgkmcnt(0)`，编译器就不会再多插。剩下的只是位置：编译器可能把这些读挪走、堆在一起，所以代码在每条读后面放 `__builtin_amdgcn_sched_barrier(0)`，把它固定在指定的那条 MFMA 前面。
+
 ### 5.5 预取：A 提前两个 stage 搬进 4 槽 LDS 环
 
 A 也要预取。它进的是 LDS，不占寄存器，可以提前得更多：LDS 里开 4 个槽（`RING = 4`），第 s 个 stage 放在第 s%4 个槽，每槽放一个 stage 的 A 和 A scale（256×256 tile 每槽 32 KB + 2 KB = 34 KB，4 个槽共 136 KB；gfx950 每个 CU 的 LDS 是 160 KB）。A 的 DMA 提前 `PF` = 2 个 stage 发出。
@@ -864,6 +876,8 @@ A 和 B 各有一份 scale：A scale 是 `[M, K/32]`，B scale 是 `[N, K/32]`�
 
 MFMA 要每个 lane 为 A、B 两个操作数各提供自己那一格（第 L%16 行、第 L/16 块）的 scale 字节。如果 scale 是普通的 `[M, K/32]` 行主序，lane L 要的字节在第 `m0 + L%16` 行、第 `4·kc + L/16` 列：分布在 16 个不同的行上，每行 4 个相邻字节，每个 lane 只读 1 个字节。寄存器是 4 B 宽，每次只读 1 B 很浪费；而且每条 MFMA 的每个操作数都要单独读一次。
 
+按第 2 节的标准看 cache line，也很不划算。相邻两行在显存里隔一整行（scaleN_pad 字节，K = 5120 时是 160 B），比一条 128 B 的 cache line 还长，所以这 16 行落在 16 条不同的 cache line 上：一条 load 只拿 64 个有用的字节，却要碰 16 条 cache line。shuffle 做的是两件事：先把一个 lane 在一个 stage 里要的 4 个字节拼成一个 dword，再把 64 个 lane 的 dword 按 lane 号连续排好。这样一条 `buffer_load_dword` 读的是连续的 256 B，正好 2 条完整的 cache line，一次拿齐 4 条 MFMA 的 scale（6.3 节）。
+
 单 wave kernel 就是逐字节读的（4.2 节 `load` 里的 `AScale[flatS(am, kblk, scaleN_pad)]`）。它的地址已经按 shuffle 后的布局算，但每个 lane 每次仍然只读 1 字节。
 
 ### 6.2 一个 stage 要多少 scale
@@ -880,6 +894,18 @@ MFMA 要每个 lane 为 A、B 两个操作数各提供自己那一格（第 L%16
 ![图 11：一个 stage 的 scale：A 的 8 块由哪个 wave 搬、B 每个 wave 的 2 块进哪个寄存器、这些块在显存里的位置](./images/kernel_intro_scale_tile.svg)
 
 在显存里，scale 张量按 32 行一组，每组 32 × scaleN_pad 字节，组内每个 stage 占连续的 256 B。所以 A scale 第 p 块（stage s）从 `AScale + (m0/32 + p)·32·scaleN_pad + 256·s` 开始，8 块各自连续，块与块之间隔 32·scaleN_pad 字节（图 11 ③）；B scale 把 m0 换成本 wave 的 n0。K = 5120 时 scaleN_pad = 160，一组 5120 B，正好是 20 个 stage 的段。
+
+**每个 wave 搬哪几行。** B scale 的地址从本 wave 的 n0 算起，n0 里带着 `wave * WNTILE`（即 64·wave），所以 wave w 搬 tile 里 N 方向第 64w 到 64w+63 行，也就是它自己那两个 32 行组。A scale 不是这样：起点 `t.as` 只按 tile 的 m0 算，8 块轮流分给 4 个 wave，wave w 搬第 w、w+4 块（6.4 节）。A 数据又不一样，按 `t.a` 里的 `wave * A_LDS_PER_WAVE * 8`（即 64·wave）连续分（[注释版 613–618 行](./gemm_a4w4_annotated.hip#L613-L618)，[原文件 451–452 行](../kernel/gemm_a4w4.hip#L451-L452)）。三者放在一起：
+
+| 每个 wave 从显存搬的行（256×256 tile） | wave 0 | wave 1 | wave 2 | wave 3 |
+|---|---|---|---|---|
+| B scale（N 方向） | 0–63 | 64–127 | 128–191 | 192–255 |
+| A scale（M 方向） | 0–31、128–159 | 32–63、160–191 | 64–95、192–223 | 96–127、224–255 |
+| A 数据（M 方向） | 0–63 | 64–127 | 128–191 | 192–255 |
+
+A scale 谁搬哪块不影响计算：不管哪个 wave 搬的，第 p 块都写进 LDS 的 `STAGE_A + p·256`，之后每个 wave 都把 8 块全读一遍。
+
+**每个 wave 用多少。** 搬多少和用多少不一样。B scale 每个 wave 搬 512 B，也只用这 512 B。A scale 每个 wave 只搬 512 B，但 4 个 wave 算的都是全部 256 行 M，所以每个 wave 都要从 LDS 读全部 2 KB（8 条 `ds_read_b32`）。核对一下：一个 wave 每个 stage 做 16 × 4 × 2 = 128 条 MFMA，每条每个 lane 要 1 个 A scale 和 1 个 B scale。每个 lane 拿到 32 个 A scale 字节（8 个 dword），每个给 4 条 MFMA 用（4 个 ni）；拿到 8 个 B scale 字节（2 个 dword），每个给 16 条用（16 个 mi）。两边都是 128。
 
 ### 6.3 一块 256 B 里怎么排
 
@@ -898,16 +924,16 @@ shuffle 把每 32 行 × 8 个 K 块（两个 16 行子块 × 一个 stage 的 K
 
 例：lane 21 的 dword 在这一块的偏移 84–87，4 个字节依次是（第 5 行，块 1）、（第 21 行，块 1）、（第 5 行，块 5）、（第 21 行，块 5），即图 12 左边黑框的 4 格。
 
-**一步一步看 shuffle。** 图 13 把同一块拆开来看。左边是原来按行存的排布，格子里写着 shuffle 之后拿走它的 lane，颜色表示它是那个 lane 的 dword 里的第几个字节；右边是 shuffle 之后的 256 B，按内存顺序每行 8 个字节、2 个 lane，每 4 格是一个 lane 的 dword。黑框是 lane 21 的 4 个字节。
+**一步一步看 shuffle。** 图 13 按 K = 5120 把同一块拆开来看。左边是原来按行存的排布（一行 160 个字节，只画第 0 个 stage 的 8 列），格子里写着 shuffle 之后拿走它的 lane，颜色表示它是那个 lane 的 dword 里的第几个字节；右边是 shuffle 之后的 256 B，按内存顺序每行 8 个字节、2 个 lane，每 4 格是一个 lane 的 dword。黑框是 lane 21 的 4 个字节。
 
 ![图 13：scale 的 shuffle 一步一步看：左边是原来按行存的 32 行 × 8 个 K 块，格子里是拿走它的 lane；右边是 shuffle 之后的 256 B，每 4 格是一个 lane 的 dword](./images/kernel_intro_scale_shuffle.svg)
 
-1. **原来怎么存。** 不 shuffle 时，scale 是 `[行, K/32]` 的行主序矩阵，每行每 32 个 K 一个字节。取 32 行 × 一个 stage（8 个 K 块）为一块，原来按行存：第 r 行的 8 个字节连在一起，块内偏移是 8r + b。
-2. **lane L 要哪 4 个字节。** MFMA 里 lane L 负责片段的第 L%16 行、第 L/16 个 K 块。一个 stage 里它要参与 2 个子块 × 2 个 K 半段 = 4 条 MFMA，所以要 4 个 scale：第 L%16 行和第 16+L%16 行，各取第 L/16 块和第 4+L/16 块。在原来的排布里这 4 个字节是散开的：lane 21 要的 (r5, b1)、(r21, b1)、(r5, b5)、(r21, b5)，原偏移是 41、169、45、173。
+1. **原来怎么存。** 不 shuffle 时，scale 是 `[行, K/32]` 的行主序矩阵，每行每 32 个 K 一个字节，一行共 scaleN_pad 个字节（K = 5120 时是 160）。取 32 行 × 一个 stage（8 个 K 块）为一块：每行的这 8 个字节连在一起，但相邻两行隔一整行，所以一块的 256 个字节原来散在 32 行里。图 13 画的是第 0 个 stage，(r, b) 原来在 160r + b。
+2. **lane L 要哪 4 个字节。** MFMA 里 lane L 负责片段的第 L%16 行、第 L/16 个 K 块。一个 stage 里它要参与 2 个子块 × 2 个 K 半段 = 4 条 MFMA，所以要 4 个 scale：第 L%16 行和第 16+L%16 行，各取第 L/16 块和第 4+L/16 块。在原来的排布里这 4 个字节是散开的：lane 21 要的 (r5, b1)、(r21, b1)、(r5, b5)、(r21, b5)，原偏移是 801、3361、805、3365。
 3. **把块切成四个角。** 32 × 8 的块正好切成 4 个 16 × 4 的小块：上下是两个子块，左右是两个 K 半段。每个小块恰好 64 格，排法和 64 个 lane 的分工一样（第 L%16 行、第 L/16 列），所以 lane L 在 4 个小块里占同一个位置，从每个小块各拿 1 个字节：左上是字节 0，左下是字节 1，右上是字节 2，右下是字节 3，即字节号 = 2 × K 半段 + 子块。图 13 里蓝色是前 128 个 K，橙色是后 128 个 K；浅色是上面的子块，深色是下面的子块。
 4. **按 lane 排好。** lane L 的 4 个字节放在偏移 4L 到 4L+3。lane 21 落在 84–87，即图 13 右边 +80 那一行的后一个 dword。
 
-合起来，块内的原偏移 8r + b 变成新偏移 `4·(16·(b%4) + r%16) + 2·(b/4) + r/16`。一条 `buffer_load_dword`（64 个 lane × 4 B，连续 256 B）就读完一整块，每个 lane 正好拿到自己的 4 个 scale，MFMA 再用 `op_sel` 挑出要的字节。
+合起来，(r, b) 从原来的 160r + b（一般是 r·scaleN_pad + b）搬到这一块里的新偏移 `4·(16·(b%4) + r%16) + 2·(b/4) + r/16`，原来散在 32 行里的 256 个字节变成连续的 256 B。一条 `buffer_load_dword`（64 个 lane × 4 B）就读完一整块，每个 lane 正好拿到自己的 4 个 scale，MFMA 再用 `op_sel` 挑出要的字节。
 
 整个 scale 张量这样排：
 
@@ -943,9 +969,29 @@ shuffle 把每 32 行 × 8 个 K 块（两个 16 行子块 × 一个 stage 的 K
 ```python
         scale = scale.view(sm // 32, 2, 16, sn // 8, 2, 4)
         scale = scale.permute(0, 3, 5, 2, 4, 1).contiguous()
+        return scale.view(sm, sn)
 ```
 
 `view` 把行拆成（32 行组、子块奇偶、行 % 16），把 K 块拆成（stage、h、块 % 4）。`permute` 之后从外到内依次是：32 行组、stage、块 % 4、行 % 16、h、子块奇偶。最后四维正好是"dword 号 = (块%4)·16 + 行%16，字节号 = 2h + 子块奇偶"。
+
+**shuffle 之后，形状没变，"行"变了。** 最后的 `view(sm, sn)` 只是把重排好的结果按原来的形状装回去，所以 shuffle 前后都是 `[行数, scaleN_pad]`（实测 `[256, 160]` 进、`[256, 160]` 出）。但 shuffle 之后的一行已经不对应 M 或 N 方向的某一行了，kernel 也只把它当一段平的内存，按 `flatS` 算偏移。
+
+以 K = 5120 为例，一组 32 × 160 = 5120 B：shuffle 前切成 32 行 × 160 B，shuffle 后切成 20 个 stage × 256 B。总字节数一样，所以这一组占的地址范围不变，只是组内换了切法。一个 stage 的 256 B 比一行的 160 B 长，如果还按 32 × 160 的形状去看，第 0 个 stage 占满第 0 行，再占第 1 行的前 96 B，一行装不下。实测 shuffle 之后组 0 的前 8 行：
+
+| 第几行（每行 160 B） | 放的是 |
+|---|---|
+| 0 | stage 0 的 lane 0–39 |
+| 1 | 前 96 B：stage 0 的 lane 40–63；后 64 B：stage 1 的 lane 0–15 |
+| 2 | stage 1 的 lane 16–55 |
+| 3 | 前 32 B：stage 1 的 lane 56–63；后 128 B：stage 2 的 lane 0–31 |
+| 4 | 前 128 B：stage 2 的 lane 32–63；后 32 B：stage 3 的 lane 0–7 |
+| 5 | stage 3 的 lane 8–47 |
+| 6 | 前 64 B：stage 3 的 lane 48–63；后 96 B：stage 4 的 lane 0–23 |
+| 7 | stage 4 的 lane 24–63 |
+
+5 × 256 = 8 × 160 = 1280，所以每 8 行正好装 5 个 stage：第 8–15、16–23、24–31 行依次是 stage 5–9、10–14、15–19，排法和上表一样。K = 256 时一行只有 8 个字节，一组正好是一个 stage，按 32 × 8 去看，第 q 行就是 lane 2q 和 2q+1，和图 13 右边一样。
+
+跨行边界对 kernel 没有影响：stage s 读的是组内从 256s 开始的连续 256 B，不看行边界。要保证的只是一组能切成整数个 256 B 的段，所以 K/32 要补到 8 的倍数，也就是 1.3 节的 scaleN_pad；K = 5120 时 160 本来就是 8 的倍数。
 
 kernel 的 `flatS` 是同一个公式（[注释版 154–162 行](./gemm_a4w4_annotated.hip#L154-L162)，[原文件 98–105 行](../kernel/gemm_a4w4.hip#L98-L105)）：
 
@@ -1003,7 +1049,7 @@ tile 的起点是它所在的 32 行组（[注释版 587–590 行](./gemm_a4w4_
 
 这里的 `tob`、`stb` 和 B 的 load 里一样：B scale 跟着 B 提前 PF_B 个 stage 读，写进同一步的那套 `bs[(s+PF_B)%4]`（4.3 节）。
 
-**A scale：DMA 进 LDS，再 `ds_read_b32`。** A scale 被 4 个 wave 共用，所以和 A 一样 DMA 进 LDS，放在同一个槽里 A 数据的后面（偏移 `STAGE_A + p·256`），每个工作组只搬一次，也跟着 A 提前 2 个 stage（5.5 节）。8 块分给 4 个 wave：第 j 条（j = 0、1）搬第 `min(j·4 + wave, 7)` 块，即 wave w 搬第 w、w+4 块。lane L 的 4 B 按 M0 + 4·L 写进去（5.3 节），所以第 p 块里 lane L 的 dword 在 `STAGE_A + p·256 + 4·L`。DMA 在 `issue_one` 的最后一个分支（[注释版 755–775 行](./gemm_a4w4_annotated.hip#L755-L775)，[原文件 586–605 行](../kernel/gemm_a4w4.hip#L586-L605)），写法和 A 的 DMA 相同。之后每个 wave 用 `ds_read_b32` 读出全部 8 块里本 lane 的 dword：段 0 读本 stage 的第 4–7 块（给 mi = 8..15），段 1 读下一个 stage 的第 0–3 块，和 A 片段一样提前一段读（[注释版 836–839 行](./gemm_a4w4_annotated.hip#L836-L839)，[原文件 661–663 行](../kernel/gemm_a4w4.hip#L661-L663)）：
+**A scale：DMA 进 LDS，再 `ds_read_b32`。** A scale 被 4 个 wave 共用，所以和 A 一样 DMA 进 LDS，放在同一个槽里 A 数据的后面（偏移 `STAGE_A + p·256`），每个工作组只搬一次，也跟着 A 提前 2 个 stage（5.5 节）。8 块分给 4 个 wave：第 j 条（j = 0、1）搬第 `min(j·4 + wave, 7)` 块，即 wave w 搬第 w、w+4 块。代码里写的是 `min(j·WAVES + wave, NSB − 1)`，`min` 是给小 tile 用的：块数少于 wave 数时，多出来的 wave 重复搬最后一块，让每个 wave 发的 load 条数一样。lane L 的 4 B 按 M0 + 4·L 写进去（5.3 节），所以第 p 块里 lane L 的 dword 在 `STAGE_A + p·256 + 4·L`。DMA 在 `issue_one` 的最后一个分支（[注释版 755–775 行](./gemm_a4w4_annotated.hip#L755-L775)，[原文件 586–605 行](../kernel/gemm_a4w4.hip#L586-L605)），写法和 A 的 DMA 相同。之后每个 wave 用 `ds_read_b32` 读出全部 8 块里本 lane 的 dword：段 0 读本 stage 的第 4–7 块（给 mi = 8..15），段 1 读下一个 stage 的第 0–3 块，和 A 片段一样提前一段读（[注释版 836–839 行](./gemm_a4w4_annotated.hip#L836-L839)，[原文件 661–663 行](../kernel/gemm_a4w4.hip#L661-L663)）：
 
 ```cpp
     // scale_at(lds, p)：读第 p 个 A scale 块里本 lane 的 dword（一条 ds_read_b32）。
@@ -1046,6 +1092,16 @@ __device__ __forceinline__ void mfma_fp4_sel(f32x4& acc, i32x4 a, i32x4 b, int s
 
 `bs[ni / 2]` 和 `cs[ml / 2]` 就是覆盖这两个子块的那个 dword，整个过程没有一条解包指令。
 
+### 6.5 串起来看
+
+以 256×256 tile、K = 5120 为例，把这一节串起来：
+
+1. **为什么要 shuffle。** 一个 stage 里，A、B 各要 256 行 × 8 = 2 KB 的 scale，每个 wave 搬 512 B。一条 `buffer_load_dword` 是 64 个 lane × 4 B = 256 B，所以每个 wave 发 2 条，每个 lane 一次拿 4 个 scale。但 MFMA 规定了每个 lane 用哪一格：lane L 用 16 × 4 网格（16 行 × 4 个 K 块）里第 L%16 行、第 L/16 块的 scale（图 13 左边）。行主序下，同一块的 16 个 lane 分散在 16 行上，相邻两行隔 160 B，比一条 128 B 的 cache line 还长，所以一条 load 要碰 16 条 cache line，每个 lane 还只拿到 1 B。shuffle 把 lane L 在 4 个 16 × 4 小块（2 个子块 × 2 个 K 半段）里要的 4 个字节拼成一个 dword，再按 lane 号连续排好。这样一条 `buffer_load_dword` 读的是连续的 256 B，lane L 一次拿齐自己的 4 个 scale（6.1、6.3 节）。
+2. **A、B 的 shuffle 一样。** A scale 和 B scale 用同一种布局：32 行一组，每组 32 × scaleN_pad = 32 × 160 字节，组内每个 stage 是连续的 256 B。重排后张量形状不变，但"行"的意思变了：按 32 × 160 去看，每组的第一行就是 stage 0 里 lane 0–39 的 dword，lane 40–63 接在第二行的前 96 B（6.3 节）。
+3. **和 B 的预重排比。** 思路一样，都是把一个 lane 要的数据排到 lane 号对应的位置。B 是 16 行一组，组内按列的自然顺序，每一列依次放第 0–15 行的 16 B 小块（1 行 × 32 个 fp4），不按 stage 拆（4.1 节）。scale 在 stage 内也是"按列、每列依次放 16 行"，排出来就是 lane 号。不同的是，每条 MFMA 每个 lane 只要 1 B 的 scale，要把 4 条 MFMA 的字节拼进一个 dword，所以 scale 要 32 行一组，还要按 stage 拆出 K 的前后两半。
+4. **谁搬哪几行。** B scale 按连续 64 行分：wave 0 搬 N 方向第 0–63 行。A scale 轮流分：wave 0 搬第 0、4 块，即 M 方向第 0–31 行和第 128–159 行（6.2 节）。
+5. **为什么分法不同。** B scale 只给本 wave 自己用，A scale 是 4 个 wave 共用的。B scale 直接读进本 wave 的 VGPR，怎么分由"谁用"就定死了。A scale 经 LDS 共享，每个工作组只搬一次，只要 8 块都有 wave 搬、每个 wave 发的 load 条数一样，怎么分都行，代码选了轮流分（6.4 节）。
+
 ## 7. 小结和自检
 
 | 数据 | 读到哪 | 指令 | 每条指令读什么 | 关键公式 | 提前几个 stage |
@@ -1055,7 +1111,7 @@ __device__ __forceinline__ void mfma_fp4_sel(f32x4& acc, i32x4 a, i32x4 b, int s
 | B scale | VGPR | `buffer_load_dword` | 连续 256 B | lane L 在 `4·L` | 同 B |
 | A scale | LDS，再 `ds_read_b32` 进 VGPR | `buffer_load_dword … lds` | 连续 256 B | lane L 在 `4·L` | 同 A |
 
-以 256×256 tile 为例，每个 wave 每个 stage 一共发 20 条全局访存：8 条 B、2 条 B scale、8 条 A DMA、2 条 A scale DMA（见 [mbs_note.md](../mbs_note.md)）。step s 里，B 和 B scale 的 10 条插在段 0，读 stage s+1；A 和 A scale 的 10 条插在段 1，读 stage s+2。
+以 256×256 tile 为例，每个 wave 每个 stage 一共发 20 条全局访存，就是代码里的 `LOADS_PER_STAGE`（[注释版 693 行](./gemm_a4w4_annotated.hip#L693)，[原文件 500 行](../kernel/gemm_a4w4.hip#L500)）：8 条 B（各 1 KB）、2 条 B scale（各 256 B）、8 条 A DMA（各 1 KB）、2 条 A scale DMA（各 256 B），合计 17 KB，4 个 wave 合起来每个 stage 68 KB（见 [mbs_note.md](../mbs_note.md)）。step s 里，B 和 B scale 的 10 条插在段 0，读 stage s+1；A 和 A scale 的 10 条插在段 1，读 stage s+2。
 
 下面这段代码在 CPU 上就能跑，用 aiter 的实现检查 `flatB` 和 `flatS`：
 

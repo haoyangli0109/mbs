@@ -1,0 +1,586 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="540" viewBox="0 0 790 540" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="epilogue 第三步为什么要交换。左：直接存 v0、v1，第 1 条 store 写 16 行的左 32 列，第 2 条写右 32 列，每行被两条 store 各写一半。右：DPP 交换后存 va、vb，第 1 条写第 0 到 7 行的整行，第 2 条写第 8 到 15 行的整行。lane 5 把第 5 行右段交给 lane 13，换回第 13 行左段">
+<rect width="790" height="540" fill="#ffffff"/>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">epilogue 第 ③ 步为什么要交换：直接存 vs 交换后再存</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">256×256 tile，一个 wave 的一个行块（16 行 × 64 列）。颜色是第几条 store，格子里是写这 8 列的 lane，粗框是 lane 5、13</text>
+<text x="44" y="74" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">① 直接存 v0、v1：第 1 条写左半，第 2 条写右半</text>
+<text x="44" y="93" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">每行被两条 store 各写一半：一条碰 16 条 cache line</text>
+<text x="36" y="126" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">行</text>
+<text x="64" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">0–7</text>
+<text x="104" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">8–15</text>
+<text x="144" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">16–23</text>
+<text x="184" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">24–31</text>
+<text x="224" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">32–39</text>
+<text x="264" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">40–47</text>
+<text x="304" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">48–55</text>
+<text x="344" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">56–63</text>
+<text x="36" y="145" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">0</text>
+<rect x="44" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">0</text>
+<rect x="84" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">32</text>
+<rect x="124" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">16</text>
+<rect x="164" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">48</text>
+<rect x="204" y="136" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">0</text>
+<rect x="244" y="136" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">32</text>
+<rect x="284" y="136" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">16</text>
+<rect x="324" y="136" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">48</text>
+<text x="36" y="163" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">1</text>
+<rect x="44" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">1</text>
+<rect x="84" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">33</text>
+<rect x="124" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">17</text>
+<rect x="164" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">49</text>
+<rect x="204" y="154" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">1</text>
+<rect x="244" y="154" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">33</text>
+<rect x="284" y="154" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">17</text>
+<rect x="324" y="154" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">49</text>
+<text x="36" y="181" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">2</text>
+<rect x="44" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">2</text>
+<rect x="84" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">34</text>
+<rect x="124" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">18</text>
+<rect x="164" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">50</text>
+<rect x="204" y="172" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">2</text>
+<rect x="244" y="172" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">34</text>
+<rect x="284" y="172" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">18</text>
+<rect x="324" y="172" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">50</text>
+<text x="36" y="199" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">3</text>
+<rect x="44" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">3</text>
+<rect x="84" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">35</text>
+<rect x="124" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">19</text>
+<rect x="164" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">51</text>
+<rect x="204" y="190" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">3</text>
+<rect x="244" y="190" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">35</text>
+<rect x="284" y="190" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">19</text>
+<rect x="324" y="190" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">51</text>
+<text x="36" y="217" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">4</text>
+<rect x="44" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">4</text>
+<rect x="84" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">36</text>
+<rect x="124" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">20</text>
+<rect x="164" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">52</text>
+<rect x="204" y="208" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">4</text>
+<rect x="244" y="208" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">36</text>
+<rect x="284" y="208" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">20</text>
+<rect x="324" y="208" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">52</text>
+<text x="36" y="235" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">5</text>
+<rect x="44" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<rect x="45" y="227" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="64" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">5</text>
+<rect x="84" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">37</text>
+<rect x="124" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">21</text>
+<rect x="164" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">53</text>
+<rect x="204" y="226" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<rect x="205" y="227" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="224" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">5</text>
+<rect x="244" y="226" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">37</text>
+<rect x="284" y="226" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">21</text>
+<rect x="324" y="226" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">53</text>
+<text x="36" y="253" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">6</text>
+<rect x="44" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">6</text>
+<rect x="84" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">38</text>
+<rect x="124" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">22</text>
+<rect x="164" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">54</text>
+<rect x="204" y="244" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">6</text>
+<rect x="244" y="244" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">38</text>
+<rect x="284" y="244" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">22</text>
+<rect x="324" y="244" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">54</text>
+<text x="36" y="271" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">7</text>
+<rect x="44" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">7</text>
+<rect x="84" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">39</text>
+<rect x="124" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">23</text>
+<rect x="164" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">55</text>
+<rect x="204" y="262" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">7</text>
+<rect x="244" y="262" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">39</text>
+<rect x="284" y="262" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">23</text>
+<rect x="324" y="262" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">55</text>
+<text x="36" y="289" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">8</text>
+<rect x="44" y="280" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">8</text>
+<rect x="84" y="280" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">40</text>
+<rect x="124" y="280" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">24</text>
+<rect x="164" y="280" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">56</text>
+<rect x="204" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">8</text>
+<rect x="244" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">40</text>
+<rect x="284" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">24</text>
+<rect x="324" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">56</text>
+<text x="36" y="307" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">9</text>
+<rect x="44" y="298" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">9</text>
+<rect x="84" y="298" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">41</text>
+<rect x="124" y="298" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">25</text>
+<rect x="164" y="298" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">57</text>
+<rect x="204" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">9</text>
+<rect x="244" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">41</text>
+<rect x="284" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">25</text>
+<rect x="324" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">57</text>
+<text x="36" y="325" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">10</text>
+<rect x="44" y="316" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">10</text>
+<rect x="84" y="316" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">42</text>
+<rect x="124" y="316" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">26</text>
+<rect x="164" y="316" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">58</text>
+<rect x="204" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">10</text>
+<rect x="244" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">42</text>
+<rect x="284" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">26</text>
+<rect x="324" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">58</text>
+<text x="36" y="343" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">11</text>
+<rect x="44" y="334" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">11</text>
+<rect x="84" y="334" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">43</text>
+<rect x="124" y="334" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">27</text>
+<rect x="164" y="334" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">59</text>
+<rect x="204" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">11</text>
+<rect x="244" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">43</text>
+<rect x="284" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">27</text>
+<rect x="324" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">59</text>
+<text x="36" y="361" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">12</text>
+<rect x="44" y="352" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">12</text>
+<rect x="84" y="352" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">44</text>
+<rect x="124" y="352" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">28</text>
+<rect x="164" y="352" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">60</text>
+<rect x="204" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">12</text>
+<rect x="244" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">44</text>
+<rect x="284" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">28</text>
+<rect x="324" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">60</text>
+<text x="36" y="379" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">13</text>
+<rect x="44" y="370" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<rect x="45" y="371" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="64" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">13</text>
+<rect x="84" y="370" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">45</text>
+<rect x="124" y="370" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">29</text>
+<rect x="164" y="370" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">61</text>
+<rect x="204" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<rect x="205" y="371" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="224" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">13</text>
+<rect x="244" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">45</text>
+<rect x="284" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">29</text>
+<rect x="324" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">61</text>
+<text x="36" y="397" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">14</text>
+<rect x="44" y="388" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">14</text>
+<rect x="84" y="388" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">46</text>
+<rect x="124" y="388" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">30</text>
+<rect x="164" y="388" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">62</text>
+<rect x="204" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">14</text>
+<rect x="244" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">46</text>
+<rect x="284" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">30</text>
+<rect x="324" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">62</text>
+<text x="36" y="415" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">15</text>
+<rect x="44" y="406" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="64" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">15</text>
+<rect x="84" y="406" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="104" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">47</text>
+<rect x="124" y="406" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="144" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">31</text>
+<rect x="164" y="406" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="184" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">63</text>
+<rect x="204" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="224" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">15</text>
+<rect x="244" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="264" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">47</text>
+<rect x="284" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="304" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">31</text>
+<rect x="324" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="344" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">63</text>
+<text x="424" y="74" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">② 交换后存 va、vb：第 1 条写上 8 行，第 2 条写下 8 行</text>
+<text x="424" y="93" font-size="10.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">每行由一条 store 写满：一条碰 8 条 cache line</text>
+<text x="416" y="126" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">行</text>
+<text x="444" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">0–7</text>
+<text x="484" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">8–15</text>
+<text x="524" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">16–23</text>
+<text x="564" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">24–31</text>
+<text x="604" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">32–39</text>
+<text x="644" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">40–47</text>
+<text x="684" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">48–55</text>
+<text x="724" y="126" font-size="9" fill="#6b7280" text-anchor="middle" dominant-baseline="central">56–63</text>
+<text x="416" y="145" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">0</text>
+<rect x="424" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">0</text>
+<rect x="464" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">32</text>
+<rect x="504" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">16</text>
+<rect x="544" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">48</text>
+<rect x="584" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">8</text>
+<rect x="624" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">40</text>
+<rect x="664" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">24</text>
+<rect x="704" y="136" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="145.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">56</text>
+<text x="416" y="163" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">1</text>
+<rect x="424" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">1</text>
+<rect x="464" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">33</text>
+<rect x="504" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">17</text>
+<rect x="544" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">49</text>
+<rect x="584" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">9</text>
+<rect x="624" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">41</text>
+<rect x="664" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">25</text>
+<rect x="704" y="154" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="163.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">57</text>
+<text x="416" y="181" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">2</text>
+<rect x="424" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">2</text>
+<rect x="464" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">34</text>
+<rect x="504" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">18</text>
+<rect x="544" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">50</text>
+<rect x="584" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">10</text>
+<rect x="624" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">42</text>
+<rect x="664" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">26</text>
+<rect x="704" y="172" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="181.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">58</text>
+<text x="416" y="199" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">3</text>
+<rect x="424" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">3</text>
+<rect x="464" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">35</text>
+<rect x="504" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">19</text>
+<rect x="544" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">51</text>
+<rect x="584" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">11</text>
+<rect x="624" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">43</text>
+<rect x="664" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">27</text>
+<rect x="704" y="190" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="199.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">59</text>
+<text x="416" y="217" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">4</text>
+<rect x="424" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">4</text>
+<rect x="464" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">36</text>
+<rect x="504" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">20</text>
+<rect x="544" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">52</text>
+<rect x="584" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">12</text>
+<rect x="624" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">44</text>
+<rect x="664" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">28</text>
+<rect x="704" y="208" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="217.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">60</text>
+<text x="416" y="235" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">5</text>
+<rect x="424" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<rect x="425" y="227" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="444" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">5</text>
+<rect x="464" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">37</text>
+<rect x="504" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">21</text>
+<rect x="544" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">53</text>
+<rect x="584" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<rect x="585" y="227" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="604" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">13</text>
+<rect x="624" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">45</text>
+<rect x="664" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">29</text>
+<rect x="704" y="226" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="235.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">61</text>
+<text x="416" y="253" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">6</text>
+<rect x="424" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">6</text>
+<rect x="464" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">38</text>
+<rect x="504" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">22</text>
+<rect x="544" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">54</text>
+<rect x="584" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">14</text>
+<rect x="624" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">46</text>
+<rect x="664" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">30</text>
+<rect x="704" y="244" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="253.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">62</text>
+<text x="416" y="271" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">7</text>
+<rect x="424" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">7</text>
+<rect x="464" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">39</text>
+<rect x="504" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">23</text>
+<rect x="544" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">55</text>
+<rect x="584" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">15</text>
+<rect x="624" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">47</text>
+<rect x="664" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">31</text>
+<rect x="704" y="262" width="40" height="18" fill="#bae6fd" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="271.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">63</text>
+<text x="416" y="289" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">8</text>
+<rect x="424" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">0</text>
+<rect x="464" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">32</text>
+<rect x="504" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">16</text>
+<rect x="544" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">48</text>
+<rect x="584" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">8</text>
+<rect x="624" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">40</text>
+<rect x="664" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">24</text>
+<rect x="704" y="280" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="289.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">56</text>
+<text x="416" y="307" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">9</text>
+<rect x="424" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">1</text>
+<rect x="464" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">33</text>
+<rect x="504" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">17</text>
+<rect x="544" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">49</text>
+<rect x="584" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">9</text>
+<rect x="624" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">41</text>
+<rect x="664" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">25</text>
+<rect x="704" y="298" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="307.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">57</text>
+<text x="416" y="325" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">10</text>
+<rect x="424" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">2</text>
+<rect x="464" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">34</text>
+<rect x="504" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">18</text>
+<rect x="544" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">50</text>
+<rect x="584" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">10</text>
+<rect x="624" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">42</text>
+<rect x="664" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">26</text>
+<rect x="704" y="316" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="325.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">58</text>
+<text x="416" y="343" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">11</text>
+<rect x="424" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">3</text>
+<rect x="464" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">35</text>
+<rect x="504" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">19</text>
+<rect x="544" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">51</text>
+<rect x="584" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">11</text>
+<rect x="624" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">43</text>
+<rect x="664" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">27</text>
+<rect x="704" y="334" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="343.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">59</text>
+<text x="416" y="361" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">12</text>
+<rect x="424" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">4</text>
+<rect x="464" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">36</text>
+<rect x="504" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">20</text>
+<rect x="544" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">52</text>
+<rect x="584" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">12</text>
+<rect x="624" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">44</text>
+<rect x="664" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">28</text>
+<rect x="704" y="352" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="361.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">60</text>
+<text x="416" y="379" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">13</text>
+<rect x="424" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<rect x="425" y="371" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="444" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">5</text>
+<rect x="464" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">37</text>
+<rect x="504" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">21</text>
+<rect x="544" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">53</text>
+<rect x="584" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<rect x="585" y="371" width="38" height="16" fill="none" stroke="#111827" stroke-width="1.8"/>
+<text x="604" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-weight="600" font-family="Consolas,'DejaVu Sans Mono',monospace">13</text>
+<rect x="624" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">45</text>
+<rect x="664" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">29</text>
+<rect x="704" y="370" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="379.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">61</text>
+<text x="416" y="397" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">14</text>
+<rect x="424" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">6</text>
+<rect x="464" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">38</text>
+<rect x="504" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">22</text>
+<rect x="544" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">54</text>
+<rect x="584" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">14</text>
+<rect x="624" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">46</text>
+<rect x="664" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">30</text>
+<rect x="704" y="388" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="397.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">62</text>
+<text x="416" y="415" font-size="9" fill="#6b7280" text-anchor="end" dominant-baseline="central">15</text>
+<rect x="424" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="444" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">7</text>
+<rect x="464" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="484" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">39</text>
+<rect x="504" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="524" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">23</text>
+<rect x="544" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="564" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">55</text>
+<rect x="584" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="604" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">15</text>
+<rect x="624" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="644" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">47</text>
+<rect x="664" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="684" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">31</text>
+<rect x="704" y="406" width="40" height="18" fill="#fed7aa" stroke="#ffffff" stroke-width="1"/>
+<text x="724" y="415.5" font-size="9.5" fill="#111827" text-anchor="middle" dominant-baseline="central" font-family="Consolas,'DejaVu Sans Mono',monospace">63</text>
+<rect x="44" y="448" width="12" height="12" fill="#bae6fd"/>
+<text x="62" y="454" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">第 1 条 store（左：v0，右：va）</text>
+<rect x="297.2" y="448" width="12" height="12" fill="#fed7aa"/>
+<text x="315.2" y="454" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">第 2 条 store（左：v1，右：vb）</text>
+<text x="44" y="482" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">一格 = 8 列 = 16 B，一行 64 列 = 128 B = 一条 cache line（n0 是 64 的倍数）。两种写法都是 2 条 store、每条 64 个 lane × 16 B = 1 KB。</text>
+<text x="44" y="501" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">粗框：lane 5 把第 5 行右段（v1）交给 lane 13，换回第 13 行左段（v0）；r0、r1 由 DPP row_ror:8 从 lane L^8 取来，</text>
+<text x="44" y="520" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">va = lo8 ? v0 : r1，vb = lo8 ? r0 : v1。</text>
+</svg>

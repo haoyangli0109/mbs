@@ -1191,26 +1191,31 @@ def fig_scale():
 
 
 def fig_scale_shuffle():
-    """One scale block (32 rows x 8 K blocks = 256 B): row-major before the shuffle, lane-major dwords after."""
+    """One scale block (32 rows x 8 K blocks = 256 B) for K = 5120: row-major before the shuffle (rows
+    scaleN_pad = 160 B apart), lane-major dwords after."""
+    SP = 5120 // 32
     lane_of = lambda r, b: 16 * (b % 4) + r % 16
     byte_of = lambda r, b: 2 * (b // 4) + r // 16
     new = {}
     for r in range(32):
         for b in range(8):
             off = 4 * lane_of(r, b) + byte_of(r, b)
-            assert off == flatS(r, b, 8)
+            assert off == flatS(r, b, SP)
             new[off] = (r, b)
     assert sorted(new) == list(range(256))
     FILL = [G[0][2], G[0][1], G[1][2], G[1][1]]      # byte k = 2*h + parity
     EX = 21
     ex = [new[4 * EX + k] for k in range(4)]
     assert ex == [(5, 1), (21, 1), (5, 5), (21, 5)]
-    f = Fig(790, 706, "scale 的 shuffle：一块 32 行 × 8 个 K 块共 256 B。左边是原来按行存的排布，第 r 行第 b 块在偏移 8r + b，"
-                      "格子里是 shuffle 之后拿走它的 lane；右边是 shuffle 之后的 256 B，每行 8 个字节、2 个 lane，每 4 格是一个 "
-                      "lane 的 dword。块切成 4 个 16 × 4 的小块，lane L 从每个小块的同一位置各拿 1 个字节：左上是字节 0，左下是 1，"
-                      "右上是 2，右下是 3。黑框是 lane 21 的 4 个字节，原偏移 41、169、45、173，新偏移 84 到 87")
+    orig = [SP * r + b for r, b in ex]
+    assert orig == [801, 3361, 805, 3365]
+    f = Fig(790, 726, f"scale 的 shuffle：一块 32 行 × 8 个 K 块共 256 B，按 K = 5120 画，一行 {SP} 个字节。左边是原来按行存的"
+                      f"前 8 列，第 r 行第 b 块在偏移 {SP}r + b，块的 32 行彼此隔 {SP} 字节，格子里是 shuffle 之后拿走它的 lane；"
+                      "右边是 shuffle 之后连续的 256 B，每行 8 个字节、2 个 lane，每 4 格是一个 lane 的 dword。块切成 4 个 "
+                      "16 × 4 的小块，lane L 从每个小块的同一位置各拿 1 个字节：左上是字节 0，左下是 1，右上是 2，右下是 3。"
+                      f"黑框是 lane {EX} 的 4 个字节，原偏移 {'、'.join(map(str, orig))}，新偏移 {4 * EX} 到 {4 * EX + 3}")
     f.header("scale 的 shuffle 一步一步看：一块 = 32 行 × 8 个 K 块 = 256 B",
-             "左：原来按行存，格子里是 shuffle 之后拿走它的 lane；右：shuffle 之后的 256 B，每 4 格是一个 lane 的 dword")
+             f"按 K = 5120 画：左边是原来的前 8 列（一行共 {SP} 个字节），格子里是拿走它的 lane；右边是 shuffle 之后的 256 B")
     lx = 14
     for k, label in enumerate(("字节 0：行 0–15 × b0–b3", "字节 1：行 16–31 × b0–b3",
                                "字节 2：行 0–15 × b4–b7", "字节 3：行 16–31 × b4–b7")):
@@ -1229,7 +1234,7 @@ def fig_scale_shuffle():
     # ① before: row-major 32 x 8, quadrants split by the subtile (rows) and the K half (blocks)
     bx = lambda b: LX + b * CW + (QG if b >= 4 else 0)
     by = lambda r: Y0 + r * CH + (QG if r >= 16 else 0)
-    f.text(14, 98, "① 原来：按行存，第 r 行第 b 块在偏移 8r + b", size=12.5, anchor="start", weight=600)
+    f.text(14, 98, f"① 原来：按行存，一行 {SP} B，(r, b) 在 {SP}r + b", size=12.5, anchor="start", weight=600)
     f.text(bx(0) + 2 * CW - 1, 116, "b0–b3：前 128 个 K", size=10, fill=MUTED)
     f.text(bx(4) + 2 * CW - 1, 116, "b4–b7：后 128 个 K", size=10, fill=MUTED)
     for b in range(8):
@@ -1259,12 +1264,13 @@ def fig_scale_shuffle():
     f.line(ax(7) + CW, yq, ax(7) + CW + 12, yq, stroke=INK, sw=1.2, arrow=True)
     f.text(616, yq - 36, f"lane {EX} 的 dword", size=11, anchor="start", weight=600)
     f.text(616, yq - 18, f"新偏移 {4 * EX}–{4 * EX + 3}，原来散在：", size=9.5, anchor="start", fill=MUTED)
-    for k, (r, b) in enumerate(ex):
-        f.text(616, yq + k * 17, f"字节 {k} ← (r{r}, b{b})，原偏移 {8 * r + b}", size=9.5, anchor="start")
+    for k, ((r, b), o) in enumerate(zip(ex, orig)):
+        f.text(616, yq + k * 17, f"字节 {k} ← (r{r}, b{b})，原偏移 {o}", size=9.5, anchor="start")
 
     f.lines(14, 650,
             ["lane L 要的 4 个字节 = 4 个 16 × 4 小块里同一位置的格子：行 L%16 和 16+L%16，K 块 L/16 和 4+L/16",
              "字节号 = 2 × K 半段 + 子块：蓝色是前 128 个 K，橙色是后 128 个 K；浅色是上面的子块，深色是下面的子块",
+             f"原来一块的 32 行彼此隔 {SP} B（一行的长度），shuffle 后收拢成连续 256 B；第 t 个 stage 的块在组内偏移 256t 处",
              "新偏移 = 4·(16·(b%4) + r%16) + 2·(b/4) + r/16；一条 buffer_load_dword 读连续 256 B，每个 lane 4 B"],
             size=11, anchor="start", step=20)
     return f

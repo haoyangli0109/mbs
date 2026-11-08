@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="790" height="706" viewBox="0 0 790 706" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="scale 的 shuffle：一块 32 行 × 8 个 K 块共 256 B。左边是原来按行存的排布，第 r 行第 b 块在偏移 8r + b，格子里是 shuffle 之后拿走它的 lane；右边是 shuffle 之后的 256 B，每行 8 个字节、2 个 lane，每 4 格是一个 lane 的 dword。块切成 4 个 16 × 4 的小块，lane L 从每个小块的同一位置各拿 1 个字节：左上是字节 0，左下是 1，右上是 2，右下是 3。黑框是 lane 21 的 4 个字节，原偏移 41、169、45、173，新偏移 84 到 87">
-<rect width="790" height="706" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="726" viewBox="0 0 790 726" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="scale 的 shuffle：一块 32 行 × 8 个 K 块共 256 B，按 K = 5120 画，一行 160 个字节。左边是原来按行存的前 8 列，第 r 行第 b 块在偏移 160r + b，块的 32 行彼此隔 160 字节，格子里是 shuffle 之后拿走它的 lane；右边是 shuffle 之后连续的 256 B，每行 8 个字节、2 个 lane，每 4 格是一个 lane 的 dword。块切成 4 个 16 × 4 的小块，lane L 从每个小块的同一位置各拿 1 个字节：左上是字节 0，左下是 1，右上是 2，右下是 3。黑框是 lane 21 的 4 个字节，原偏移 801、3361、805、3365，新偏移 84 到 87">
+<rect width="790" height="726" fill="#ffffff"/>
 <defs><marker id="arr0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#111827"/></marker></defs>
 <text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">scale 的 shuffle 一步一步看：一块 = 32 行 × 8 个 K 块 = 256 B</text>
-<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">左：原来按行存，格子里是 shuffle 之后拿走它的 lane；右：shuffle 之后的 256 B，每 4 格是一个 lane 的 dword</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">按 K = 5120 画：左边是原来的前 8 列（一行共 160 个字节），格子里是拿走它的 lane；右边是 shuffle 之后的 256 B</text>
 <rect x="14" y="65" width="11" height="11" fill="#dbeafe"/>
 <text x="31" y="70.5" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 0：行 0–15 × b0–b3</text>
 <rect x="173.64" y="65" width="11" height="11" fill="#93c5fd"/>
@@ -13,7 +13,7 @@
 <text x="515.8" y="70.5" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 3：行 16–31 × b4–b7</text>
 <rect x="664.32" y="65" width="11" height="11" fill="#ffffff" stroke="#111827" stroke-width="1.6"/>
 <text x="681.32" y="70.5" font-size="10.5" fill="#111827" text-anchor="start" dominant-baseline="central">lane 21 的 4 个字节</text>
-<text x="14" y="98" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">① 原来：按行存，第 r 行第 b 块在偏移 8r + b</text>
+<text x="14" y="98" font-size="12.5" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">① 原来：按行存，一行 160 B，(r, b) 在 160r + b</text>
 <text x="115" y="116" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">b0–b3：前 128 个 K</text>
 <text x="225" y="116" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">b4–b7：后 128 个 K</text>
 <text x="76" y="132" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">b0</text>
@@ -1129,11 +1129,12 @@
 <path d="M600 298.5L612 298.5" fill="none" stroke="#111827" stroke-width="1.2" marker-end="url(#arr0)"/>
 <text x="616" y="262.5" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">lane 21 的 dword</text>
 <text x="616" y="280.5" font-size="9.5" fill="#6b7280" text-anchor="start" dominant-baseline="central">新偏移 84–87，原来散在：</text>
-<text x="616" y="298.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 0 ← (r5, b1)，原偏移 41</text>
-<text x="616" y="315.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 1 ← (r21, b1)，原偏移 169</text>
-<text x="616" y="332.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 2 ← (r5, b5)，原偏移 45</text>
-<text x="616" y="349.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 3 ← (r21, b5)，原偏移 173</text>
+<text x="616" y="298.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 0 ← (r5, b1)，原偏移 801</text>
+<text x="616" y="315.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 1 ← (r21, b1)，原偏移 3361</text>
+<text x="616" y="332.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 2 ← (r5, b5)，原偏移 805</text>
+<text x="616" y="349.5" font-size="9.5" fill="#111827" text-anchor="start" dominant-baseline="central">字节 3 ← (r21, b5)，原偏移 3365</text>
 <text x="14" y="650" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">lane L 要的 4 个字节 = 4 个 16 × 4 小块里同一位置的格子：行 L%16 和 16+L%16，K 块 L/16 和 4+L/16</text>
 <text x="14" y="670" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">字节号 = 2 × K 半段 + 子块：蓝色是前 128 个 K，橙色是后 128 个 K；浅色是上面的子块，深色是下面的子块</text>
-<text x="14" y="690" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">新偏移 = 4·(16·(b%4) + r%16) + 2·(b/4) + r/16；一条 buffer_load_dword 读连续 256 B，每个 lane 4 B</text>
+<text x="14" y="690" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">原来一块的 32 行彼此隔 160 B（一行的长度），shuffle 后收拢成连续 256 B；第 t 个 stage 的块在组内偏移 256t 处</text>
+<text x="14" y="710" font-size="11" fill="#111827" text-anchor="start" dominant-baseline="central">新偏移 = 4·(16·(b%4) + r%16) + 2·(b/4) + r/16；一条 buffer_load_dword 读连续 256 B，每个 lane 4 B</text>
 </svg>
