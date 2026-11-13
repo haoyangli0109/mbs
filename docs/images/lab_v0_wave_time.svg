@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="290" viewBox="0 0 790 290" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="v0 的 wave 时间按指令类别的分配">
+<rect width="790" height="290" fill="#ffffff"/>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">v0：每个 wave 的 378,261 个周期花在哪（ATT，64 个 wave 平均）</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">每条指令占的周期 = 发射 + 被堵；s_waitcnt 按它等的计数器分开</text>
+<rect x="24" y="70" width="332.3" height="30" fill="#a78bfa" stroke="#ffffff" stroke-width="1"/>
+<text x="190.15" y="85" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">45%</text>
+<rect x="356.3" y="70" width="173.48" height="30" fill="#c4b5fd" stroke="#ffffff" stroke-width="1"/>
+<text x="443.04" y="85" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">23%</text>
+<rect x="529.78" y="70" width="74.56" height="30" fill="#374151" stroke="#ffffff" stroke-width="1"/>
+<text x="567.05" y="85" font-size="12" fill="#ffffff" text-anchor="middle" dominant-baseline="central">10%</text>
+<rect x="604.33" y="70" width="56.47" height="30" fill="#9ca3af" stroke="#ffffff" stroke-width="1"/>
+<text x="632.57" y="85" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">8%</text>
+<rect x="660.8" y="70" width="31.28" height="30" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+<text x="676.45" y="85" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">4%</text>
+<rect x="692.09" y="70" width="22.08" height="30" fill="#f87171" stroke="#ffffff" stroke-width="1"/>
+<rect x="714.17" y="70" width="18.14" height="30" fill="#2563eb" stroke="#ffffff" stroke-width="1"/>
+<rect x="732.31" y="70" width="10.31" height="30" fill="#6ee7b7" stroke="#ffffff" stroke-width="1"/>
+<rect x="742.62" y="70" width="10.03" height="30" fill="#d1d5db" stroke="#ffffff" stroke-width="1"/>
+<rect x="752.65" y="70" width="4.75" height="30" fill="#fdba74" stroke="#ffffff" stroke-width="1"/>
+<rect x="757.4" y="70" width="3.34" height="30" fill="#10b981" stroke="#ffffff" stroke-width="1"/>
+<rect x="760.73" y="70" width="2.96" height="30" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<rect x="763.7" y="70" width="2.24" height="30" fill="#6b7280" stroke="#ffffff" stroke-width="1"/>
+<rect x="24" y="119" width="10" height="10" fill="#a78bfa" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="124" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等 vmcnt（全局内存）</text>
+<text x="324" y="124" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">169,400</text>
+<text x="374" y="124" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">44.8%</text>
+<rect x="24" y="139" width="10" height="10" fill="#c4b5fd" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="144" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等 vmcnt + lgkmcnt</text>
+<text x="324" y="144" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">88,437</text>
+<text x="374" y="144" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">23.4%</text>
+<rect x="24" y="159" width="10" height="10" fill="#374151" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="164" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发全局读</text>
+<text x="324" y="164" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">38,008</text>
+<text x="374" y="164" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">10.0%</text>
+<rect x="24" y="179" width="10" height="10" fill="#9ca3af" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="184" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">向量指令</text>
+<text x="324" y="184" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">28,789</text>
+<text x="374" y="184" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">7.6%</text>
+<rect x="24" y="199" width="10" height="10" fill="#ffffff" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="204" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">空档（没有指令可发）</text>
+<text x="324" y="204" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">15,948</text>
+<text x="374" y="204" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">4.2%</text>
+<rect x="24" y="219" width="10" height="10" fill="#f87171" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="224" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等 barrier</text>
+<text x="324" y="224" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">11,256</text>
+<text x="374" y="224" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">3.0%</text>
+<rect x="24" y="239" width="10" height="10" fill="#2563eb" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="244" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">MFMA</text>
+<text x="324" y="244" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">9,248</text>
+<text x="374" y="244" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">2.4%</text>
+<rect x="404" y="119" width="10" height="10" fill="#6ee7b7" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="124" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发 LDS 写</text>
+<text x="704" y="124" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">5,255</text>
+<text x="754" y="124" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">1.4%</text>
+<rect x="404" y="139" width="10" height="10" fill="#d1d5db" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="144" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">标量指令</text>
+<text x="704" y="144" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">5,113</text>
+<text x="754" y="144" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">1.4%</text>
+<rect x="404" y="159" width="10" height="10" fill="#fdba74" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="164" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等 lgkmcnt（LDS、标量读）</text>
+<text x="704" y="164" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">2,421</text>
+<text x="754" y="164" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">0.6%</text>
+<rect x="404" y="179" width="10" height="10" fill="#10b981" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="184" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发 LDS 读</text>
+<text x="704" y="184" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">1,701</text>
+<text x="754" y="184" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">0.4%</text>
+<rect x="404" y="199" width="10" height="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="204" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">分支</text>
+<text x="704" y="204" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">1,511</text>
+<text x="754" y="204" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">0.4%</text>
+<rect x="404" y="219" width="10" height="10" fill="#6b7280" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="224" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发全局写</text>
+<text x="704" y="224" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">1,144</text>
+<text x="754" y="224" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">0.3%</text>
+</svg>

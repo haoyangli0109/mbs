@@ -1,0 +1,375 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="500" viewBox="0 0 790 500" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="ATT 里的一个 stage：上面是段 0，下面是段 1；每段第一行是 MFMA 管线，蓝块是一条 MFMA 占的 16 周期，红色是管线空着；下面几行是同一时刻发出去的 load、LDS 读、标量、向量指令和等待">
+<rect width="790" height="500" fill="#ffffff"/>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">ATT 里的一个 stage：MFMA 什么时候在算，空着时 wave 在干什么（共 2,660 周期）</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">SIMD 0 上的 wave，第 2 个 tile 的第 10 个 stage。蓝块：一条 MFMA 占管线 16 周期；红块：管线空着；细竖线：其他指令发出的时刻</text>
+<text x="14" y="72" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">段 0：算 mi 0–7（MFMA 0–63），同时发 stage s+1 的 B、B scale，读本 stage mi 8–15 的 A 片段</text>
+<text x="94" y="106" font-size="11" fill="#111827" text-anchor="end" dominant-baseline="central">MFMA 管线</text>
+<path d="M104 116L772 116" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="127" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">buffer_load</text>
+<path d="M104 132L772 132" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="143" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">ds_read</text>
+<path d="M104 148L772 148" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="159" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">SALU</text>
+<path d="M104 164L772 164" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="175" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">VALU</text>
+<path d="M104 180L772 180" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="191" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">等待</text>
+<path d="M104 196L772 196" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<rect x="107.53" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="114.58" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="121.63" y="98" width="19.39" height="16" fill="#dc2626"/>
+<rect x="141.01" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="148.06" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="155.11" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="162.16" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="169.21" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="176.26" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="183.31" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="190.36" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="197.41" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="204.46" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="211.51" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="218.56" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="225.61" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="232.66" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="239.72" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="241.48" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="248.53" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="255.58" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="262.63" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="269.68" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="276.73" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="283.78" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="285.54" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="292.59" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="299.64" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="306.69" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="313.74" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="320.79" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="327.84" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="329.6" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="336.65" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="343.7" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="350.75" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="357.8" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="364.85" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="371.91" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="378.96" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="386.01" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="393.06" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="400.11" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="407.16" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="414.21" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="415.97" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="423.02" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="430.07" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="437.12" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="444.17" y="98" width="7.05" height="16" fill="#dc2626"/>
+<rect x="451.22" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="458.27" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="465.32" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="472.37" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="479.42" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="486.47" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="493.52" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="495.28" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="502.33" y="98" width="3.53" height="16" fill="#dc2626"/>
+<rect x="505.86" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="512.91" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="514.67" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="521.72" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="528.77" y="98" width="3.53" height="16" fill="#dc2626"/>
+<rect x="532.3" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="539.35" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="541.11" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="548.16" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="555.21" y="98" width="3.53" height="16" fill="#dc2626"/>
+<rect x="558.73" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="565.78" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="567.55" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="574.6" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="581.65" y="98" width="3.53" height="16" fill="#dc2626"/>
+<rect x="585.17" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="592.22" y="98" width="1.76" height="16" fill="#dc2626"/>
+<rect x="593.98" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="601.03" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="608.08" y="98" width="6.45" height="16" fill="#60a5fa"/>
+<text x="135.9" y="89" font-size="10" fill="#dc2626" text-anchor="middle" dominant-baseline="central">MFMA 被卡 44</text>
+<text x="447.69" y="89" font-size="10" fill="#dc2626" text-anchor="middle" dominant-baseline="central">load 12</text>
+<rect x="144.54" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="158.64" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="165.69" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="186.84" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="200.94" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="207.99" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="236.19" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="237.95" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="259.1" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="280.25" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="282.02" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="303.17" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="324.32" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="326.08" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="354.28" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="361.33" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="375.43" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="396.58" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="403.63" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="419.49" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="440.64" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="442.41" y="154" width="1.76" height="10" fill="#111827"/>
+<rect x="445.93" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="475.89" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="489.99" y="122" width="1.76" height="10" fill="#111827"/>
+<rect x="497.04" y="170" width="1.76" height="10" fill="#fecaca"/>
+<rect x="498.81" y="170" width="1.76" height="10" fill="#111827"/>
+<rect x="504.09" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="523.48" y="170" width="1.76" height="10" fill="#fecaca"/>
+<rect x="525.25" y="170" width="1.76" height="10" fill="#111827"/>
+<rect x="530.53" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="549.92" y="170" width="1.76" height="10" fill="#fecaca"/>
+<rect x="551.68" y="170" width="1.76" height="10" fill="#111827"/>
+<rect x="556.97" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="576.36" y="170" width="1.76" height="10" fill="#fecaca"/>
+<rect x="578.12" y="170" width="1.76" height="10" fill="#111827"/>
+<rect x="583.41" y="138" width="1.76" height="10" fill="#111827"/>
+<rect x="609.85" y="186" width="1.76" height="10" fill="#a78bfa"/>
+<rect x="611.61" y="186" width="10.58" height="10" fill="#a78bfa"/>
+<text x="626.18" y="191" font-size="10" fill="#6d28d9" text-anchor="start" dominant-baseline="central">s_barrier 等了 24 周期</text>
+<path d="M104 206L772 206" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<path d="M107.53 206L107.53 210" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="107.53" y="219" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">0</text>
+<path d="M195.65 206L195.65 210" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="195.65" y="219" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+200</text>
+<path d="M283.78 206L283.78 210" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="283.78" y="219" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+400</text>
+<path d="M371.91 206L371.91 210" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="371.91" y="219" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+600</text>
+<path d="M460.03 206L460.03 210" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="460.03" y="219" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+800</text>
+<path d="M548.16 206L548.16 210" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="548.16" y="219" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+1000</text>
+<text x="14" y="268" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">段 1：开头 barrier，算 mi 8–15（MFMA 64–127），同时发 stage s+2 的 A DMA，读 s+1 的 A 片段</text>
+<text x="94" y="302" font-size="11" fill="#111827" text-anchor="end" dominant-baseline="central">MFMA 管线</text>
+<path d="M104 312L772 312" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="323" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">buffer_load</text>
+<path d="M104 328L772 328" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="339" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">ds_read</text>
+<path d="M104 344L772 344" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="355" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">SALU</text>
+<path d="M104 360L772 360" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="371" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">VALU</text>
+<path d="M104 376L772 376" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<text x="94" y="387" font-size="11" fill="#6b7280" text-anchor="end" dominant-baseline="central">等待</text>
+<path d="M104 392L772 392" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+<rect x="104" y="294" width="44.06" height="16" fill="#dc2626"/>
+<rect x="148.06" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="155.11" y="294" width="26.44" height="16" fill="#dc2626"/>
+<rect x="181.55" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="188.6" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="190.36" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="197.41" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="204.46" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="211.51" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="218.56" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="225.61" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="232.66" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="239.72" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="246.77" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="248.53" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="255.58" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="262.63" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="269.68" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="276.73" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="283.78" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="290.83" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="294.35" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="301.4" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="308.45" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="315.5" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="322.55" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="329.6" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="336.65" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="340.18" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="347.23" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="354.28" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="361.33" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="364.85" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="371.91" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="378.96" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="380.72" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="387.77" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="391.29" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="398.34" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="405.39" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="412.44" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="419.49" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="426.54" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="433.59" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="440.64" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="447.69" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="449.46" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="456.51" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="463.56" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="470.61" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="477.66" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="484.71" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="491.76" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="498.81" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="505.86" y="294" width="54.64" height="16" fill="#dc2626"/>
+<rect x="560.5" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="567.55" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="574.6" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="581.65" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="588.7" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="595.75" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="602.8" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="604.56" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="611.61" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="615.13" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="622.18" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="623.95" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="631" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="638.05" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="641.57" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="648.62" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="650.39" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="657.44" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="664.49" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="668.01" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="675.06" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="676.82" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="683.87" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="690.92" y="294" width="3.53" height="16" fill="#dc2626"/>
+<rect x="694.45" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="701.5" y="294" width="1.76" height="16" fill="#dc2626"/>
+<rect x="703.26" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="710.31" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="717.36" y="294" width="6.45" height="16" fill="#60a5fa"/>
+<rect x="724.41" y="294" width="44.06" height="16" fill="#dc2626"/>
+<text x="533.18" y="285" font-size="10" fill="#dc2626" text-anchor="middle" dominant-baseline="central">MFMA 被卡 68 + 标量 40</text>
+<text x="151.7" y="285" font-size="10" fill="#dc2626" text-anchor="middle" dominant-baseline="central">标量 52 + barrier 16</text>
+<text x="746.44" y="285" font-size="10" fill="#dc2626" text-anchor="middle" dominant-baseline="central">标量 84</text>
+<rect x="111.05" y="366" width="1.76" height="10" fill="#111827"/>
+<rect x="116.34" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="118.1" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="119.86" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="121.63" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="123.39" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="125.15" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="126.91" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="128.68" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="130.44" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="132.2" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="133.96" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="135.73" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="137.49" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="139.25" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="141.01" y="318" width="3.53" height="10" fill="#fecaca"/>
+<rect x="144.54" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="193.89" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="206.23" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="207.99" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="215.04" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="236.19" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="250.29" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="252.05" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="259.1" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="287.3" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="289.07" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="290.83" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="311.98" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="333.13" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="334.89" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="336.65" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="356.04" y="366" width="1.76" height="10" fill="#fecaca"/>
+<rect x="357.8" y="366" width="1.76" height="10" fill="#111827"/>
+<rect x="363.09" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="384.24" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="386.01" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="387.77" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="415.97" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="421.26" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="423.02" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="437.12" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="460.03" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="465.32" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="467.08" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="481.18" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="502.33" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="504.09" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="505.86" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="507.62" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="509.38" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="511.15" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="512.91" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="514.67" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="516.43" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="518.2" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="519.96" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="521.72" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="523.48" y="318" width="1.76" height="10" fill="#fecaca"/>
+<rect x="525.25" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="585.17" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="597.51" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="599.27" y="318" width="1.76" height="10" fill="#111827"/>
+<rect x="606.32" y="366" width="1.76" height="10" fill="#fecaca"/>
+<rect x="608.08" y="366" width="1.76" height="10" fill="#111827"/>
+<rect x="613.37" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="632.76" y="366" width="1.76" height="10" fill="#fecaca"/>
+<rect x="634.52" y="366" width="1.76" height="10" fill="#111827"/>
+<rect x="639.81" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="659.2" y="366" width="1.76" height="10" fill="#fecaca"/>
+<rect x="660.96" y="366" width="1.76" height="10" fill="#111827"/>
+<rect x="666.25" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="685.64" y="366" width="1.76" height="10" fill="#fecaca"/>
+<rect x="687.4" y="366" width="1.76" height="10" fill="#111827"/>
+<rect x="692.69" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="719.12" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="720.89" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="722.65" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="724.41" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="726.17" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="727.94" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="729.7" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="731.46" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="733.22" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="734.99" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="736.75" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="738.51" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="740.27" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="742.04" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="743.8" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="745.56" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="747.32" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="749.09" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="750.85" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="752.61" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="754.37" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="756.14" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="757.9" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="759.66" y="350" width="1.76" height="10" fill="#111827"/>
+<rect x="761.42" y="382" width="1.76" height="10" fill="#a78bfa"/>
+<rect x="763.19" y="334" width="1.76" height="10" fill="#111827"/>
+<rect x="764.95" y="318" width="1.76" height="10" fill="#111827"/>
+<path d="M104 402L772 402" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<path d="M125.15 402L125.15 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="125.15" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+1200</text>
+<path d="M213.28 402L213.28 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="213.28" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+1400</text>
+<path d="M301.4 402L301.4 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="301.4" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+1600</text>
+<path d="M389.53 402L389.53 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="389.53" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+1800</text>
+<path d="M477.66 402L477.66 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="477.66" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+2000</text>
+<path d="M565.78 402L565.78 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="565.78" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+2200</text>
+<path d="M653.91 402L653.91 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="653.91" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+2400</text>
+<path d="M742.04 402L742.04 406" fill="none" stroke="#9ca3af" stroke-width="1"/>
+<text x="742.04" y="415" font-size="10" fill="#6b7280" text-anchor="middle" dominant-baseline="central">+2600</text>
+<text x="14" y="444" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">这个 stage：128 条 MFMA 占 2,048 周期，管线空了 612 周期：MFMA 被卡 224，标量 176，load 96，空档 48，ds_read 44，barrier 16，VALU 4，</text>
+<text x="14" y="461" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">等数据 4。红字是一个空泡里占得最多的一两项；浅红是指令发射前被堵的周期，紫色是 s_waitcnt / s_barrier 等的周期。</text>
+<text x="14" y="478" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">横轴相对这个 stage 第一条 MFMA。</text>
+</svg>

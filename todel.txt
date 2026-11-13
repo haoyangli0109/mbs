@@ -1,0 +1,38 @@
+rocprof compute可视化
+看性能，找bound
+
+
+rocprofv3 -att ，生成json
+看命令排布
+rocprof compute viewer 可视化
+
+tracelens更高层
+
+rocprofv3 --att -d profiling --kernel-include-regex mbs_factor_experiment_kernel -- python example.py
+从python代码，看到kernel 汇编和源码的对应
+ 
+ 
+# rocprof-compute 3.4.0 (matches ROCm 7.2.3 rocprofiler-sdk); python deps live in a
+# --system-site-packages venv so the profiled workload still runs under the system python.
+RPC_HOME=/home/hangy/rocprof-compute-build
+$RPC_HOME/venv-7.2.3/bin/python $RPC_HOME/install-7.2.3/bin/rocprof-compute profile --name mxfp4_gemm --roof-only -k gemm_a4w4_wg_kernel -- python test_gemm_a4w4.py
+ 
+$RPC_HOME/venv-7.2.3/bin/python $RPC_HOME/install-7.2.3/bin/rocprof-compute analyze -p workloads/mxfp4_gemm/MI350 -b 4
+ 
+ 
+观察MFMA的使用率
+
+
+issue过多加载指令会导致堆积？
+MFMA调用率只有40%？数据加载根本满足不了计算需求？优化stage来加速？
+barrirer就是sync_thread?
+加载数据，系统会有等待？
+研究rocprof??
+ 
+
+怎么看kernel慢在哪里，可视化看gap；
+编译后的，跟源码对应起来，-g模式；
+检查寄存器用满没有。
+
+
+检查trace-len基于rocprof做了哪些事情，对quant-perf的增益

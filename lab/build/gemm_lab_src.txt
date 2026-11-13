@@ -1,0 +1,1200 @@
+
+build/gemm_lab.co:	file format elf64-amdgpu
+
+Disassembly of section .text:
+
+0000000000001600 <_ZN2v013gemm_v0_naiveE7Problem>:
+; _ZN2v013gemm_v0_naiveE7Problem():
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:94
+; {
+	s_load_dwordx2 s[12:13], s[0:1], 0x4
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:110
+;     const int wm = wave / 2, wn = wave % 2;
+	v_lshrrev_b32_e32 v1, 7, v0
+	v_bfe_u32 v2, v0, 6, 1
+	v_lshlrev_b32_e32 v29, 6, v1
+	v_lshlrev_b32_e32 v30, 6, v2
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:152
+;     for (int k0 = 0; k0 < p.K; k0 += BK) // 每步128个k,一共5120个k
+	s_waitcnt lgkmcnt(0)
+	s_cmp_gt_i32 s13, 0
+	s_cbranch_scc1 L0
+	v_lshlrev_b32_e32 v3, 6, v1
+	v_lshlrev_b32_e32 v4, 6, v2
+	s_mov_b64 s[4:5], 0
+	s_branch L1
+
+0000000000001638 <L0>:
+	s_mov_b64 s[4:5], -1
+
+000000000000163c <L1>:
+	s_load_dwordx2 s[14:15], s[0:1], 0x30
+	v_and_b32_e32 v28, 15, v0
+	v_bfe_u32 v2, v0, 4, 2
+	s_lshl_b32 s17, s3, 7
+	s_lshl_b32 s16, s2, 7
+	v_mov_b32_e32 v1, 0
+	v_accvgpr_write_b32 a60, 0
+	v_accvgpr_write_b32 a61, 0
+	v_accvgpr_write_b32 a62, 0
+	v_accvgpr_write_b32 a63, 0
+	v_accvgpr_write_b32 a56, 0
+	v_accvgpr_write_b32 a57, 0
+	v_accvgpr_write_b32 a58, 0
+	v_accvgpr_write_b32 a59, 0
+	v_accvgpr_write_b32 a52, 0
+	v_accvgpr_write_b32 a53, 0
+	v_accvgpr_write_b32 a54, 0
+	v_accvgpr_write_b32 a55, 0
+	v_accvgpr_write_b32 a48, 0
+	v_accvgpr_write_b32 a49, 0
+	v_accvgpr_write_b32 a50, 0
+	v_accvgpr_write_b32 a51, 0
+	v_accvgpr_write_b32 a44, 0
+	v_accvgpr_write_b32 a45, 0
+	v_accvgpr_write_b32 a46, 0
+	v_accvgpr_write_b32 a47, 0
+	v_accvgpr_write_b32 a40, 0
+	v_accvgpr_write_b32 a41, 0
+	v_accvgpr_write_b32 a42, 0
+	v_accvgpr_write_b32 a43, 0
+	v_accvgpr_write_b32 a36, 0
+	v_accvgpr_write_b32 a37, 0
+	v_accvgpr_write_b32 a38, 0
+	v_accvgpr_write_b32 a39, 0
+	v_accvgpr_write_b32 a32, 0
+	v_accvgpr_write_b32 a33, 0
+	v_accvgpr_write_b32 a34, 0
+	v_accvgpr_write_b32 a35, 0
+	v_accvgpr_write_b32 a28, 0
+	v_accvgpr_write_b32 a29, 0
+	v_accvgpr_write_b32 a30, 0
+	v_accvgpr_write_b32 a31, 0
+	v_accvgpr_write_b32 a24, 0
+	v_accvgpr_write_b32 a25, 0
+	v_accvgpr_write_b32 a26, 0
+	v_accvgpr_write_b32 a27, 0
+	v_accvgpr_write_b32 a20, 0
+	v_accvgpr_write_b32 a21, 0
+	v_accvgpr_write_b32 a22, 0
+	v_accvgpr_write_b32 a23, 0
+	v_accvgpr_write_b32 a16, 0
+	v_accvgpr_write_b32 a17, 0
+	v_accvgpr_write_b32 a18, 0
+	v_accvgpr_write_b32 a19, 0
+	v_accvgpr_write_b32 a12, 0
+	v_accvgpr_write_b32 a13, 0
+	v_accvgpr_write_b32 a14, 0
+	v_accvgpr_write_b32 a15, 0
+	v_accvgpr_write_b32 a8, 0
+	v_accvgpr_write_b32 a9, 0
+	v_accvgpr_write_b32 a10, 0
+	v_accvgpr_write_b32 a11, 0
+	v_accvgpr_write_b32 a4, 0
+	v_accvgpr_write_b32 a5, 0
+	v_accvgpr_write_b32 a6, 0
+	v_accvgpr_write_b32 a7, 0
+	v_accvgpr_write_b32 a0, 0
+	v_accvgpr_write_b32 a1, 0
+	v_accvgpr_write_b32 a2, 0
+	s_andn2_b64 vcc, exec, s[4:5]
+	v_accvgpr_write_b32 a3, 0
+	s_cbranch_vccnz L4
+	s_load_dwordx8 s[4:11], s[0:1], 0x10
+	v_or_b32_e32 v22, v29, v28
+	v_mov_b32_e32 v3, v1
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:141
+;     const int KB = p.K / 2, KS = p.K / 32;
+	s_lshr_b32 s0, s13, 5
+	v_or_b32_e32 v16, v30, v28
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:152
+;     for (int k0 = 0; k0 < p.K; k0 += BK) // 每步128个k,一共5120个k
+	s_waitcnt lgkmcnt(0)
+	v_lshl_add_u64 v[4:5], s[8:9], 0, v[2:3]
+	v_lshl_add_u64 v[6:7], s[10:11], 0, v[2:3]
+	v_add_u32_e32 v3, s17, v22
+	v_mad_i64_i32 v[8:9], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, s16, v16
+	v_mad_i64_i32 v[10:11], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, 16, v16
+	v_lshlrev_b32_e32 v36, 6, v3
+	v_or_b32_e32 v3, s16, v3
+	v_mad_i64_i32 v[12:13], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, 32, v16
+	v_lshlrev_b32_e32 v37, 6, v3
+	v_or_b32_e32 v3, s16, v3
+	v_mad_i64_i32 v[14:15], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, 48, v16
+	v_lshlrev_b32_e32 v38, 6, v3
+	v_or_b32_e32 v3, s16, v3
+	v_lshlrev_b32_e32 v27, 6, v16
+	v_mad_i64_i32 v[16:17], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, 16, v22
+	v_lshlrev_b32_e32 v39, 6, v3
+	v_add_u32_e32 v3, s17, v3
+	v_mad_i64_i32 v[18:19], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, 32, v22
+	v_lshlrev_b32_e32 v40, 6, v3
+	v_add_u32_e32 v3, s17, v3
+	v_lshlrev_b32_e32 v25, 4, v2
+	v_mad_i64_i32 v[20:21], s[2:3], v3, s0, 0
+	v_or_b32_e32 v3, 48, v22
+	v_lshrrev_b32_e32 v24, 4, v0
+	v_or_b32_e32 v26, 0x2000, v25
+	v_lshlrev_b32_e32 v34, 6, v22
+	v_lshlrev_b32_e32 v41, 6, v3
+	v_add_u32_e32 v3, s17, v3
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:141
+;     const int KB = p.K / 2, KS = p.K / 32;
+	s_lshr_b32 s18, s13, 1
+	s_mov_b32 s1, 0
+	v_accvgpr_write_b32 a3, 0
+	v_accvgpr_write_b32 a2, 0
+	v_accvgpr_write_b32 a1, 0
+	v_accvgpr_write_b32 a0, 0
+	v_accvgpr_write_b32 a7, 0
+	v_accvgpr_write_b32 a6, 0
+	v_accvgpr_write_b32 a5, 0
+	v_accvgpr_write_b32 a4, 0
+	v_accvgpr_write_b32 a11, 0
+	v_accvgpr_write_b32 a10, 0
+	v_accvgpr_write_b32 a9, 0
+	v_accvgpr_write_b32 a8, 0
+	v_accvgpr_write_b32 a15, 0
+	v_accvgpr_write_b32 a14, 0
+	v_accvgpr_write_b32 a13, 0
+	v_accvgpr_write_b32 a12, 0
+	v_accvgpr_write_b32 a19, 0
+	v_accvgpr_write_b32 a18, 0
+	v_accvgpr_write_b32 a17, 0
+	v_accvgpr_write_b32 a16, 0
+	v_accvgpr_write_b32 a23, 0
+	v_accvgpr_write_b32 a22, 0
+	v_accvgpr_write_b32 a21, 0
+	v_accvgpr_write_b32 a20, 0
+	v_accvgpr_write_b32 a27, 0
+	v_accvgpr_write_b32 a26, 0
+	v_accvgpr_write_b32 a25, 0
+	v_accvgpr_write_b32 a24, 0
+	v_accvgpr_write_b32 a31, 0
+	v_accvgpr_write_b32 a30, 0
+	v_accvgpr_write_b32 a29, 0
+	v_accvgpr_write_b32 a28, 0
+	v_accvgpr_write_b32 a35, 0
+	v_accvgpr_write_b32 a34, 0
+	v_accvgpr_write_b32 a33, 0
+	v_accvgpr_write_b32 a32, 0
+	v_accvgpr_write_b32 a39, 0
+	v_accvgpr_write_b32 a38, 0
+	v_accvgpr_write_b32 a37, 0
+	v_accvgpr_write_b32 a36, 0
+	v_accvgpr_write_b32 a43, 0
+	v_accvgpr_write_b32 a42, 0
+	v_accvgpr_write_b32 a41, 0
+	v_accvgpr_write_b32 a40, 0
+	v_accvgpr_write_b32 a47, 0
+	v_accvgpr_write_b32 a46, 0
+	v_accvgpr_write_b32 a45, 0
+	v_accvgpr_write_b32 a44, 0
+	v_accvgpr_write_b32 a51, 0
+	v_accvgpr_write_b32 a50, 0
+	v_accvgpr_write_b32 a49, 0
+	v_accvgpr_write_b32 a48, 0
+	v_accvgpr_write_b32 a55, 0
+	v_accvgpr_write_b32 a54, 0
+	v_accvgpr_write_b32 a53, 0
+	v_accvgpr_write_b32 a52, 0
+	v_accvgpr_write_b32 a59, 0
+	v_accvgpr_write_b32 a58, 0
+	v_accvgpr_write_b32 a57, 0
+	v_accvgpr_write_b32 a56, 0
+	v_accvgpr_write_b32 a63, 0
+	v_accvgpr_write_b32 a62, 0
+	v_accvgpr_write_b32 a61, 0
+	v_accvgpr_write_b32 a60, 0
+	v_mad_i64_i32 v[22:23], s[2:3], v3, s0, 0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:152
+;     for (int k0 = 0; k0 < p.K; k0 += BK) // 每步128个k,一共5120个k
+	v_or_b32_e32 v3, 0xffffff00, v0
+	v_add_u32_e32 v31, s16, v24
+	v_add_u32_e32 v32, s17, v24
+	v_lshlrev_b32_e32 v33, 2, v0
+	s_movk_i32 s8, 0x6ff
+	v_add_u32_e32 v34, v25, v34
+	v_add_u32_e32 v35, v26, v27
+	v_add_u32_e32 v36, v26, v36
+	v_add_u32_e32 v37, v26, v37
+	v_add_u32_e32 v38, v26, v38
+	v_add_u32_e32 v39, v25, v39
+	v_add_u32_e32 v40, v25, v40
+	v_add_u32_e32 v41, v25, v41
+	s_mov_b32 s9, 0
+
+0000000000001b7c <L2>:
+	s_lshr_b32 s0, s9, 1
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:165
+;         for (int i = tid; i < BM * ROWB / 4; i += 256) {
+	s_add_u32 s10, s4, s0
+	s_addc_u32 s11, s5, 0
+	s_add_u32 s20, s6, s0
+	s_addc_u32 s21, s7, 0
+	s_mov_b64 s[2:3], 0
+	v_mov_b64_e32 v[24:25], s[10:11]
+	v_mov_b64_e32 v[26:27], s[20:21]
+	v_mov_b32_e32 v42, v33
+	v_mov_b32_e32 v43, v32
+	v_mov_b32_e32 v44, v31
+	v_mov_b32_e32 v45, v3
+
+0000000000001bac <L3>:
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:198
+;                 *reinterpret_cast<const uint32_t*>(p.A + (size_t)(m0 + r) * KB + k0 / 2 + c * 4);
+	v_mad_i64_i32 v[46:47], s[10:11], v43, s18, v[24:25]
+	v_and_b32_e32 v0, 60, v42
+	v_lshl_add_u64 v[46:47], v[46:47], 0, v[0:1]
+	global_load_dword v48, v[46:47], off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:203
+;                 *reinterpret_cast<const uint32_t*>(p.B + (size_t)(n0 + r) * KB + k0 / 2 + c * 4);
+	v_mad_i64_i32 v[46:47], s[10:11], v44, s18, v[26:27]
+	v_lshl_add_u64 v[46:47], v[46:47], 0, v[0:1]
+	global_load_dword v0, v[46:47], off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:165
+;         for (int i = tid; i < BM * ROWB / 4; i += 256) {
+	v_add_u32_e32 v45, 0x100, v45
+	v_cmp_lt_u32_e32 vcc, s8, v45
+	v_add_u32_e32 v44, 16, v44
+	v_add_u32_e32 v43, 16, v43
+	s_or_b64 s[2:3], vcc, s[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:197
+;             reinterpret_cast<uint32_t*>(sA)[i] =
+	s_waitcnt vmcnt(0)
+	ds_write2st64_b32 v42, v48, v0 offset1:32
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:165
+;         for (int i = tid; i < BM * ROWB / 4; i += 256) {
+	v_add_u32_e32 v42, 0x400, v42
+	s_andn2_b64 exec, exec, s[2:3]
+	s_cbranch_execnz L3
+	s_or_b64 exec, exec, s[2:3]
+	s_lshr_b32 s0, s9, 5
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:217
+;         for (int mi = 0; mi < 4; ++mi) 
+	v_lshl_add_u64 v[58:59], v[4:5], 0, s[0:1]
+	v_lshl_add_u64 v[24:25], v[6:7], 0, s[0:1]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:238
+;             const int sa = p.As[(size_t)(m0 + ra) * KS + k0 / 32 + g];
+	v_lshl_add_u64 v[26:27], v[58:59], 0, v[8:9]
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_device_functions.h:691
+;     __builtin_amdgcn_fence(__ATOMIC_RELEASE, "workgroup");
+	s_waitcnt lgkmcnt(0)
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_device_functions.h:692
+;     __builtin_amdgcn_s_barrier();
+	s_barrier
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:238
+;             const int sa = p.As[(size_t)(m0 + ra) * KS + k0 / 32 + g];
+	global_load_ubyte v0, v[26:27], off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:248
+;                 const int sb = p.Bs[(size_t)(n0 + rb) * KS + k0 / 32 + g];
+	v_lshl_add_u64 v[26:27], v[24:25], 0, v[10:11]
+	global_load_ubyte v62, v[26:27], off
+	v_lshl_add_u64 v[26:27], v[24:25], 0, v[12:13]
+	global_load_ubyte v63, v[26:27], off
+	v_lshl_add_u64 v[26:27], v[24:25], 0, v[14:15]
+	v_lshl_add_u64 v[24:25], v[24:25], 0, v[16:17]
+	global_load_ubyte v64, v[26:27], off
+	global_load_ubyte v65, v[24:25], off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:238
+;             const int sa = p.As[(size_t)(m0 + ra) * KS + k0 / 32 + g];
+	v_lshl_add_u64 v[24:25], v[58:59], 0, v[18:19]
+	global_load_ubyte v66, v[24:25], off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:231
+;             const i32x4 a = *reinterpret_cast<const i32x4*>(sA + ra * ROWB + g * 16);
+	ds_read_b128 v[24:27], v34
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:246
+;                 const i32x4 b = *reinterpret_cast<const i32x4*>(sB + rb * ROWB + g * 16);
+	ds_read_b128 v[42:45], v35
+	ds_read_b128 v[46:49], v36
+	ds_read_b128 v[50:53], v37
+	ds_read_b128 v[54:57], v38
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:238
+;             const int sa = p.As[(size_t)(m0 + ra) * KS + k0 / 32 + g];
+	v_lshl_add_u64 v[60:61], v[58:59], 0, v[20:21]
+	v_lshl_add_u64 v[58:59], v[58:59], 0, v[22:23]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:152
+;     for (int k0 = 0; k0 < p.K; k0 += BK) // 每步128个k,一共5120个k
+	s_addk_i32 s9, 0x80
+	s_cmp_ge_i32 s9, s13
+; /home/haoyanli/a121_quark/mbs/lab/./common.h:34
+;     return __builtin_amdgcn_mfma_scale_f32_16x16x128_f8f6f4(a8, b8, c, 4, 4, 0, sa, 0, sb);
+	s_waitcnt vmcnt(4) lgkmcnt(3)
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[24:27], v[42:45], a[0:3], v0, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001CD8: D3AC0000 00027D00 D3AD8C00 84025518
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:238
+;             const int sa = p.As[(size_t)(m0 + ra) * KS + k0 / 32 + g];
+	global_load_ubyte v58, v[58:59], off
+; /home/haoyanli/a121_quark/mbs/lab/./common.h:34
+;     return __builtin_amdgcn_mfma_scale_f32_16x16x128_f8f6f4(a8, b8, c, 4, 4, 0, sa, 0, sb);
+	s_waitcnt vmcnt(4) lgkmcnt(2)
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[4:7], v[24:27], v[46:49], a[4:7], v0, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001CF4: D3AC0000 00027F00 D3AD8C04 84125D18
+	s_waitcnt vmcnt(3) lgkmcnt(1)
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[24:27], v[50:53], a[8:11], v0, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D08: D3AC0000 00028100 D3AD8C08 84226518
+	s_waitcnt vmcnt(2) lgkmcnt(0)
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[24:27], v[54:57], a[12:15], v0, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D1C: D3AC0000 00028300 D3AD8C0C 84326D18
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:238
+;             const int sa = p.As[(size_t)(m0 + ra) * KS + k0 / 32 + g];
+	global_load_ubyte v0, v[60:61], off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:231
+;             const i32x4 a = *reinterpret_cast<const i32x4*>(sA + ra * ROWB + g * 16);
+	ds_read_b128 v[24:27], v39
+; /home/haoyanli/a121_quark/mbs/lab/./common.h:34
+;     return __builtin_amdgcn_mfma_scale_f32_16x16x128_f8f6f4(a8, b8, c, 4, 4, 0, sa, 0, sb);
+	s_waitcnt vmcnt(2) lgkmcnt(0)
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[24:27], v[42:45], a[16:19], v66, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D40: D3AC0000 00027D42 D3AD8C10 84425518
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[24:27], v[46:49], a[20:23], v66, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D50: D3AC0000 00027F42 D3AD8C14 84525D18
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[24:27], v[50:53], a[24:27], v66, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D60: D3AC0000 00028142 D3AD8C18 84626518
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[24:27], v[54:57], a[28:31], v66, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D70: D3AC0000 00028342 D3AD8C1C 84726D18
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:231
+;             const i32x4 a = *reinterpret_cast<const i32x4*>(sA + ra * ROWB + g * 16);
+	ds_read_b128 v[24:27], v40
+; /home/haoyanli/a121_quark/mbs/lab/./common.h:34
+;     return __builtin_amdgcn_mfma_scale_f32_16x16x128_f8f6f4(a8, b8, c, 4, 4, 0, sa, 0, sb);
+	s_waitcnt vmcnt(0) lgkmcnt(0)
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[24:27], v[42:45], a[32:35], v0, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D8C: D3AC0000 00027D00 D3AD8C20 84825518
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[24:27], v[46:49], a[36:39], v0, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001D9C: D3AC0000 00027F00 D3AD8C24 84925D18
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[24:27], v[50:53], a[40:43], v0, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001DAC: D3AC0000 00028100 D3AD8C28 84A26518
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[24:27], v[54:57], a[44:47], v0, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001DBC: D3AC0000 00028300 D3AD8C2C 84B26D18
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:231
+;             const i32x4 a = *reinterpret_cast<const i32x4*>(sA + ra * ROWB + g * 16);
+	ds_read_b128 v[24:27], v41
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_device_functions.h:691
+;     __builtin_amdgcn_fence(__ATOMIC_RELEASE, "workgroup");
+	s_waitcnt lgkmcnt(0)
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_device_functions.h:692
+;     __builtin_amdgcn_s_barrier();
+	s_barrier
+; /home/haoyanli/a121_quark/mbs/lab/./common.h:34
+;     return __builtin_amdgcn_mfma_scale_f32_16x16x128_f8f6f4(a8, b8, c, 4, 4, 0, sa, 0, sb);
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[24:27], v[42:45], a[48:51], v58, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001DDC: D3AC0000 00027D3A D3AD8C30 84C25518
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[24:27], v[46:49], a[52:55], v58, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001DEC: D3AC0000 00027F3A D3AD8C34 84D25D18
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[24:27], v[50:53], a[56:59], v58, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001DFC: D3AC0000 0002813A D3AD8C38 84E26518
+	v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[24:27], v[54:57], a[60:63], v58, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4// 000000001E0C: D3AC0000 0002833A D3AD8C3C 84F26D18
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:152
+;     for (int k0 = 0; k0 < p.K; k0 += BK) // 每步128个k,一共5120个k
+	s_cbranch_scc0 L2
+	v_mov_b32_e32 v3, v29
+	v_mov_b32_e32 v4, v30
+
+0000000000001e28 <L4>:
+	v_add_u32_e32 v3, s17, v3
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:269
+;     for (int mi = 0; mi < 4; ++mi)
+	v_lshl_or_b32 v72, v2, 2, v3
+	v_or3_b32 v2, v4, s16, v28
+	v_accvgpr_read_b32 v67, a0
+	v_ashrrev_i32_e32 v3, 31, v2
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:273
+;             for (int i = 0; i < 4; ++i) {
+	s_waitcnt lgkmcnt(0)
+	v_lshl_add_u64 v[2:3], v[2:3], 1, s[14:15]
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v67, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[68:69], s[0:1], v72, s12, 0
+	v_lshl_add_u64 v[68:69], v[68:69], 1, v[2:3]
+	v_accvgpr_read_b32 v66, a1
+	global_store_short v[68:69], v4, off
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 1, v72
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v66, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[66:67], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v65, a2
+	v_lshl_add_u64 v[66:67], v[66:67], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 2, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[66:67], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v65, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[70:71], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v64, a3
+	v_lshl_add_u64 v[70:71], v[70:71], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 3, v72
+	v_accvgpr_read_b32 v63, a4
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[70:71], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v64, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[64:65], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v62, a5
+	v_lshl_add_u64 v[64:65], v[64:65], 1, v[2:3]
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v63, s0
+	v_accvgpr_read_b32 v61, a6
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[64:65], v28, off
+	global_store_short v[68:69], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v62, s0
+	v_accvgpr_read_b32 v60, a7
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[66:67], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v61, s0
+	v_accvgpr_read_b32 v59, a8
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[70:71], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v60, s0
+	v_accvgpr_read_b32 v58, a9
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[64:65], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v59, s0
+	v_accvgpr_read_b32 v57, a10
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[68:69], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v58, s0
+	v_accvgpr_read_b32 v56, a11
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[66:67], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v57, s0
+	v_accvgpr_read_b32 v55, a12
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[70:71], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v56, s0
+	v_accvgpr_read_b32 v54, a13
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[64:65], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v55, s0
+	v_accvgpr_read_b32 v53, a14
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[68:69], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v54, s0
+	v_accvgpr_read_b32 v52, a15
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[66:67], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v53, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[70:71], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v52, s0
+	v_accvgpr_read_b32 v51, a16
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[64:65], v4, off offset:96
+	v_or_b32_e32 v4, 16, v72
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v51, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[52:53], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v50, a17
+	v_lshl_add_u64 v[52:53], v[52:53], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 17, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[52:53], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v50, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[50:51], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v49, a18
+	v_lshl_add_u64 v[50:51], v[50:51], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 18, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[50:51], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v49, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[54:55], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v48, a19
+	v_lshl_add_u64 v[54:55], v[54:55], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 19, v72
+	v_accvgpr_read_b32 v47, a20
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[54:55], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v48, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[48:49], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v46, a21
+	v_lshl_add_u64 v[48:49], v[48:49], 1, v[2:3]
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v47, s0
+	v_accvgpr_read_b32 v45, a22
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[48:49], v28, off
+	global_store_short v[52:53], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v46, s0
+	v_accvgpr_read_b32 v44, a23
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[50:51], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v45, s0
+	v_accvgpr_read_b32 v43, a24
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[54:55], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v44, s0
+	v_accvgpr_read_b32 v42, a25
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[48:49], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v43, s0
+	v_accvgpr_read_b32 v41, a26
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[52:53], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v42, s0
+	v_accvgpr_read_b32 v40, a27
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[50:51], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v41, s0
+	v_accvgpr_read_b32 v39, a28
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[54:55], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v40, s0
+	v_accvgpr_read_b32 v38, a29
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[48:49], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v39, s0
+	v_accvgpr_read_b32 v37, a30
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[52:53], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v38, s0
+	v_accvgpr_read_b32 v36, a31
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[50:51], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v37, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[54:55], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v36, s0
+	v_accvgpr_read_b32 v35, a32
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[48:49], v4, off offset:96
+	v_or_b32_e32 v4, 32, v72
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v35, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[36:37], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v34, a33
+	v_lshl_add_u64 v[36:37], v[36:37], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 33, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[36:37], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v34, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[34:35], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v33, a34
+	v_lshl_add_u64 v[34:35], v[34:35], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 34, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[34:35], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v33, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[38:39], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v32, a35
+	v_lshl_add_u64 v[38:39], v[38:39], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 35, v72
+	v_accvgpr_read_b32 v31, a36
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[38:39], v28, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v28, v32, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[32:33], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v30, a37
+	v_lshl_add_u64 v[32:33], v[32:33], 1, v[2:3]
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v31, s0
+	v_accvgpr_read_b32 v29, a38
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[32:33], v28, off
+	global_store_short v[36:37], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v30, s0
+	v_accvgpr_read_b32 v27, a39
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[34:35], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v29, s0
+	v_accvgpr_read_b32 v26, a40
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[38:39], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v27, s0
+	v_accvgpr_read_b32 v25, a41
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[32:33], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v26, s0
+	v_accvgpr_read_b32 v24, a42
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[36:37], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v25, s0
+	v_accvgpr_read_b32 v23, a43
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[34:35], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v24, s0
+	v_accvgpr_read_b32 v22, a44
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[38:39], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v23, s0
+	v_accvgpr_read_b32 v21, a45
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[32:33], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v22, s0
+	v_accvgpr_read_b32 v20, a46
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[36:37], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v21, s0
+	v_accvgpr_read_b32 v19, a47
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[34:35], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v20, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[38:39], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v19, s0
+	v_accvgpr_read_b32 v18, a48
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[32:33], v4, off offset:96
+	v_or_b32_e32 v4, 48, v72
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v20, v18, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[18:19], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v17, a49
+	v_lshl_add_u64 v[18:19], v[18:19], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 49, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[18:19], v20, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v17, v17, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[20:21], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v16, a50
+	v_lshl_add_u64 v[20:21], v[20:21], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 50, v72
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[20:21], v17, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v22, v16, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[16:17], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v15, a51
+	v_lshl_add_u64 v[16:17], v[16:17], 1, v[2:3]
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:278
+;                 const int m = m0 + wm * 64 + mi * 16 + 4 * g + i;
+	v_or_b32_e32 v4, 51, v72
+	v_accvgpr_read_b32 v14, a52
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[16:17], v22, off
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v15, v15, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	v_mad_i64_i32 v[22:23], s[0:1], v4, s12, 0
+	v_accvgpr_read_b32 v13, a53
+	v_lshl_add_u64 v[2:3], v[22:23], 1, v[2:3]
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v14, s0
+	v_accvgpr_read_b32 v12, a54
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[2:3], v15, off
+	global_store_short v[18:19], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v13, s0
+	v_accvgpr_read_b32 v11, a55
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[20:21], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v12, s0
+	v_accvgpr_read_b32 v10, a56
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[16:17], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v11, s0
+	v_accvgpr_read_b32 v9, a57
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[2:3], v4, off offset:32
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v10, s0
+	v_accvgpr_read_b32 v8, a58
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[18:19], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v9, s0
+	v_accvgpr_read_b32 v7, a59
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[20:21], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v8, s0
+	v_accvgpr_read_b32 v6, a60
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[16:17], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v7, s0
+	v_accvgpr_read_b32 v5, a61
+	v_accvgpr_read_b32 v1, a62
+	v_accvgpr_read_b32 v0, a63
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[2:3], v4, off offset:64
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v6, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[18:19], v4, off offset:96
+; /opt/rocm-7.2.3/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_bf16.h:214
+;   __BF16_HOST_DEVICE__ __hip_bfloat16(const float val) : __x_bf16(static_cast<__bf16>(val)) {}
+	v_cvt_pk_bf16_f32 v4, v5, s0
+	v_cvt_pk_bf16_f32 v1, v1, s0
+	v_cvt_pk_bf16_f32 v0, v0, s0
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:285
+;                 p.C[(size_t)m * p.N + n] = __float2bfloat16(acc[mi][ni][i]);
+	global_store_short v[20:21], v4, off offset:96
+	global_store_short v[16:17], v1, off offset:96
+	global_store_short v[2:3], v0, off offset:96
+; /home/haoyanli/a121_quark/mbs/lab/./v0_naive.h:287
+; }
+	s_endpgm
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0
+	s_nop 0

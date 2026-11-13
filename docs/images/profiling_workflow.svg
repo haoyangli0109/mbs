@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="510" viewBox="0 0 790 510" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="优化一个 HIP kernel 的六步：测准时间、编译期体检、算上限、硬件计数器、指令级 trace、改一处再回到第一步；每一步写了用的工具、回答的问题和在 MBS 上的结果">
+<rect width="790" height="510" fill="#ffffff"/>
+<defs><marker id="arr0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9ca3af"/></marker><marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#15803d"/></marker></defs>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">优化一个 HIP kernel：先测准，再一层层往下找</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">每一步回答一个问题；改完代码回到第 ① 步重新测。右列是 MBS 在 8192×8192×5120 上的结果</text>
+<text x="36" y="76" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central" font-weight="600">步骤 · 工具</text>
+<text x="290" y="76" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central" font-weight="600">这一步回答</text>
+<text x="506" y="76" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central" font-weight="600">在 MBS 上的结果</text>
+<rect x="36" y="96" width="236" height="58" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="6"/>
+<text x="48" y="116" font-size="13" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">① 测准时间</text>
+<text x="48" y="137" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">bench_one.py 跑够久 · amd-smi monitor</text>
+<text x="290" y="116" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">现在到底多快？</text>
+<text x="290" y="135" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">GPU 时钟稳了没有？</text>
+<text x="506" y="116" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">5000 次平均 179 µs；只跑 50 次是 209 µs，</text>
+<text x="506" y="135" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">时钟还没升上来。功耗顶在 1000 W，1.49 GHz</text>
+<path d="M154 154L154 162" fill="none" stroke="#9ca3af" stroke-width="1" marker-end="url(#arr0)"/>
+<rect x="36" y="162" width="236" height="58" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="6"/>
+<text x="48" y="182" font-size="13" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">② 编译期体检</text>
+<text x="48" y="203" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">-Rpass-analysis · .s · -gline-tables-only</text>
+<text x="290" y="182" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">寄存器够不够、有没有 spill？</text>
+<text x="290" y="201" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">生成的指令和想的一样吗？</text>
+<text x="506" y="182" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">256 VGPR + 256 AGPR 用满，scratch 为 0，</text>
+<text x="506" y="201" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">每 SIMD 1 个 wave；每个 wave 26,592 条指令</text>
+<path d="M154 220L154 228" fill="none" stroke="#9ca3af" stroke-width="1" marker-end="url(#arr0)"/>
+<rect x="36" y="228" width="236" height="58" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="6"/>
+<text x="48" y="248" font-size="13" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">③ 算上限</text>
+<text x="48" y="269" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">MFMA 周期数 · rocprof-compute roofline</text>
+<text x="290" y="248" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">受算力限制，还是受带宽限制？</text>
+<text x="290" y="267" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">最快能有多快？</text>
+<text x="506" y="248" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">算术强度 2,559 FLOP/B，在拐点 1,672 右边，</text>
+<text x="506" y="267" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">受 MFMA 限制；MFMA 一直忙只要 110 µs</text>
+<path d="M154 286L154 294" fill="none" stroke="#9ca3af" stroke-width="1" marker-end="url(#arr0)"/>
+<rect x="36" y="294" width="236" height="58" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="6"/>
+<text x="48" y="314" font-size="13" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">④ 硬件计数器</text>
+<text x="48" y="335" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">rocprofv3 --pmc · rocprof-compute</text>
+<text x="290" y="314" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">哪个部件在忙，忙到几成？</text>
+<text x="290" y="333" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">有没有冲突、没命中？</text>
+<text x="506" y="314" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">MFMA 利用率 55–56%，HBM 带宽只用 33%，</text>
+<text x="506" y="333" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">LDS 没有 bank conflict，L2 命中 77%</text>
+<path d="M154 352L154 360" fill="none" stroke="#9ca3af" stroke-width="1" marker-end="url(#arr0)"/>
+<rect x="36" y="360" width="236" height="58" fill="#eff6ff" stroke="#2563eb" stroke-width="1" rx="6"/>
+<text x="48" y="380" font-size="13" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">⑤ 指令级 trace（ATT）</text>
+<text x="48" y="401" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">rocprofv3 --att · RCV · att_budget.py</text>
+<text x="290" y="380" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">MFMA 空着的时候，</text>
+<text x="290" y="399" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">wave 卡在哪条指令上？</text>
+<text x="506" y="380" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">K 循环里 MFMA 空 19.6%，tile 切换 11%；</text>
+<text x="506" y="399" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等数据只占这 19.6% 里的 1%</text>
+<path d="M154 418L154 426" fill="none" stroke="#9ca3af" stroke-width="1" marker-end="url(#arr0)"/>
+<rect x="36" y="426" width="236" height="58" fill="#f0fdf4" stroke="#15803d" stroke-width="1" rx="6"/>
+<text x="48" y="446" font-size="13" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">⑥ 改一处，回到 ①</text>
+<text x="48" y="467" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">A/B 交替测 · 比周期数</text>
+<text x="290" y="446" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">改动真的让它变快了吗？</text>
+<text x="506" y="446" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">每次只改一个地方，</text>
+<text x="506" y="465" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">两个版本交替测，看同一组数字</text>
+<path d="M36 455.0L20 455.0L20 125.0L36 125.0" fill="none" stroke="#15803d" stroke-width="1.4" marker-end="url(#arr1)"/>
+<text x="14" y="294" font-size="11" fill="#15803d" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 14 294)">重新测</text>
+</svg>

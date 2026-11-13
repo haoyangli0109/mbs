@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="446" viewBox="0 0 790 446" font-family="'Noto Sans SC','Noto Sans CJK SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif" role="img" aria-label="一个 wave 的时间预算：MFMA 在算、K 循环里 MFMA 空闲、tile 切换、收尾、开头；下面把 K 循环的空闲按 wave 当时在发的指令拆开，把 tile 切换按指令类别拆开">
+<rect width="790" height="446" fill="#ffffff"/>
+<text x="14" y="20" font-size="15" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">一个 wave 的 260,354 个周期花在哪（ATT 实测，4 个 wave 平均）</text>
+<text x="14" y="43" font-size="12" fill="#6b7280" text-anchor="start" dominant-baseline="central">8192×8192×5120，每个 wave 4 个 tile × 20 个 stage；一条 MFMA 占管线 16 周期</text>
+<rect x="24" y="90" width="17.04" height="32" fill="#e5e7eb" stroke="#ffffff" stroke-width="1"/>
+<rect x="41.04" y="90" width="30.71" height="32" fill="#d1d5db" stroke="#ffffff" stroke-width="1"/>
+<rect x="71.75" y="90" width="466.94" height="32" fill="#93c5fd" stroke="#ffffff" stroke-width="1"/>
+<text x="305.22" y="106" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">MFMA 在算 163,840 周期 · 62.9%</text>
+<rect x="538.69" y="90" width="145.43" height="32" fill="#fdba74" stroke="#ffffff" stroke-width="1"/>
+<text x="611.4" y="106" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">K 循环里空闲 19.6%</text>
+<rect x="684.11" y="90" width="81.89" height="32" fill="#d8b4fe" stroke="#ffffff" stroke-width="1"/>
+<text x="725.06" y="106" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">切换 11.0%</text>
+<path d="M24 124L24 128L71.75 128L71.75 124" fill="none" stroke="#6b7280" stroke-width="1"/>
+<text x="24" y="142" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">左边小段：开头 2.3%，收尾 4.1%</text>
+<path d="M538.7 122L684.1 122L386.0 192L24.0 192Z" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<path d="M538.69 122L24 192" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M684.11 122L386 192" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M684.1 122L766.0 122L766.0 192L404.0 192Z" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<path d="M684.11 122L404 192" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M766 122L766 192" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="24" y="178" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">K 循环里 MFMA 空着时，wave 在做什么</text>
+<text x="404" y="178" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central" font-weight="600">一次 tile 切换（平均 9,594 周期）里各类指令</text>
+<rect x="24" y="192" width="108.85" height="26" fill="#a3e635" stroke="#ffffff" stroke-width="1"/>
+<text x="78.43" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">30%</text>
+<rect x="132.85" y="192" width="107.12" height="26" fill="#93c5fd" stroke="#ffffff" stroke-width="1"/>
+<text x="186.41" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">30%</text>
+<rect x="239.97" y="192" width="56.6" height="26" fill="#fbbf24" stroke="#ffffff" stroke-width="1"/>
+<text x="268.27" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">16%</text>
+<rect x="296.57" y="192" width="40.67" height="26" fill="#d1d5db" stroke="#ffffff" stroke-width="1"/>
+<text x="316.91" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">11%</text>
+<rect x="337.24" y="192" width="21.23" height="26" fill="#fde68a" stroke="#ffffff" stroke-width="1"/>
+<rect x="358.47" y="192" width="20.88" height="26" fill="#f87171" stroke="#ffffff" stroke-width="1"/>
+<rect x="379.35" y="192" width="3.75" height="26" fill="#fca5a5" stroke="#ffffff" stroke-width="1"/>
+<rect x="383.09" y="192" width="2.91" height="26" fill="#fb923c" stroke="#ffffff" stroke-width="1"/>
+<rect x="404" y="192" width="131.32" height="26" fill="#f0abfc" stroke="#ffffff" stroke-width="1"/>
+<text x="469.66" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">36%</text>
+<rect x="535.32" y="192" width="77.28" height="26" fill="#d8b4fe" stroke="#ffffff" stroke-width="1"/>
+<text x="573.96" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">21%</text>
+<rect x="612.6" y="192" width="55.22" height="26" fill="#c4b5fd" stroke="#ffffff" stroke-width="1"/>
+<text x="640.21" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">15%</text>
+<rect x="667.82" y="192" width="38.95" height="26" fill="#a5b4fc" stroke="#ffffff" stroke-width="1"/>
+<text x="687.29" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">11%</text>
+<rect x="706.77" y="192" width="18.56" height="26" fill="#bfdbfe" stroke="#ffffff" stroke-width="1"/>
+<rect x="725.34" y="192" width="40.66" height="26" fill="#f3f4f6" stroke="#ffffff" stroke-width="1"/>
+<text x="745.67" y="205" font-size="12" fill="#111827" text-anchor="middle" dominant-baseline="central">11%</text>
+<rect x="24" y="231" width="10" height="10" fill="#a3e635" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="236" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发标量指令（SALU）</text>
+<text x="324" y="236" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">15,344</text>
+<text x="386" y="236" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">30.1%</text>
+<rect x="24" y="250" width="10" height="10" fill="#93c5fd" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="255" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">下一条 MFMA 自己被卡</text>
+<text x="324" y="255" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">15,099</text>
+<text x="386" y="255" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">29.6%</text>
+<rect x="24" y="269" width="10" height="10" fill="#fbbf24" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="274" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发 buffer_load</text>
+<text x="324" y="274" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">7,978</text>
+<text x="386" y="274" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">15.6%</text>
+<rect x="24" y="288" width="10" height="10" fill="#d1d5db" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="293" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">wave 没在发指令（空档）</text>
+<text x="324" y="293" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">5,733</text>
+<text x="386" y="293" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">11.2%</text>
+<rect x="24" y="307" width="10" height="10" fill="#fde68a" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="312" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发 ds_read</text>
+<text x="324" y="312" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">2,992</text>
+<text x="386" y="312" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">5.9%</text>
+<rect x="24" y="326" width="10" height="10" fill="#f87171" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="331" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等其他 wave（s_barrier）</text>
+<text x="324" y="331" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">2,943</text>
+<text x="386" y="331" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">5.8%</text>
+<rect x="24" y="345" width="10" height="10" fill="#fca5a5" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="350" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">等数据（s_waitcnt）</text>
+<text x="324" y="350" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">528</text>
+<text x="386" y="350" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">1.0%</text>
+<rect x="24" y="364" width="10" height="10" fill="#fb923c" stroke="#6b7280" stroke-width="0.6"/>
+<text x="40" y="369" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">发向量指令（VALU）</text>
+<text x="324" y="369" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">410</text>
+<text x="386" y="369" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">0.8%</text>
+<rect x="404" y="231" width="10" height="10" fill="#f0abfc" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="236" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">buffer_store（写回 C）</text>
+<text x="704" y="236" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">3,480</text>
+<text x="766" y="236" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">36.3%</text>
+<rect x="404" y="250" width="10" height="10" fill="#d8b4fe" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="255" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">v_accvgpr_*（读结果、清零）</text>
+<text x="704" y="255" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">2,048</text>
+<text x="766" y="255" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">21.3%</text>
+<rect x="404" y="269" width="10" height="10" fill="#c4b5fd" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="274" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">其他 VALU（拼数、算地址）</text>
+<text x="704" y="274" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">1,463</text>
+<text x="766" y="274" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">15.3%</text>
+<rect x="404" y="288" width="10" height="10" fill="#a5b4fc" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="293" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">v_cvt / v_permlane</text>
+<text x="704" y="293" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">1,032</text>
+<text x="766" y="293" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">10.8%</text>
+<rect x="404" y="307" width="10" height="10" fill="#bfdbfe" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="312" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">SALU</text>
+<text x="704" y="312" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">492</text>
+<text x="766" y="312" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">5.1%</text>
+<rect x="404" y="326" width="10" height="10" fill="#f3f4f6" stroke="#6b7280" stroke-width="0.6"/>
+<text x="420" y="331" font-size="12" fill="#111827" text-anchor="start" dominant-baseline="central">其他和空隙</text>
+<text x="704" y="331" font-size="12" fill="#6b7280" text-anchor="end" dominant-baseline="central">1,078</text>
+<text x="766" y="331" font-size="12" fill="#111827" text-anchor="end" dominant-baseline="central">11.2%</text>
+<text x="24" y="400" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">MFMA 空着的每个周期，记到 wave 那一刻正在发、或者被堵住的那条指令上；“下一条 MFMA 自己被卡”是中间的指令都发完了，</text>
+<text x="24" y="417" font-size="11" fill="#6b7280" text-anchor="start" dominant-baseline="central">MFMA 还发不出去；“空档”是那一刻 wave 没有指令在发（ATT 的 Idle）。数字是每个 wave 的周期数，由 scripts/att_budget.py 算出</text>
+</svg>

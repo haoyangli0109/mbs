@@ -1,0 +1,543 @@
+                                                                                                        instruction   Hit  Latency    Stall   Idle
+                                                                                   ; _ZN2v013gemm_v0_naiveE7Problem     0        0        0      0
+                                                                               s_load_dwordx2 s[12:13], s[0:1], 0x4    64      268       12   1988
+                                                                                        v_lshrrev_b32_e32 v1, 7, v0    64     1120      860      0
+                                                                                             v_bfe_u32 v2, v0, 6, 1    64      956      700      0
+                                                                                       v_lshlrev_b32_e32 v29, 6, v1    64      476      220      0
+                                                                                       v_lshlrev_b32_e32 v30, 6, v2    64      768      512      0
+                                                                                               s_waitcnt lgkmcnt(0)    64     4176     4176      0
+                                                                                                s_cmp_gt_i32 s13, 0    64      300       28      0
+                                                                                                   s_cbranch_scc1 4    64      276        4    240
+                                                                                        v_lshlrev_b32_e32 v3, 6, v1     0        0        0      0
+                                                                                        v_lshlrev_b32_e32 v4, 6, v2     0        0        0      0
+                                                                                                s_mov_b64 s[4:5], 0     0        0        0      0
+                                                                                                         s_branch 1     0        0        0      0
+                                                                                               s_mov_b64 s[4:5], -1    64      280       12   1008
+                                                                              s_load_dwordx2 s[14:15], s[0:1], 0x30    64      284       20    788
+                                                                                          v_and_b32_e32 v28, 15, v0    64     1016      752      0
+                                                                                             v_bfe_u32 v2, v0, 4, 2    64      612      356      0
+                                                                                              s_lshl_b32 s17, s3, 7    64      284       28      0
+                                                                                              s_lshl_b32 s16, s2, 7    64      276       12      0
+                                                                                                v_mov_b32_e32 v1, 0    64      800      544      0
+                                                                                         v_accvgpr_write_b32 a60, 0    64      348       92      0
+                                                                                         v_accvgpr_write_b32 a61, 0    64      340       84      0
+                                                                                         v_accvgpr_write_b32 a62, 0    64      384      116      0
+                                                                                         v_accvgpr_write_b32 a63, 0    64      432      168      0
+                                                                                         v_accvgpr_write_b32 a56, 0    64      408      152    164
+                                                                                         v_accvgpr_write_b32 a57, 0    64      300       40      0
+                                                                                         v_accvgpr_write_b32 a58, 0    64      340       84      0
+                                                                                         v_accvgpr_write_b32 a59, 0    64      320       56      0
+                                                                                         v_accvgpr_write_b32 a52, 0    64      304       48    204
+                                                                                         v_accvgpr_write_b32 a53, 0    64      300       44      0
+                                                                                         v_accvgpr_write_b32 a54, 0    64      324       68      0
+                                                                                         v_accvgpr_write_b32 a55, 0    64      332       64      0
+                                                                                         v_accvgpr_write_b32 a48, 0    64      280       24    204
+                                                                                         v_accvgpr_write_b32 a49, 0    64      328       72      0
+                                                                                         v_accvgpr_write_b32 a50, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a51, 0    64      316       52      0
+                                                                                         v_accvgpr_write_b32 a44, 0    64      280       24    216
+                                                                                         v_accvgpr_write_b32 a45, 0    64      320       60      0
+                                                                                         v_accvgpr_write_b32 a46, 0    64      276       20      0
+                                                                                         v_accvgpr_write_b32 a47, 0    64      312       48      0
+                                                                                         v_accvgpr_write_b32 a40, 0    64      308       52    204
+                                                                                         v_accvgpr_write_b32 a41, 0    64      324       68      0
+                                                                                         v_accvgpr_write_b32 a42, 0    64      312       56      0
+                                                                                         v_accvgpr_write_b32 a43, 0    64      324       64      0
+                                                                                         v_accvgpr_write_b32 a36, 0    64      296       40    232
+                                                                                         v_accvgpr_write_b32 a37, 0    64      288       32      0
+                                                                                         v_accvgpr_write_b32 a38, 0    64      336       76      0
+                                                                                         v_accvgpr_write_b32 a39, 0    64      268        8      0
+                                                                                         v_accvgpr_write_b32 a32, 0    64      320       60    200
+                                                                                         v_accvgpr_write_b32 a33, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a34, 0    64      300       44      0
+                                                                                         v_accvgpr_write_b32 a35, 0    64      296       36      0
+                                                                                         v_accvgpr_write_b32 a28, 0    64      264        8    232
+                                                                                         v_accvgpr_write_b32 a29, 0    64      260        4      0
+                                                                                         v_accvgpr_write_b32 a30, 0    64      264        8      0
+                                                                                         v_accvgpr_write_b32 a31, 0    64      296       36      0
+                                                                                         v_accvgpr_write_b32 a24, 0    64      280       24    244
+                                                                                         v_accvgpr_write_b32 a25, 0    64      268       12      0
+                                                                                         v_accvgpr_write_b32 a26, 0    64      284       28      0
+                                                                                         v_accvgpr_write_b32 a27, 0    64      268       12      0
+                                                                                         v_accvgpr_write_b32 a20, 0    64      272       16    244
+                                                                                         v_accvgpr_write_b32 a21, 0    64      260        4      0
+                                                                                         v_accvgpr_write_b32 a22, 0    64      300       44      0
+                                                                                         v_accvgpr_write_b32 a23, 0    64      268       12      0
+                                                                                         v_accvgpr_write_b32 a16, 0    64      272       16    220
+                                                                                         v_accvgpr_write_b32 a17, 0    64      264        8      0
+                                                                                         v_accvgpr_write_b32 a18, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a19, 0    64      284       24      0
+                                                                                         v_accvgpr_write_b32 a12, 0    64      276       20    220
+                                                                                         v_accvgpr_write_b32 a13, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a14, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a15, 0    64      320       64      0
+                                                                                          v_accvgpr_write_b32 a8, 0    64      284       28    220
+                                                                                          v_accvgpr_write_b32 a9, 0    64      296       40      0
+                                                                                         v_accvgpr_write_b32 a10, 0    64      328       72      0
+                                                                                         v_accvgpr_write_b32 a11, 0    64      272       12      0
+                                                                                          v_accvgpr_write_b32 a4, 0    64      272       12    220
+                                                                                          v_accvgpr_write_b32 a5, 0    64      288       32      0
+                                                                                          v_accvgpr_write_b32 a6, 0    64      284       28      0
+                                                                                          v_accvgpr_write_b32 a7, 0    64      440      184      0
+                                                                                          v_accvgpr_write_b32 a0, 0    64      544      288    212
+                                                                                          v_accvgpr_write_b32 a1, 0    64      432      176      0
+                                                                                          v_accvgpr_write_b32 a2, 0    64      616      360      0
+                                                                                      s_andn2_b64 vcc, exec, s[4:5]    64      272       16      0
+                                                                                          v_accvgpr_write_b32 a3, 0    64      328       72      0
+                                                                                                s_cbranch_vccnz 369    64      256        0      8
+                                                                               s_load_dwordx8 s[4:11], s[0:1], 0x10    64      332       76      0
+                                                                                         v_or_b32_e32 v22, v29, v28    64      392      136      0
+                                                                                               v_mov_b32_e32 v3, v1    64      296       40      0
+                                                                                              s_lshr_b32 s0, s13, 5    64      264        8      0
+                                                                                         v_or_b32_e32 v16, v30, v28    64      448      192      0
+                                                                                               s_waitcnt lgkmcnt(0)    64     1384     1384      0
+                                                                           v_lshl_add_u64 v[4:5], s[8:9], 0, v[2:3]    64      872      616      0
+                                                                         v_lshl_add_u64 v[6:7], s[10:11], 0, v[2:3]    64      312       56      0
+                                                                                         v_add_u32_e32 v3, s17, v22    64      264        8      0
+                                                                            v_mad_i64_i32 v[8:9], s[2:3], v3, s0, 0    64      392      136      0
+                                                                                          v_or_b32_e32 v3, s16, v16    64      272       12      0
+                                                                          v_mad_i64_i32 v[10:11], s[2:3], v3, s0, 0    64      380      124      0
+                                                                                           v_or_b32_e32 v3, 16, v16    64      268       12      0
+                                                                                       v_lshlrev_b32_e32 v36, 6, v3    64      284       28      0
+                                                                                           v_or_b32_e32 v3, s16, v3    64      304       48      0
+                                                                          v_mad_i64_i32 v[12:13], s[2:3], v3, s0, 0    64      332       76      0
+                                                                                           v_or_b32_e32 v3, 32, v16    64      284       24      0
+                                                                                       v_lshlrev_b32_e32 v37, 6, v3    64      288       32      0
+                                                                                           v_or_b32_e32 v3, s16, v3    64      288       28      0
+                                                                          v_mad_i64_i32 v[14:15], s[2:3], v3, s0, 0    64      324       68      0
+                                                                                           v_or_b32_e32 v3, 48, v16    64      256        0      0
+                                                                                       v_lshlrev_b32_e32 v38, 6, v3    64      296       40      0
+                                                                                           v_or_b32_e32 v3, s16, v3    64      268       12      0
+                                                                                      v_lshlrev_b32_e32 v27, 6, v16    64      280       24      0
+                                                                          v_mad_i64_i32 v[16:17], s[2:3], v3, s0, 0    64      256        0      0
+                                                                                           v_or_b32_e32 v3, 16, v22    64      268       12      0
+                                                                                       v_lshlrev_b32_e32 v39, 6, v3    64      288       32      0
+                                                                                          v_add_u32_e32 v3, s17, v3    64      268       12      0
+                                                                          v_mad_i64_i32 v[18:19], s[2:3], v3, s0, 0    64      396      140      0
+                                                                                           v_or_b32_e32 v3, 32, v22    64      280       24      0
+                                                                                       v_lshlrev_b32_e32 v40, 6, v3    64      316       60      0
+                                                                                          v_add_u32_e32 v3, s17, v3    64      280       24      0
+                                                                                       v_lshlrev_b32_e32 v25, 4, v2    64      276       20      0
+                                                                          v_mad_i64_i32 v[20:21], s[2:3], v3, s0, 0    64      340       84      0
+                                                                                           v_or_b32_e32 v3, 48, v22    64      264        4      0
+                                                                                       v_lshrrev_b32_e32 v24, 4, v0    64      260        4      0
+                                                                                      v_or_b32_e32 v26, 0x2000, v25    64      268        8      0
+                                                                                      v_lshlrev_b32_e32 v34, 6, v22    64      344       88      0
+                                                                                       v_lshlrev_b32_e32 v41, 6, v3    64      308       52      0
+                                                                                          v_add_u32_e32 v3, s17, v3    64      288       32      0
+                                                                                             s_lshr_b32 s18, s13, 1    64      260        4      0
+                                                                                                    s_mov_b32 s1, 0    64      256        0      0
+                                                                                          v_accvgpr_write_b32 a3, 0    64      368      112      0
+                                                                                          v_accvgpr_write_b32 a2, 0    64      296       40      0
+                                                                                          v_accvgpr_write_b32 a1, 0    64      324       68      0
+                                                                                          v_accvgpr_write_b32 a0, 0    64      304       48      0
+                                                                                          v_accvgpr_write_b32 a7, 0    64      284       28      0
+                                                                                          v_accvgpr_write_b32 a6, 0    64      284       28      0
+                                                                                          v_accvgpr_write_b32 a5, 0    64      256        0      0
+                                                                                          v_accvgpr_write_b32 a4, 0    64      260        4      0
+                                                                                         v_accvgpr_write_b32 a11, 0    64      256        0      0
+                                                                                         v_accvgpr_write_b32 a10, 0    64      264        8      4
+                                                                                          v_accvgpr_write_b32 a9, 0    64      268       12      0
+                                                                                          v_accvgpr_write_b32 a8, 0    64      264        8      0
+                                                                                         v_accvgpr_write_b32 a15, 0    64      256        0      0
+                                                                                         v_accvgpr_write_b32 a14, 0    64      296       40      4
+                                                                                         v_accvgpr_write_b32 a13, 0    64      268       12      0
+                                                                                         v_accvgpr_write_b32 a12, 0    64      280       24      0
+                                                                                         v_accvgpr_write_b32 a19, 0    64      268       12      0
+                                                                                         v_accvgpr_write_b32 a18, 0    64      292       36      4
+                                                                                         v_accvgpr_write_b32 a17, 0    64      276       20      0
+                                                                                         v_accvgpr_write_b32 a16, 0    64      280       24      0
+                                                                                         v_accvgpr_write_b32 a23, 0    64      256        0      0
+                                                                                         v_accvgpr_write_b32 a22, 0    64      292       36      4
+                                                                                         v_accvgpr_write_b32 a21, 0    64      296       36      0
+                                                                                         v_accvgpr_write_b32 a20, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a27, 0    64      312       56      0
+                                                                                         v_accvgpr_write_b32 a26, 0    64      260        4      4
+                                                                                         v_accvgpr_write_b32 a25, 0    64      264        8      0
+                                                                                         v_accvgpr_write_b32 a24, 0    64      296       40      0
+                                                                                         v_accvgpr_write_b32 a31, 0    64      276       20      0
+                                                                                         v_accvgpr_write_b32 a30, 0    64      268       12      4
+                                                                                         v_accvgpr_write_b32 a29, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a28, 0    64      280       24      0
+                                                                                         v_accvgpr_write_b32 a35, 0    64      268       12      0
+                                                                                         v_accvgpr_write_b32 a34, 0    64      260        4     16
+                                                                                         v_accvgpr_write_b32 a33, 0    64      272       16      0
+                                                                                         v_accvgpr_write_b32 a32, 0    64      256        0      0
+                                                                                         v_accvgpr_write_b32 a39, 0    64      292       36      0
+                                                                                         v_accvgpr_write_b32 a38, 0    64      296       40      0
+                                                                                         v_accvgpr_write_b32 a37, 0    64      284       24      0
+                                                                                         v_accvgpr_write_b32 a36, 0    64      288       32      0
+                                                                                         v_accvgpr_write_b32 a43, 0    64      280       24      0
+                                                                                         v_accvgpr_write_b32 a42, 0    64      276       16     16
+                                                                                         v_accvgpr_write_b32 a41, 0    64      256        0      0
+                                                                                         v_accvgpr_write_b32 a40, 0    64      260        4      0
+                                                                                         v_accvgpr_write_b32 a47, 0    64      276       20      0
+                                                                                         v_accvgpr_write_b32 a46, 0    64      268       12      4
+                                                                                         v_accvgpr_write_b32 a45, 0    64      264        8      0
+                                                                                         v_accvgpr_write_b32 a44, 0    64      276       20      0
+                                                                                         v_accvgpr_write_b32 a51, 0    64      268        8      0
+                                                                                         v_accvgpr_write_b32 a50, 0    64      300       44      4
+                                                                                         v_accvgpr_write_b32 a49, 0    64      280       24      0
+                                                                                         v_accvgpr_write_b32 a48, 0    64      300       44      0
+                                                                                         v_accvgpr_write_b32 a55, 0    64      292       36      0
+                                                                                         v_accvgpr_write_b32 a54, 0    64      276       20      0
+                                                                                         v_accvgpr_write_b32 a53, 0    64      308       52      0
+                                                                                         v_accvgpr_write_b32 a52, 0    64      300       44      0
+                                                                                         v_accvgpr_write_b32 a59, 0    64      272       12      0
+                                                                                         v_accvgpr_write_b32 a58, 0    64      288       32      0
+                                                                                         v_accvgpr_write_b32 a57, 0    64      296       40      0
+                                                                                         v_accvgpr_write_b32 a56, 0    64      300       44      0
+                                                                                         v_accvgpr_write_b32 a63, 0    64      280       24      0
+                                                                                         v_accvgpr_write_b32 a62, 0    64      276       20      4
+                                                                                         v_accvgpr_write_b32 a61, 0    64      296       40      0
+                                                                                         v_accvgpr_write_b32 a60, 0    64      284       24      0
+                                                                          v_mad_i64_i32 v[22:23], s[2:3], v3, s0, 0    64      344       88      0
+                                                                                    v_or_b32_e32 v3, 0xffffff00, v0    64      268       12      0
+                                                                                        v_add_u32_e32 v31, s16, v24    64      272       12      0
+                                                                                        v_add_u32_e32 v32, s17, v24    64      292       32      0
+                                                                                       v_lshlrev_b32_e32 v33, 2, v0    64      300       44      0
+                                                                                               s_movk_i32 s8, 0x6ff    64      256        0      0
+                                                                                        v_add_u32_e32 v34, v25, v34    64      300       40      0
+                                                                                        v_add_u32_e32 v35, v26, v27    64      264        8      0
+                                                                                        v_add_u32_e32 v36, v26, v36    64      280       24      0
+                                                                                        v_add_u32_e32 v37, v26, v37    64      264        8      0
+                                                                                        v_add_u32_e32 v38, v26, v38    64      268       12      0
+                                                                                        v_add_u32_e32 v39, v25, v39    64      256        0      0
+                                                                                        v_add_u32_e32 v40, v25, v40    64      272       16      0
+                                                                                        v_add_u32_e32 v41, v25, v41    64      268       12      0
+                                                                                                    s_mov_b32 s9, 0    64      264        8      0
+                                                                                               s_lshr_b32 s0, s9, 1  2560    11216      124  39488
+                                                                                              s_add_u32 s10, s4, s0  2560    10452      196  29380
+                                                                                              s_addc_u32 s11, s5, 0  2560    10412      168      0
+                                                                                              s_add_u32 s20, s6, s0  2560    10280       36      0
+                                                                                              s_addc_u32 s21, s7, 0  2560    10384      140      0
+                                                                                                s_mov_b64 s[2:3], 0  2560    10436      124      0
+                                                                                   v_mov_b64_e32 v[24:25], s[10:11]  2560    19648     9316      0
+                                                                                   v_mov_b64_e32 v[26:27], s[20:21]  2560    21988    11712      0
+                                                                                             v_mov_b32_e32 v42, v33  2560    13708     3448      0
+                                                                                             v_mov_b32_e32 v43, v32  2560    17656     7392      0
+                                                                                             v_mov_b32_e32 v44, v31  2560    12568     2320      0
+                                                                                              v_mov_b32_e32 v45, v3  2560    11380      988      0
+                                                               v_mad_i64_i32 v[46:47], s[10:11], v43, s18, v[24:25] 20480   211520   129292 283656
+                                                                                          v_and_b32_e32 v0, 60, v42 20480   112688    30100      0
+                                                                       v_lshl_add_u64 v[46:47], v[46:47], 0, v[0:1] 20480   167736    83180      0
+                                                                               global_load_dword v48, v[46:47], off 20480   559688   473612 161208
+                                                               v_mad_i64_i32 v[46:47], s[10:11], v44, s18, v[26:27] 20480   166492    82824      0
+                                                                       v_lshl_add_u64 v[46:47], v[46:47], 0, v[0:1] 20480   132724    31956      0
+                                                                                global_load_dword v0, v[46:47], off 20480   448992   364156 144992
+                                                                                      v_add_u32_e32 v45, 0x100, v45 20480   134316    51100      0
+                                                                                      v_cmp_lt_u32_e32 vcc, s8, v45 20480   106804    23960      0
+                                                                                         v_add_u32_e32 v44, 16, v44 20480   104168    21792      0
+                                                                                         v_add_u32_e32 v43, 16, v43 20480   111268    26732      0
+                                                                                       s_or_b64 s[2:3], vcc, s[2:3] 20480    94668     3456 142824
+                                                                                                 s_waitcnt vmcnt(0) 20480 10789944 10789944      0
+                                                                          ds_write2st64_b32 v42, v48, v0 offset1:32 20480   333724    71540      0
+                                                                                      v_add_u32_e32 v42, 0x400, v42 20480   176036    93952   6756
+                                                                                     s_andn2_b64 exec, exec, s[2:3] 20480    88084     2644      0
+                                                                                             s_cbranch_execnz 65510 20480    85216      192  78400
+                                                                                        s_or_b64 exec, exec, s[2:3]  2560    10528      280      0
+                                                                                               s_lshr_b32 s0, s9, 5  2560    10736      136      0
+                                                                         v_lshl_add_u64 v[58:59], v[4:5], 0, s[0:1]  2560    28240    17844  19980
+                                                                         v_lshl_add_u64 v[24:25], v[6:7], 0, s[0:1]  2560    16292     6004      0
+                                                                       v_lshl_add_u64 v[26:27], v[58:59], 0, v[8:9]  2560    19852     9588      0
+                                                                                               s_waitcnt lgkmcnt(0)  2560    12908    12908      0
+                                                                                                          s_barrier  2560   367800   367800     64
+                                                                                global_load_ubyte v0, v[26:27], off  2560    70428    59764      0
+                                                                     v_lshl_add_u64 v[26:27], v[24:25], 0, v[10:11]  2560    20016     7448      0
+                                                                               global_load_ubyte v62, v[26:27], off  2560    83016    72328  18152
+                                                                     v_lshl_add_u64 v[26:27], v[24:25], 0, v[12:13]  2560    19176     6268      0
+                                                                               global_load_ubyte v63, v[26:27], off  2560    90752    80112  17812
+                                                                     v_lshl_add_u64 v[26:27], v[24:25], 0, v[14:15]  2560    15128     4672      0
+                                                                     v_lshl_add_u64 v[24:25], v[24:25], 0, v[16:17]  2560    14320     2428      0
+                                                                               global_load_ubyte v64, v[26:27], off  2560   246876   234816  18828
+                                                                               global_load_ubyte v65, v[24:25], off  2560    82604    72104      0
+                                                                     v_lshl_add_u64 v[24:25], v[58:59], 0, v[18:19]  2560    17276     4252      0
+                                                                               global_load_ubyte v66, v[24:25], off  2560   493612   482964  17696
+                                                                                         ds_read_b128 v[24:27], v34  2560    12928     2512      0
+                                                                                         ds_read_b128 v[42:45], v35  2560    12664     2236      0
+                                                                                         ds_read_b128 v[46:49], v36  2560    12316     1908      0
+                                                                                         ds_read_b128 v[50:53], v37  2560    12416     2044      0
+                                                                                         ds_read_b128 v[54:57], v38  2560    13644     3280      0
+                                                                     v_lshl_add_u64 v[60:61], v[58:59], 0, v[20:21]  2560    13552     3256   8036
+                                                                     v_lshl_add_u64 v[58:59], v[58:59], 0, v[22:23]  2560    11892     1652      0
+                                                                                                s_addk_i32 s9, 0x80  2560    10296       52      0
+                                                                                               s_cmp_ge_i32 s9, s13  2560    10348       20      0
+                                                                                      s_waitcnt vmcnt(4) lgkmcnt(3)  2560  1299204  1299204      0
+      v_mfma_scale_f32_16x16x128_f8f6f4 a[0:3], v[24:27], v[42:45], a[0:3], v0, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    31764     1296      4
+                                                                               global_load_ubyte v58, v[58:59], off  2560   156604   144076      0
+                                                                                      s_waitcnt vmcnt(4) lgkmcnt(2)  2560   529912   529912      0
+      v_mfma_scale_f32_16x16x128_f8f6f4 a[4:7], v[24:27], v[46:49], a[4:7], v0, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    22484     1120      0
+                                                                                      s_waitcnt vmcnt(3) lgkmcnt(1)  2560   857936   857936      0
+    v_mfma_scale_f32_16x16x128_f8f6f4 a[8:11], v[24:27], v[50:53], a[8:11], v0, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    22688     2012      0
+                                                                                      s_waitcnt vmcnt(2) lgkmcnt(0)  2560   159928   159928      0
+  v_mfma_scale_f32_16x16x128_f8f6f4 a[12:15], v[24:27], v[54:57], a[12:15], v0, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    31904     1800      0
+                                                                                global_load_ubyte v0, v[60:61], off  2560    66684    56404      0
+                                                                                         ds_read_b128 v[24:27], v39  2560    12188      224      0
+                                                                                      s_waitcnt vmcnt(2) lgkmcnt(0)  2560   837240   837240      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[16:19], v[24:27], v[42:45], a[16:19], v66, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    23016     1040      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[20:23], v[24:27], v[46:49], a[20:23], v66, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    41428    29492      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[24:27], v[24:27], v[50:53], a[24:27], v66, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    41380    29364      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[28:31], v[24:27], v[54:57], a[28:31], v66, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    49672    29192      0
+                                                                                         ds_read_b128 v[24:27], v40  2560    15664     4020      0
+                                                                                      s_waitcnt vmcnt(0) lgkmcnt(0)  2560  2057548  2057548      0
+  v_mfma_scale_f32_16x16x128_f8f6f4 a[32:35], v[24:27], v[42:45], a[32:35], v0, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    25228     3904      0
+  v_mfma_scale_f32_16x16x128_f8f6f4 a[36:39], v[24:27], v[46:49], a[36:39], v0, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    41924    30168      0
+  v_mfma_scale_f32_16x16x128_f8f6f4 a[40:43], v[24:27], v[50:53], a[40:43], v0, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    41812    30084      0
+  v_mfma_scale_f32_16x16x128_f8f6f4 a[44:47], v[24:27], v[54:57], a[44:47], v0, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    50812    30332      0
+                                                                                         ds_read_b128 v[24:27], v41  2560    19384     8252      0
+                                                                                               s_waitcnt lgkmcnt(0)  2560   137676   137676      0
+                                                                                                          s_barrier  2560   408076   408076    104
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[48:51], v[24:27], v[42:45], a[48:51], v58, v62 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    24776     3636      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[52:55], v[24:27], v[46:49], a[52:55], v58, v63 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    51196    39272      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[56:59], v[24:27], v[50:53], a[56:59], v58, v64 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    49144    37264      0
+ v_mfma_scale_f32_16x16x128_f8f6f4 a[60:63], v[24:27], v[54:57], a[60:63], v58, v65 op_sel_hi:[0,0,0] cbsz:4 blgp:4  2560    41276    31036      0
+                                                                                               s_cbranch_scc0 65367  2560    10796       16      0
+                                                                                              v_mov_b32_e32 v3, v29    64      384      128   1012
+                                                                                              v_mov_b32_e32 v4, v30    64      316       60      0
+                                                                                          v_add_u32_e32 v3, s17, v3    64      292       36      0
+                                                                                       v_lshl_or_b32 v72, v2, 2, v3    64      316       60      0
+                                                                                         v_or3_b32 v2, v4, s16, v28    64      280       24      0
+                                                                                         v_accvgpr_read_b32 v67, a0    64      272       16      0
+                                                                                       v_ashrrev_i32_e32 v3, 31, v2    64      256        0      0
+                                                                                               s_waitcnt lgkmcnt(0)    64      256      256      0
+                                                                         v_lshl_add_u64 v[2:3], v[2:3], 1, s[14:15]    64      288       32      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v67, s0    64      256        0      0
+                                                                        v_mad_i64_i32 v[68:69], s[0:1], v72, s12, 0    64      268       12      0
+                                                                       v_lshl_add_u64 v[68:69], v[68:69], 1, v[2:3]    64      264        8      0
+                                                                                         v_accvgpr_read_b32 v66, a1    64      260        0      0
+                                                                               global_store_short v[68:69], v4, off    64      796      536    508
+                                                                                            v_or_b32_e32 v4, 1, v72    64      284       28      0
+                                                                                     v_cvt_pk_bf16_f32 v28, v66, s0    64      312       48      0
+                                                                         v_mad_i64_i32 v[66:67], s[0:1], v4, s12, 0    64      376      120      0
+                                                                                         v_accvgpr_read_b32 v65, a2    64      332       72      0
+                                                                       v_lshl_add_u64 v[66:67], v[66:67], 1, v[2:3]    64      304       48      0
+                                                                                            v_or_b32_e32 v4, 2, v72    64      292       12      0
+                                                                              global_store_short v[66:67], v28, off    64     1464     1196    488
+                                                                                     v_cvt_pk_bf16_f32 v28, v65, s0    64      324       64      0
+                                                                         v_mad_i64_i32 v[70:71], s[0:1], v4, s12, 0    64      336       76      0
+                                                                                         v_accvgpr_read_b32 v64, a3    64      336       76      0
+                                                                       v_lshl_add_u64 v[70:71], v[70:71], 1, v[2:3]    64      424      164      0
+                                                                                            v_or_b32_e32 v4, 3, v72    64      304       48      0
+                                                                                         v_accvgpr_read_b32 v63, a4    64      284       28      0
+                                                                              global_store_short v[70:71], v28, off    64     1472     1216    512
+                                                                                     v_cvt_pk_bf16_f32 v28, v64, s0    64      336       72      0
+                                                                         v_mad_i64_i32 v[64:65], s[0:1], v4, s12, 0    64      324       68      0
+                                                                                         v_accvgpr_read_b32 v62, a5    64      312       56      0
+                                                                       v_lshl_add_u64 v[64:65], v[64:65], 1, v[2:3]    64      308       52      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v63, s0    64      256        0      8
+                                                                                         v_accvgpr_read_b32 v61, a6    64      264        0      0
+                                                                              global_store_short v[64:65], v28, off    64     2064     1744    504
+                                                                     global_store_short v[68:69], v4, off offset:32    64      684      428      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v62, s0    64      260        4      0
+                                                                                         v_accvgpr_read_b32 v60, a7    64      332        0      0
+                                                                     global_store_short v[66:67], v4, off offset:32    64     1720     1456    436
+                                                                                      v_cvt_pk_bf16_f32 v4, v61, s0    64      264        8      0
+                                                                                         v_accvgpr_read_b32 v59, a8    64      308        4      0
+                                                                     global_store_short v[70:71], v4, off offset:32    64      712      456    464
+                                                                                      v_cvt_pk_bf16_f32 v4, v60, s0    64      432      172      0
+                                                                                         v_accvgpr_read_b32 v58, a9    64      492      164      0
+                                                                     global_store_short v[64:65], v4, off offset:32    64      984      720    440
+                                                                                      v_cvt_pk_bf16_f32 v4, v59, s0    64      484      228      0
+                                                                                        v_accvgpr_read_b32 v57, a10    64      348       40      0
+                                                                     global_store_short v[68:69], v4, off offset:64    64     1516     1256    460
+                                                                                      v_cvt_pk_bf16_f32 v4, v58, s0    64      256        0      0
+                                                                                        v_accvgpr_read_b32 v56, a11    64      372       56      0
+                                                                     global_store_short v[66:67], v4, off offset:64    64     2464     2208    452
+                                                                                      v_cvt_pk_bf16_f32 v4, v57, s0    64      332       72      0
+                                                                                        v_accvgpr_read_b32 v55, a12    64      344       20      0
+                                                                     global_store_short v[70:71], v4, off offset:64    64     2388     2128    444
+                                                                                      v_cvt_pk_bf16_f32 v4, v56, s0    64      296       32      0
+                                                                                        v_accvgpr_read_b32 v54, a13    64      360       40      0
+                                                                     global_store_short v[64:65], v4, off offset:64    64     2628     2372    448
+                                                                                      v_cvt_pk_bf16_f32 v4, v55, s0    64      260        4      0
+                                                                                        v_accvgpr_read_b32 v53, a14    64      324       12      0
+                                                                     global_store_short v[68:69], v4, off offset:96    64     2088     1832    456
+                                                                                      v_cvt_pk_bf16_f32 v4, v54, s0    64      260        4      0
+                                                                                        v_accvgpr_read_b32 v52, a15    64      324        0      0
+                                                                     global_store_short v[66:67], v4, off offset:96    64     1924     1668    444
+                                                                                      v_cvt_pk_bf16_f32 v4, v53, s0    64      384       68      0
+                                                                     global_store_short v[70:71], v4, off offset:96    64     1252      988    452
+                                                                                      v_cvt_pk_bf16_f32 v4, v52, s0    64      300       40      0
+                                                                                        v_accvgpr_read_b32 v51, a16    64      532      236      0
+                                                                     global_store_short v[64:65], v4, off offset:96    64      848      584    472
+                                                                                           v_or_b32_e32 v4, 16, v72    64      636      380      0
+                                                                                     v_cvt_pk_bf16_f32 v28, v51, s0    64      284       24      0
+                                                                         v_mad_i64_i32 v[52:53], s[0:1], v4, s12, 0    64      476      216      0
+                                                                                        v_accvgpr_read_b32 v50, a17    64      324       64      0
+                                                                       v_lshl_add_u64 v[52:53], v[52:53], 1, v[2:3]    64      296       40      0
+                                                                                           v_or_b32_e32 v4, 17, v72    64      272       12      0
+                                                                              global_store_short v[52:53], v28, off    64      672      412    508
+                                                                                     v_cvt_pk_bf16_f32 v28, v50, s0    64      400      132      0
+                                                                         v_mad_i64_i32 v[50:51], s[0:1], v4, s12, 0    64      388      128      0
+                                                                                        v_accvgpr_read_b32 v49, a18    64      288       32      0
+                                                                       v_lshl_add_u64 v[50:51], v[50:51], 1, v[2:3]    64      356      100      0
+                                                                                           v_or_b32_e32 v4, 18, v72    64      312       48      0
+                                                                              global_store_short v[50:51], v28, off    64     1016      760    504
+                                                                                     v_cvt_pk_bf16_f32 v28, v49, s0    64      256        0      0
+                                                                         v_mad_i64_i32 v[54:55], s[0:1], v4, s12, 0    64      332       72      0
+                                                                                        v_accvgpr_read_b32 v48, a19    64      272       16      0
+                                                                       v_lshl_add_u64 v[54:55], v[54:55], 1, v[2:3]    64      272       16      0
+                                                                                           v_or_b32_e32 v4, 19, v72    64      272       16      0
+                                                                                        v_accvgpr_read_b32 v47, a20    64      276       12      8
+                                                                              global_store_short v[54:55], v28, off    64     2732     2468    504
+                                                                                     v_cvt_pk_bf16_f32 v28, v48, s0    64      408      136      0
+                                                                         v_mad_i64_i32 v[48:49], s[0:1], v4, s12, 0    64      300       40      0
+                                                                                        v_accvgpr_read_b32 v46, a21    64      284       24      0
+                                                                       v_lshl_add_u64 v[48:49], v[48:49], 1, v[2:3]    64      260        4      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v47, s0    64      404      148      0
+                                                                                        v_accvgpr_read_b32 v45, a22    64      364      104      0
+                                                                              global_store_short v[48:49], v28, off    64     2304     1984    508
+                                                                     global_store_short v[52:53], v4, off offset:32    64      796      540      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v46, s0    64      364      108      0
+                                                                                        v_accvgpr_read_b32 v44, a23    64      388       48      0
+                                                                     global_store_short v[50:51], v4, off offset:32    64     2476     2212    428
+                                                                                      v_cvt_pk_bf16_f32 v4, v45, s0    64      420      160      0
+                                                                                        v_accvgpr_read_b32 v43, a24    64      368       76      0
+                                                                     global_store_short v[54:55], v4, off offset:32    64     1536     1272    476
+                                                                                      v_cvt_pk_bf16_f32 v4, v44, s0    64      356      100      0
+                                                                                        v_accvgpr_read_b32 v42, a25    64      364       40      0
+                                                                     global_store_short v[48:49], v4, off offset:32    64      912      652    444
+                                                                                      v_cvt_pk_bf16_f32 v4, v43, s0    64      420      164      0
+                                                                                        v_accvgpr_read_b32 v41, a26    64      360       52      0
+                                                                     global_store_short v[52:53], v4, off offset:64    64      756      496    460
+                                                                                      v_cvt_pk_bf16_f32 v4, v42, s0    64      404      140      0
+                                                                                        v_accvgpr_read_b32 v40, a27    64      428      100      0
+                                                                     global_store_short v[50:51], v4, off offset:64    64      832      568    440
+                                                                                      v_cvt_pk_bf16_f32 v4, v41, s0    64      348       92      0
+                                                                                        v_accvgpr_read_b32 v39, a28    64      324        0      0
+                                                                     global_store_short v[54:55], v4, off offset:64    64     1084      824    444
+                                                                                      v_cvt_pk_bf16_f32 v4, v40, s0    64      308       52      0
+                                                                                        v_accvgpr_read_b32 v38, a29    64      320        8      0
+                                                                     global_store_short v[48:49], v4, off offset:64    64     1532     1276    456
+                                                                                      v_cvt_pk_bf16_f32 v4, v39, s0    64      380      120      0
+                                                                                        v_accvgpr_read_b32 v37, a30    64      332       20      0
+                                                                     global_store_short v[52:53], v4, off offset:96    64     1908     1648    456
+                                                                                      v_cvt_pk_bf16_f32 v4, v38, s0    64      336       76      0
+                                                                                        v_accvgpr_read_b32 v36, a31    64      356       36      0
+                                                                     global_store_short v[50:51], v4, off offset:96    64     1372     1100    448
+                                                                                      v_cvt_pk_bf16_f32 v4, v37, s0    64      504      184      0
+                                                                     global_store_short v[54:55], v4, off offset:96    64     1504     1244    448
+                                                                                      v_cvt_pk_bf16_f32 v4, v36, s0    64      520      264      0
+                                                                                        v_accvgpr_read_b32 v35, a32    64      292        0      0
+                                                                     global_store_short v[48:49], v4, off offset:96    64     1276     1016    476
+                                                                                           v_or_b32_e32 v4, 32, v72    64      336       76      0
+                                                                                     v_cvt_pk_bf16_f32 v28, v35, s0    64      368      108      0
+                                                                         v_mad_i64_i32 v[36:37], s[0:1], v4, s12, 0    64      332       76      0
+                                                                                        v_accvgpr_read_b32 v34, a33    64      332       76      0
+                                                                       v_lshl_add_u64 v[36:37], v[36:37], 1, v[2:3]    64      356      100      0
+                                                                                           v_or_b32_e32 v4, 33, v72    64      272        0      0
+                                                                              global_store_short v[36:37], v28, off    64     1580     1312    496
+                                                                                     v_cvt_pk_bf16_f32 v28, v34, s0    64      392      112      0
+                                                                         v_mad_i64_i32 v[34:35], s[0:1], v4, s12, 0    64      456      196      0
+                                                                                        v_accvgpr_read_b32 v33, a34    64      352       96      0
+                                                                       v_lshl_add_u64 v[34:35], v[34:35], 1, v[2:3]    64      280       24      0
+                                                                                           v_or_b32_e32 v4, 34, v72    64      304       36      4
+                                                                              global_store_short v[34:35], v28, off    64      920      656    500
+                                                                                     v_cvt_pk_bf16_f32 v28, v33, s0    64      396      124      0
+                                                                         v_mad_i64_i32 v[38:39], s[0:1], v4, s12, 0    64      320       60      0
+                                                                                        v_accvgpr_read_b32 v32, a35    64      376      120      0
+                                                                       v_lshl_add_u64 v[38:39], v[38:39], 1, v[2:3]    64      276       20      0
+                                                                                           v_or_b32_e32 v4, 35, v72    64      280       24      0
+                                                                                        v_accvgpr_read_b32 v31, a36    64      264        0      0
+                                                                              global_store_short v[38:39], v28, off    64     1296     1032    504
+                                                                                     v_cvt_pk_bf16_f32 v28, v32, s0    64      356       84      0
+                                                                         v_mad_i64_i32 v[32:33], s[0:1], v4, s12, 0    64      328       72      0
+                                                                                        v_accvgpr_read_b32 v30, a37    64      280       24      0
+                                                                       v_lshl_add_u64 v[32:33], v[32:33], 1, v[2:3]    64      264        8      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v31, s0    64      276       20      4
+                                                                                        v_accvgpr_read_b32 v29, a38    64      292       24      0
+                                                                              global_store_short v[32:33], v28, off    64     1244      924    500
+                                                                     global_store_short v[36:37], v4, off offset:32    64      536      280      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v30, s0    64      356      100      0
+                                                                                        v_accvgpr_read_b32 v27, a39    64      364       24      0
+                                                                     global_store_short v[34:35], v4, off offset:32    64      712      456    428
+                                                                                      v_cvt_pk_bf16_f32 v4, v29, s0    64      276       20      0
+                                                                                        v_accvgpr_read_b32 v26, a40    64      332       16      0
+                                                                     global_store_short v[38:39], v4, off offset:32    64     1268     1012    452
+                                                                                      v_cvt_pk_bf16_f32 v4, v27, s0    64      276       16      0
+                                                                                        v_accvgpr_read_b32 v25, a41    64      352        8      0
+                                                                     global_store_short v[32:33], v4, off offset:32    64     1452     1184    424
+                                                                                      v_cvt_pk_bf16_f32 v4, v26, s0    64      432      172      0
+                                                                                        v_accvgpr_read_b32 v24, a42    64      356       48      0
+                                                                     global_store_short v[36:37], v4, off offset:64    64     1404     1136    460
+                                                                                      v_cvt_pk_bf16_f32 v4, v25, s0    64      348       84      0
+                                                                                        v_accvgpr_read_b32 v23, a43    64      432      104      0
+                                                                     global_store_short v[34:35], v4, off offset:64    64     1272     1016    440
+                                                                                      v_cvt_pk_bf16_f32 v4, v24, s0    64      516      260      0
+                                                                                        v_accvgpr_read_b32 v22, a44    64      488      184      0
+                                                                     global_store_short v[38:39], v4, off offset:64    64     1320     1060    464
+                                                                                      v_cvt_pk_bf16_f32 v4, v23, s0    64      316       60      0
+                                                                                        v_accvgpr_read_b32 v21, a45    64      416      100      0
+                                                                     global_store_short v[32:33], v4, off offset:64    64     1148      888    452
+                                                                                      v_cvt_pk_bf16_f32 v4, v22, s0    64      384      120      0
+                                                                                        v_accvgpr_read_b32 v20, a46    64      368       48      0
+                                                                     global_store_short v[36:37], v4, off offset:96    64     1120      856    448
+                                                                                      v_cvt_pk_bf16_f32 v4, v21, s0    64      384      128      0
+                                                                                        v_accvgpr_read_b32 v19, a47    64      408      104      0
+                                                                     global_store_short v[34:35], v4, off offset:96    64      716      448    464
+                                                                                      v_cvt_pk_bf16_f32 v4, v20, s0    64      416      108      0
+                                                                     global_store_short v[38:39], v4, off offset:96    64      964      704    460
+                                                                                      v_cvt_pk_bf16_f32 v4, v19, s0    64      388      132      0
+                                                                                        v_accvgpr_read_b32 v18, a48    64      324       28      0
+                                                                     global_store_short v[32:33], v4, off offset:96    64      964      700    472
+                                                                                           v_or_b32_e32 v4, 48, v72    64      376      116      0
+                                                                                     v_cvt_pk_bf16_f32 v20, v18, s0    64      332       72      0
+                                                                         v_mad_i64_i32 v[18:19], s[0:1], v4, s12, 0    64      292       36      0
+                                                                                        v_accvgpr_read_b32 v17, a49    64      280       24      0
+                                                                       v_lshl_add_u64 v[18:19], v[18:19], 1, v[2:3]    64      272       16      8
+                                                                                           v_or_b32_e32 v4, 49, v72    64      300       40      0
+                                                                              global_store_short v[18:19], v20, off    64     1392     1124    508
+                                                                                     v_cvt_pk_bf16_f32 v17, v17, s0    64      408      144      0
+                                                                         v_mad_i64_i32 v[20:21], s[0:1], v4, s12, 0    64      308       52      0
+                                                                                        v_accvgpr_read_b32 v16, a50    64      268       12      0
+                                                                       v_lshl_add_u64 v[20:21], v[20:21], 1, v[2:3]    64      292       36      0
+                                                                                           v_or_b32_e32 v4, 50, v72    64      264        0      0
+                                                                              global_store_short v[20:21], v17, off    64      912      652    504
+                                                                                     v_cvt_pk_bf16_f32 v22, v16, s0    64      472      200      0
+                                                                         v_mad_i64_i32 v[16:17], s[0:1], v4, s12, 0    64      340       76      0
+                                                                                        v_accvgpr_read_b32 v15, a51    64      340       80      0
+                                                                       v_lshl_add_u64 v[16:17], v[16:17], 1, v[2:3]    64      292       32      0
+                                                                                           v_or_b32_e32 v4, 51, v72    64      284       28      0
+                                                                                        v_accvgpr_read_b32 v14, a52    64      280       12      0
+                                                                              global_store_short v[16:17], v22, off    64      864      604    500
+                                                                                     v_cvt_pk_bf16_f32 v15, v15, s0    64      396      132      0
+                                                                         v_mad_i64_i32 v[22:23], s[0:1], v4, s12, 0    64      300       44      0
+                                                                                        v_accvgpr_read_b32 v13, a53    64      364      108      0
+                                                                         v_lshl_add_u64 v[2:3], v[22:23], 1, v[2:3]    64      264        8      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v14, s0    64      268       12      0
+                                                                                        v_accvgpr_read_b32 v12, a54    64      264        0      0
+                                                                                global_store_short v[2:3], v15, off    64     1388     1068    504
+                                                                     global_store_short v[18:19], v4, off offset:32    64      540      284      0
+                                                                                      v_cvt_pk_bf16_f32 v4, v13, s0    64      308       52      0
+                                                                                        v_accvgpr_read_b32 v11, a55    64      328        0      0
+                                                                     global_store_short v[20:21], v4, off offset:32    64     2104     1840    440
+                                                                                      v_cvt_pk_bf16_f32 v4, v12, s0    64      368      112      0
+                                                                                        v_accvgpr_read_b32 v10, a56    64      372       44      0
+                                                                     global_store_short v[16:17], v4, off offset:32    64     1444     1188    440
+                                                                                      v_cvt_pk_bf16_f32 v4, v11, s0    64      264        8      0
+                                                                                         v_accvgpr_read_b32 v9, a57    64      336       16      0
+                                                                       global_store_short v[2:3], v4, off offset:32    64     1036      768    448
+                                                                                      v_cvt_pk_bf16_f32 v4, v10, s0    64      476      216      0
+                                                                                         v_accvgpr_read_b32 v8, a58    64      388       72      0
+                                                                     global_store_short v[18:19], v4, off offset:64    64      972      708    452
+                                                                                       v_cvt_pk_bf16_f32 v4, v9, s0    64      384      128      0
+                                                                                         v_accvgpr_read_b32 v7, a59    64      424       96      0
+                                                                     global_store_short v[20:21], v4, off offset:64    64      716      460    440
+                                                                                       v_cvt_pk_bf16_f32 v4, v8, s0    64      424      168      0
+                                                                                         v_accvgpr_read_b32 v6, a60    64      408       84      0
+                                                                     global_store_short v[16:17], v4, off offset:64    64     1332     1068    444
+                                                                                       v_cvt_pk_bf16_f32 v4, v7, s0    64      396      140      0
+                                                                                         v_accvgpr_read_b32 v5, a61    64      308       52      0
+                                                                                         v_accvgpr_read_b32 v1, a62    64      304       48      0
+                                                                                         v_accvgpr_read_b32 v0, a63    64      316       52      0
+                                                                       global_store_short v[2:3], v4, off offset:64    64     1184      924    504
+                                                                                       v_cvt_pk_bf16_f32 v4, v6, s0    64      416       72      0
+                                                                     global_store_short v[18:19], v4, off offset:96    64     1892     1632    424
+                                                                                       v_cvt_pk_bf16_f32 v4, v5, s0    64      388      132      0
+                                                                                       v_cvt_pk_bf16_f32 v1, v1, s0    64      404      148      0
+                                                                                       v_cvt_pk_bf16_f32 v0, v0, s0    64      292       28      0
+                                                                     global_store_short v[20:21], v4, off offset:96    64     1740     1420    504
+                                                                     global_store_short v[16:17], v1, off offset:96    64      792      472      0
+                                                                       global_store_short v[2:3], v0, off offset:96    64      568      248      0
+                                                                                                           s_endpgm    64    34304        0      0
+================================================================================================
